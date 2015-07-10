@@ -35,10 +35,17 @@ gulp.task("styles", function() {
   ;
 });
 
-gulp.task("dist", ["templates", "js", "styles"]);
+gulp.task("copyImages", function() {
+  return gulp.src("app/imgs/**/*.*")
+    .pipe(gulp.dest("dist/assets/imgs"))
+  ;
+});
+
+gulp.task("dist", ["templates", "js", "styles", "copyImages"]);
 
 gulp.task("watch", ["dist", "browser-sync"], function() {
   gulp.watch("app/templates/**/*.jade", ["templates", browserSync.reload]);
   gulp.watch("app/js/**/*.js", ["js", browserSync.reload]);
   gulp.watch("app/scss/**/*.scss", ["styles", browserSync.reload]);
+  gulp.watch("app/imgs/**/*.*", ["copyImages", browserSync.reload]);
 });
