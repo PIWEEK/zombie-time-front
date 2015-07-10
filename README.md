@@ -16,6 +16,8 @@ To start the development server, run
 npm run watch
 ```
 
+and then load the `http://localhost:3000` URL.
+
 Finally, to create the distribution-ready version of the project in the `dist` folder, run
 
 ```shell
