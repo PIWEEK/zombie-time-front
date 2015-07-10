@@ -15,7 +15,7 @@ gulp.task("browser-sync", function() {
 
 gulp.task("templates", function() {
   return gulp.src("app/templates/**/*.jade")
-    .pipe(jade())
+    .pipe(jade({pretty: true}))
     .pipe(gulp.dest("dist"))
   ;
 });
