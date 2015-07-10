@@ -12,7 +12,8 @@
   "scripts": {
     "watch": "gulp watch",
     "clean": "rm -rf dist vendor node_modules",
-    "postinstall": "bower install"
+    "postinstall": "bower install",
+    "dist": "gulp dist"
   },
   "author": "Zombie Time Team",
   "contributors": [
