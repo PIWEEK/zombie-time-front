@@ -7,7 +7,7 @@
     "gulp": "^3.9.0"
   },
   "scripts": {
-    "watch": "gulp --help",
+    "watch": "gulp watch",
     "clean": "rm -rf dist vendor node_modules",
     "postinstall": "bower install"
   },
@@ -33,6 +33,7 @@
   "devDependencies": {
     "babel": "^5.6.14",
     "bower": "^1.4.1",
+    "browser-sync": "^2.7.13",
     "gulp": "^3.9.0"
   }
 }
