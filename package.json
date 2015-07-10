@@ -1,0 +1,38 @@
+{
+  "name": "zombie-time-front",
+  "version": "0.0.1",
+  "description": "",
+  "dependencies": {
+    "babel": "^5.6.14",
+    "gulp": "^3.9.0"
+  },
+  "scripts": {
+    "watch": "gulp --help",
+    "clean": "rm -rf dist vendor node_modules",
+    "postinstall": "bower install"
+  },
+  "author": "Zombie Time Team",
+  "contributors": [
+    {
+      "name": "Pablo Alba"
+    },
+    {
+      "name": "Miguel de la Cruz"
+    },
+    {
+      "name": "Laura Pareja"
+    },
+    {
+      "name": "Yamila Moreno"
+    },
+    {
+      "name": "Esther Moreno"
+    }
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "babel": "^5.6.14",
+    "bower": "^1.4.1",
+    "gulp": "^3.9.0"
+  }
+}
