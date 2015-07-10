@@ -1,7 +1,8 @@
 var gulp = require("gulp"),
     browserSync = require("browser-sync").create(),
     babel = require("gulp-babel"),
-    jade = require("gulp-jade");
+    jade = require("gulp-jade"),
+    scss = require("gulp-sass");
 
 gulp.task("browser-sync", function() {
   browserSync.init({
@@ -27,9 +28,17 @@ gulp.task("js", function() {
   ;
 });
 
-gulp.task("dist", ["templates", "js"]);
+gulp.task("styles", function() {
+  return gulp.src("app/scss/**/*.scss")
+    .pipe(scss().on("error", scss.logError))
+    .pipe(gulp.dest("dist/assets/css"))
+  ;
+});
+
+gulp.task("dist", ["templates", "js", "styles"]);
 
 gulp.task("watch", ["dist", "browser-sync"], function() {
   gulp.watch("app/templates/**/*.jade", ["templates", browserSync.reload]);
   gulp.watch("app/js/**/*.js", ["js", browserSync.reload]);
+  gulp.watch("app/scss/**/*.scss", ["styles", browserSync.reload]);
 });
