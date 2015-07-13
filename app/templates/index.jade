@@ -2,7 +2,19 @@ doctype html
 html
   head
     title Zombie Time!
+    link(rel="stylesheet", type="text/css", href="/assets/css/reset.css")
     link(rel="stylesheet", type="text/css", href="/assets/css/styles.css")
+
+    script(src="/vendor/jquery/dist/jquery.min.js")
+    script(src="/vendor/ramda/dist/ramda.min.js")
+    script(src="/vendor/moment/min/moment.min.js")
+    script(src="/vendor/stomp-websocket/lib/stomp.min.js")
+    script(src="/vendor/sockjs-client/dist/sockjs.min.js")
   body
-    h1 Zombie Time!
-    img(src="/assets/imgs/cat.gif")
+    #content
+
+    // Javascript
+    script(src="/assets/js/globals.js")
+    script(src="/assets/js/utils.js")
+    script(src="/assets/js/canvas.js")
+    script(src="/assets/js/main.js")
