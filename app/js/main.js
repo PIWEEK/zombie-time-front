@@ -52,7 +52,6 @@ canvas.el.addEventListener("mousedown", function(e) {
     x: e.x,
     y: e.y
   };
-  console.log(`DRAG START { x: ${e.x}, y: ${e.y} }`);
 });
 
 canvas.el.addEventListener("mousemove", function(e) {
@@ -70,5 +69,4 @@ canvas.el.addEventListener("mousemove", function(e) {
 
 canvas.el.addEventListener("mouseup", function(e) {
   canvas.drag = undefined;
-  console.log(`DRAG END { x: ${e.x}, y: ${e.y} }`);
 });
