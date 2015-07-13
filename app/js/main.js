@@ -10,11 +10,11 @@ let test = () => {
 }();
 
 Mousetrap.bind('i', function() {
-  canvas.zoomIn(0.2);
+  canvas.zoomIn(0.4);
 });
 
 Mousetrap.bind('o', function() {
-  canvas.zoomOut(0.2);
+  canvas.zoomOut(0.4);
 });
 
 Mousetrap.bind('r', function() {

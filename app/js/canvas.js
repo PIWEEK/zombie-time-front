@@ -62,7 +62,7 @@ class Canvas {
   }
 
   drawImage(image, imagePath, posX, posY) {
-    let alreadyRendered = Boolean(image.src),
+    let alreadyRendered = R.compose(R.not, R.isEmpty)(image.src),
         ctx = this.ctx;
 
     if (alreadyRendered) {
@@ -76,13 +76,13 @@ class Canvas {
   }
 
   zoomIn(delta) {
-    this.scale += delta ? delta : 0.01;
+    this.scale += delta ? delta : 0.07;
     this.redraw();
     this.scale = 1;
   }
 
   zoomOut(delta) {
-    this.scale -= delta ? delta : 0.01;
+    this.scale -= delta ? delta : 0.07;
     this.redraw();
     this.scale = 1;
   }
