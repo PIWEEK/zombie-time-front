@@ -63,10 +63,7 @@ canvas.el.addEventListener("mousemove", function(e) {
     canvas.drag.x = e.x;
     canvas.drag.y = e.y;
 
-    console.log(`MOVING { x: ${deltaX}, y: ${deltaY} }`);
     canvas.translate(deltaX, deltaY);
-    console.log(`> offsetX ${e.offsetX}`);
-    console.log(`> offsetY ${e.offsetY}`);
     canvas.redraw();
   }
 });

@@ -105,14 +105,22 @@ class Canvas {
   }
 
   applyTransform() {
-    let m = this.transform.m;
+    let m = this.transform.m,
+        viewportSize = utils.getViewportSize(),
+        widthLimit = ((tileWidth * this.grid.width) - viewportSize.width) * -1,
+        heightLimit = ((tileHeight * this.grid.height) - viewportSize.height) * -1;
 
     if (m[4] > 0) {
       m[4] = 0;
+    } else if (m[4] < widthLimit) {
+      m[4] = widthLimit;
     }
+
 
     if (m[5] > 0) {
       m[5] = 0;
+    } else if (m[5] < heightLimit) {
+      m[5] = heightLimit;
     }
 
     this.ctx.setTransform(m[0], m[1], m[2], m[3], m[4], m[5]);
