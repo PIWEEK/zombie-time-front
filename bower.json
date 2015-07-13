@@ -8,5 +8,13 @@
     "Yamila Moreno",
     "Esther Moreno"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "eventEmitter": "~4.2.11",
+    "ramda": "~0.16.0",
+    "moment": "~2.10.3",
+    "jquery": "~2.1.4",
+    "stomp-websocket": "~2.3.4",
+    "sockjs-client": "~1.0.0"
+  }
 }
