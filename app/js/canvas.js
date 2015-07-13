@@ -7,6 +7,7 @@ class Canvas {
     document.querySelector('#content').appendChild(el);
     this.el = el;
     this.ctx = el.getContext("2d");
+    this.scale = 1;
     this.objects = {
       background: [],
       walls: [],
@@ -30,6 +31,7 @@ class Canvas {
     let viewportSize = utils.getViewportSize(),
         drawToken = this.drawToken.bind(this);
 
+    this.ctx.scale(this.scale, this.scale);
     this.ctx.clearRect(0, 0, viewportSize.width, viewportSize.height);
 
     R.forEach(drawToken, this.objects.tokens);
@@ -66,5 +68,22 @@ class Canvas {
       ctx.drawImage(this, posX, posY);
     };
     img.src = imagePath;
+  }
+
+  zoomIn() {
+    this.scale += 0.01;
+    this.redraw();
+    this.scale = 1;
+  }
+
+  zoomOut() {
+    this.scale -= 0.01;
+    this.redraw();
+    this.scale = 1;
+  }
+
+  zoomReset() {
+    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+    this.redraw();
   }
 }
