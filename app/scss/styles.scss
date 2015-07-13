@@ -2,5 +2,18 @@ body {
   overflow: hidden;
 }
 
-#mainCanvas {
+#help {
+  z-index: 1000;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 90%;
+  height: 80%;
+  background-color: red;
+  margin: 5%;
+  display: none;
+}
+
+#help-content {
+  margin: 20px;
 }
