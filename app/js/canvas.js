@@ -70,14 +70,14 @@ class Canvas {
     img.src = imagePath;
   }
 
-  zoomIn() {
-    this.scale += 0.01;
+  zoomIn(delta) {
+    this.scale += delta ? delta : 0.01;
     this.redraw();
     this.scale = 1;
   }
 
-  zoomOut() {
-    this.scale -= 0.01;
+  zoomOut(delta) {
+    this.scale -= delta ? delta : 0.01;
     this.redraw();
     this.scale = 1;
   }

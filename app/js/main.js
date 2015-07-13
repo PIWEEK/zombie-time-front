@@ -10,13 +10,21 @@ let test = () => {
 }();
 
 Mousetrap.bind('i', function() {
-  canvas.zoomIn();
+  canvas.zoomIn(0.2);
 });
 
 Mousetrap.bind('o', function() {
-  canvas.zoomOut();
+  canvas.zoomOut(0.2);
 });
 
 Mousetrap.bind('r', function() {
   canvas.zoomReset();
 });
+
+canvas.el.onwheel = function(e) {
+  if (e.deltaY >= 0) {
+    canvas.zoomOut();
+  } else {
+    canvas.zoomIn();
+  }
+};
