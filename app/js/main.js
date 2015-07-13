@@ -9,11 +9,14 @@ let test = () => {
   canvas.addObject("tokens", "cat2", imageSrc, 100, 100);
 }();
 
-canvas.el.onclick = function() {
+Mousetrap.bind('i', function() {
   canvas.zoomIn();
-};
+});
 
-canvas.el.oncontextmenu = function(e) {
-  e.preventDefault();
+Mousetrap.bind('o', function() {
   canvas.zoomOut();
-};
+});
+
+Mousetrap.bind('r', function() {
+  canvas.zoomReset();
+});

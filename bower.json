@@ -14,6 +14,7 @@
     "ramda": "~0.15.1",
     "moment": "~2.10.3",
     "stomp-websocket": "~2.3.4",
-    "sockjs-client": "~1.0.0"
+    "sockjs-client": "~1.0.0",
+    "mousetrap": "~1.5.3"
   }
 }
