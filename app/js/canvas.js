@@ -13,6 +13,7 @@ class Canvas {
   }
 
   sayHello() {
+    this.context.fillStyle = "#FF000";
     console.log("Imma canvas!");
     console.log(this.el);
   }
