@@ -14,6 +14,10 @@ class Canvas {
       objects: [],
       tokens: []
     };
+    this.grid = {
+      width: 16,
+      height: 18
+    };
     this.transform = new Transform();
 
     this.resize();
@@ -34,7 +38,7 @@ class Canvas {
 
     this.transform.scale(this.scale, this.scale);
     this.applyTransform();
-    this.ctx.clearRect(0, 0, viewportSize.width, viewportSize.height);
+    this.ctx.clearRect(0, 0, this.grid.width * tileWidth, this.grid.height * tileHeight);
 
     R.forEach(drawToken, this.objects.tokens);
   }
