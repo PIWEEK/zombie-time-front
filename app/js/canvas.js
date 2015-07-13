@@ -1,4 +1,4 @@
-/*global utils, R, Image */
+/*global utils, R, Image, Transform */
 
 class Canvas {
   constructor() {
@@ -14,6 +14,7 @@ class Canvas {
       objects: [],
       tokens: []
     };
+    this.transform = new Transform();
 
     this.resize();
   }
@@ -31,7 +32,8 @@ class Canvas {
     let viewportSize = utils.getViewportSize(),
         drawToken = this.drawToken.bind(this);
 
-    this.ctx.scale(this.scale, this.scale);
+    this.transform.scale(this.scale, this.scale);
+    this.applyTransform();
     this.ctx.clearRect(0, 0, viewportSize.width, viewportSize.height);
 
     R.forEach(drawToken, this.objects.tokens);
@@ -88,7 +90,27 @@ class Canvas {
   }
 
   zoomReset() {
-    this.ctx.setTransform(1, 0, 0, 1, 0, 0);
+    this.transform.reset();
+    this.applyTransform();
     this.redraw();
+  }
+
+  translate(x, y) {
+    this.transform.translate(x, y);
+    this.applyTransform();
+  }
+
+  applyTransform() {
+    let m = this.transform.m;
+
+    if (m[4] > 0) {
+      m[4] = 0;
+    }
+
+    if (m[5] > 0) {
+      m[5] = 0;
+    }
+
+    this.ctx.setTransform(m[0], m[1], m[2], m[3], m[4], m[5]);
   }
 }
