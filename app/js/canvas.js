@@ -1,4 +1,4 @@
-/*global utils, R */
+/*global utils, R, Image */
 
 class Canvas {
   constructor() {
@@ -40,6 +40,7 @@ class Canvas {
   addObject(collection, name, imagePath, posX, posY) {
     let obj = {
       name: name,
+      image: new Image(),
       imagePath: imagePath,
       posX: posX,
       posY: posY
@@ -57,17 +58,21 @@ class Canvas {
   }
 
   drawToken(token) {
-    this.drawImage(token.imagePath, token.posX, token.posY);
+    this.drawImage(token.image, token.imagePath, token.posX, token.posY);
   }
 
-  drawImage(imagePath, posX, posY) {
-    let img = new Image(),
+  drawImage(image, imagePath, posX, posY) {
+    let alreadyRendered = Boolean(image.src),
         ctx = this.ctx;
 
-    img.onload = function() {
-      ctx.drawImage(this, posX, posY);
-    };
-    img.src = imagePath;
+    if (alreadyRendered) {
+      ctx.drawImage(image, posX, posY);
+    } else {
+      image.onload = function() {
+        ctx.drawImage(this, posX, posY);
+      };
+      image.src = imagePath;
+    }
   }
 
   zoomIn(delta) {
