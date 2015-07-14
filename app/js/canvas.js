@@ -7,7 +7,7 @@ class Canvas {
     document.querySelector('#content').appendChild(el);
     this.el = el;
     this.ctx = el.getContext("2d");
-    this.scale = 1;
+    this.currentScale = 1;
     this.objects = {
       background: [],
       walls: [],
@@ -36,7 +36,7 @@ class Canvas {
     let viewportSize = utils.getViewportSize(),
         drawToken = this.drawToken.bind(this);
 
-    this.transform.scale(this.scale, this.scale);
+    this.transform.scale(this.currentScale, this.currentScale);
     this.applyTransform();
     this.ctx.clearRect(0, 0, this.grid.width * tileWidth, this.grid.height * tileHeight);
 
@@ -82,21 +82,27 @@ class Canvas {
   }
 
   zoomIn(delta) {
-    this.scale += delta ? delta : 0.07;
-    this.redraw();
-    this.scale = 1;
+    let signedDelta = delta ? delta: 0.07;
+
+    this.scale(signedDelta);
   }
 
   zoomOut(delta) {
-    this.scale -= delta ? delta : 0.07;
-    this.redraw();
-    this.scale = 1;
+    let signedDelta = delta ? delta * -1 : -0.07;
+
+    this.scale(signedDelta);
   }
 
   zoomReset() {
     this.transform.reset();
     this.applyTransform();
     this.redraw();
+  }
+
+  scale(scale) {
+    this.currentScale += scale;
+    this.redraw();
+    this.currentScale = 1;
   }
 
   translate(x, y) {
