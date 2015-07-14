@@ -15,6 +15,7 @@
     "moment": "~2.10.3",
     "stomp-websocket": "~2.3.4",
     "sockjs-client": "~1.0.0",
-    "mousetrap": "~1.5.3"
+    "mousetrap": "~1.5.3",
+    "bluebird": "~2.9.33"
   }
 }
