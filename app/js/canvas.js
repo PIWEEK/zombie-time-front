@@ -1,4 +1,4 @@
-/*global utils, R, Image, Transform */
+/*global utils, R, Image, Transform, tileHeight, tileWidth, defaultZoomIncrement */
 
 class Canvas {
   constructor() {
@@ -82,13 +82,13 @@ class Canvas {
   }
 
   zoomIn(delta) {
-    let signedDelta = delta ? delta: 0.07;
+    let signedDelta = delta ? delta: defaultZoomIncrement;
 
     this.scale(signedDelta);
   }
 
   zoomOut(delta) {
-    let signedDelta = delta ? delta * -1 : -0.07;
+    let signedDelta = delta ? delta * -1 : defaultZoomIncrement * -1;
 
     this.scale(signedDelta);
   }
