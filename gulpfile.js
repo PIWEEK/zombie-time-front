@@ -4,6 +4,11 @@ var gulp = require("gulp"),
     jade = require("gulp-jade"),
     scss = require("gulp-sass");
 
+function onError(error) {
+  console.log(error.toString());
+  this.emit("end");
+}
+
 gulp.task("browser-sync", function() {
   browserSync.init({
     server: {
@@ -18,12 +23,14 @@ gulp.task("templates", function() {
   return gulp.src("app/templates/**/*.jade")
     .pipe(jade({pretty: true}))
     .pipe(gulp.dest("dist"))
+    .on("error", onError)
   ;
 });
 
 gulp.task("js", function() {
   return gulp.src("app/js/**/*.js")
     .pipe(babel())
+    .on("error", onError)
     .pipe(gulp.dest("dist/assets/js"))
   ;
 });
@@ -31,6 +38,7 @@ gulp.task("js", function() {
 gulp.task("styles", function() {
   return gulp.src("app/scss/**/*.scss")
     .pipe(scss().on("error", scss.logError))
+    .on("error", onError)
     .pipe(gulp.dest("dist/assets/css"))
   ;
 });
