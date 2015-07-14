@@ -23,11 +23,11 @@ Mousetrap.bind('r', function() {
   canvas.zoomReset();
 });
 
-Mousetrap.bind('?', function() {
+Mousetrap.bind('h', function() {
   $('#help').show();
 }, 'keydown');
 
-Mousetrap.bind('?', function() {
+Mousetrap.bind('h', function() {
   $('#help').hide();
 }, 'keyup');
 
