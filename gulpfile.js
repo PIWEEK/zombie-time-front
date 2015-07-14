@@ -47,7 +47,13 @@ gulp.task("copyVendor", function() {
   ;
 });
 
-gulp.task("dist", ["templates", "js", "styles", "copyImages", "copyVendor"]);
+gulp.task("copyData", function() {
+  return gulp.src("data/**/*.*")
+    .pipe(gulp.dest("dist/assets/data"))
+  ;
+});
+
+gulp.task("dist", ["templates", "js", "styles", "copyImages", "copyVendor", "copyData"]);
 
 gulp.task("watch", ["dist", "browser-sync"], function() {
   gulp.watch("app/templates/**/*.jade", ["templates", browserSync.reload]);
