@@ -1,4 +1,4 @@
-/*global utils, R, Image, Transform, tileHeight, tileWidth, defaultZoomIncrement, maxTilesWhenZoomIn, spriteSizeX, spriteSizeY */
+/*global utils, R, Image, Transform, conf */
 
 class Canvas {
   constructor() {
@@ -15,8 +15,8 @@ class Canvas {
       tokens: []
     };
     this.grid = {
-      width: spriteSizeX,
-      height: spriteSizeY
+      width: conf.spriteSizeX,
+      height: conf.spriteSizeY
     };
     this.transform = new Transform();
 
@@ -38,7 +38,7 @@ class Canvas {
 
     this.transform.scale(this.currentScale, this.currentScale);
     this.applyTransform();
-    this.ctx.clearRect(0, 0, this.grid.width * tileWidth, this.grid.height * tileHeight);
+    this.ctx.clearRect(0, 0, this.grid.width * conf.tileWidth, this.grid.height * conf.tileHeight);
 
     R.forEach(drawToken, this.objects.tokens);
   }
@@ -82,11 +82,11 @@ class Canvas {
   }
 
   zoomIn(delta) {
-    let signedDelta = delta ? delta : defaultZoomIncrement,
+    let signedDelta = delta ? delta : conf.defaultZoomIncrement,
         viewportSize = utils.getViewportSize(),
         currentZoom = this.transform.m[0],
         futureZoom = currentZoom + (currentZoom * signedDelta),
-        futureTilesWidth = tileWidth * maxTilesWhenZoomIn * futureZoom,
+        futureTilesWidth = conf.tileWidth * conf.maxTilesWhenZoomIn * futureZoom,
         canZoomIn = futureTilesWidth < viewportSize.width;
 
     if (canZoomIn) {
@@ -97,11 +97,11 @@ class Canvas {
   }
 
   zoomOut(delta) {
-    let signedDelta = delta ? delta * -1 : defaultZoomIncrement * -1,
+    let signedDelta = delta ? delta * -1 : conf.defaultZoomIncrement * -1,
         viewportSize = utils.getViewportSize(),
         currentZoom = this.transform.m[0],
         futureZoom = currentZoom + (currentZoom * signedDelta),
-        futureBackgroundWidth = tileWidth * this.grid.width * futureZoom,
+        futureBackgroundWidth = conf.tileWidth * this.grid.width * futureZoom,
         canZoomOut = futureBackgroundWidth > viewportSize.width;
 
     if (canZoomOut) {
@@ -112,7 +112,7 @@ class Canvas {
   }
 
   zoomInToMax() {
-    let tilesWidth = tileWidth * maxTilesWhenZoomIn,
+    let tilesWidth = conf.tileWidth * conf.maxTilesWhenZoomIn,
         viewportSize = utils.getViewportSize(),
         zoomToApply = viewportSize.width / tilesWidth,
         currentZoom = this.transform.m[0],
@@ -123,7 +123,7 @@ class Canvas {
 
   zoomOutToMax() {
     let viewportSize = utils.getViewportSize(),
-        totalBackgroundWidth = tileWidth * this.grid.width,
+        totalBackgroundWidth = conf.tileWidth * this.grid.width,
         currentZoom = this.transform.m[0],
         zoomToApply = viewportSize.width / totalBackgroundWidth,
         scaleToApply = (zoomToApply - currentZoom) / currentZoom;
@@ -151,8 +151,8 @@ class Canvas {
   applyTransform() {
     let m = this.transform.m,
         viewportSize = utils.getViewportSize(),
-        widthLimit = ((tileWidth * this.grid.width * m[0]) - viewportSize.width) * -1,
-        heightLimit = ((tileHeight * this.grid.height * m[3]) - viewportSize.height) * -1;
+        widthLimit = ((conf.tileWidth * this.grid.width * m[0]) - viewportSize.width) * -1,
+        heightLimit = ((conf.tileHeight * this.grid.height * m[3]) - viewportSize.height) * -1;
 
     if (m[4] > 0) {
       m[4] = 0;
