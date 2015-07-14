@@ -96,9 +96,22 @@ class Canvas {
         futureBackgroundWidth = totalBackgroundWidth * futureZoom,
         canZoomOut = futureBackgroundWidth > viewportSize.width;
 
-    this.scale(signedDelta);
+    if (canZoomOut) {
+      this.scale(signedDelta);
+    } else {
+      this.zoomOutToMax();
+    }
+  }
 
-    if (canZoomOut) this.scale(signedDelta);
+  zoomOutToMax() {
+    let viewportSize = utils.getViewportSize(),
+        totalBackgroundWidth = tileWidth * this.grid.width,
+        currentZoom = this.transform.m[0],
+        zoomToApply = viewportSize.width / totalBackgroundWidth,
+        scaleToApply = (zoomToApply - currentZoom) / currentZoom;
+
+    this.scale(scaleToApply);
+
   }
 
   zoomReset() {
