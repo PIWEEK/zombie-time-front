@@ -1,4 +1,4 @@
-/*global utils, R, Image, Transform, tileHeight, tileWidth, defaultZoomIncrement, maxTilesWhenZoomIn */
+/*global utils, R, Image, Transform, tileHeight, tileWidth, defaultZoomIncrement, maxTilesWhenZoomIn, spriteSizeX, spriteSizeY */
 
 class Canvas {
   constructor() {
@@ -15,8 +15,8 @@ class Canvas {
       tokens: []
     };
     this.grid = {
-      width: 16,
-      height: 18
+      width: spriteSizeX,
+      height: spriteSizeY
     };
     this.transform = new Transform();
 
