@@ -22,6 +22,6 @@ class Sprite {
         dw = posX,
         dh = posY;
 
-    ctx.drawImage(this, sx, 0, sw, sh, 0, 0, dw, dh);
+    ctx.drawImage(this.image, sx, 0, sw, sh, 0, 0, dw, dh);
   }
 }
