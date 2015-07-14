@@ -18,6 +18,19 @@ class Http {
     });
   }
 
+  post(url, data) {
+    return new Promise((resolve, reject) => {
+      $.post(this.url + url, data)
+        .fail(function (jqHXR) {
+          reject(jqHXR);
+        })
+        .done(function (data, textStatus, jqHXR) {
+          resolve(data);
+        })
+      ;
+    });
+  }
+
   getUrlParams(args) {
     let filtersToApply = R.toPairs(args),
         appliedFilters = R.map(R.join('='), filtersToApply),
