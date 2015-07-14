@@ -8,11 +8,11 @@ class Http {
   get(url, args) {
     return new Promise((resolve, reject) => {
       $.get(this.url + url + this.getUrlParams(args))
-        .fail(function (r) {
-          reject(r);
+        .fail(function (jqXHR) {
+          reject(jqXHR);
         })
-        .done(function (r) {
-          resolve(r);
+        .done(function (data, textStatus, jqXHR) {
+          resolve(data);
         })
       ;
     });
