@@ -70,3 +70,7 @@ canvas.el.addEventListener("mousemove", function(e) {
 canvas.el.addEventListener("mouseup", function(e) {
   canvas.drag = undefined;
 });
+
+canvas.el.addEventListener("mouseleave", function(e) {
+  canvas.drag = undefined;
+});
