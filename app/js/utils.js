@@ -20,6 +20,10 @@ let utils = {
   getQueryParams: () => {
     let searchString = location.search;
 
+    if (searchString === "") {
+      return undefined;
+    }
+
     if (searchString[0] == "?") {
       searchString = searchString.slice(1, searchString.length);
     }
