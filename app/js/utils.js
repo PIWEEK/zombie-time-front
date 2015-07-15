@@ -1,4 +1,4 @@
-/*global Image */
+/*global Image, location */
 
 let utils = {
   getViewportSize: () => {
@@ -16,5 +16,24 @@ let utils = {
         cellModule = Math.floor(position / sizeX);
 
     return { x: cellFloor, y: cellModule };
+  },
+  getQueryParams: () => {
+    let searchString = location.search;
+
+    if (searchString[0] == "?") {
+      searchString = searchString.slice(1, searchString.length);
+    }
+
+    let pairs = R.split("&", searchString),
+        queryParams = {},
+        processPair = (pairString) => {
+          let pair = R.split("=", pairString);
+
+          queryParams[R.head(pair)] = R.last(pair);
+        };
+
+    R.map(processPair, pairs);
+
+    return queryParams;
   }
 };
