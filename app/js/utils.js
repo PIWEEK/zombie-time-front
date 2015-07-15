@@ -10,5 +10,11 @@ let utils = {
       image.onload = () => resolve(image);
       image.src = imageUrl;
     });
+  },
+  getCellCoords: (position, sizeX, sizeY) => {
+    let cellFloor = position % sizeX,
+        cellModule = Math.floor(position / sizeX);
+
+    return { x: cellFloor, y: cellModule };
   }
 };
