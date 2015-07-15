@@ -25,14 +25,13 @@ Mousetrap.bind('h', function() {
 /**********************************************
  * Click
  **********************************************/
-let detailChar = document.querySelector('#detail-character');
 let survivors = ['pablo', 'yami', 'miguel', 'laura', 'xenia', 'alex'];
+let detailChar = document.querySelector('#detail-character');
 for (let i in survivors) {
   let s = survivors[i];
   document.querySelector(`li.${s}`).addEventListener("click", function (e) {
-    detailChar.className = `detail ${s}`;
-    $(detailChar).find('p').hide();
-    $(detailChar).find(`p.${s}`).show();
+    $(detailChar).find('.detail').hide();
+    $(detailChar).find(`.detail.${s}`).show();
     $(detailChar).find('.want.leader').show();
     $(detailChar).find('.want.follower').show();
   });
