@@ -1,8 +1,11 @@
-/*global $, SockJS, Stomp, conf */
+/*global $, SockJS, Stomp, conf, utils */
 
 class StompConnection {
   constructor() {
+    let qp = utils.getQueryParams();
+
     this.isConnected = false;
+    if (qp && qp.username && qp.password && qp.game) this.connect(qp.username, qp.password, qp.game);
   }
 
   connect(username, password, game) {
