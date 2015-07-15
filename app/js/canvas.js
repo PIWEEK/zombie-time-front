@@ -166,6 +166,10 @@ class Canvas {
     this.ctx.setTransform(m[0], m[1], m[2], m[3], m[4], m[5]);
   }
 
+  getRelativeMouseCoords(x, y) {
+    console.log('___________ GETTING COORDS ___________');
+  }
+
   registerEvents() {
     /**********************************************
      * Window events
@@ -177,7 +181,6 @@ class Canvas {
      * Keybindings
      **********************************************/
     Mousetrap.bind('i', () => {
-      console.log('------------------------');
       this.zoomIn(0.4);
     });
 
@@ -208,7 +211,9 @@ class Canvas {
     this.el.addEventListener("mousedown", (e) => {
       this.drag = {
         x: e.x,
-        y: e.y
+        y: e.y,
+        initialX: e.x,
+        initialY: e.y
       };
     });
 
@@ -225,7 +230,15 @@ class Canvas {
       }
     });
 
+    let isClick = (x, y, drag) => {
+      let d = conf.clickPixelDelta;
+
+      return drag.initialX + d >= x && drag.initialX - d <= x && drag.initialY + d >= y && drag.initialY - d <= y;
+    };
+
     this.el.addEventListener("mouseup", (e) => {
+      if (isClick(e.x, e.y, this.drag)) this.getRelativeMouseCoords(e.x, e.y);
+
       this.drag = undefined;
     });
 

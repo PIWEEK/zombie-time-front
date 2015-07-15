@@ -7,6 +7,7 @@ const conf = {
   spriteSizeY: 22,
   maxTilesWhenZoomIn: 4,
   defaultZoomIncrement: 0.07,
+  clickPixelDelta: 5,
   serverUrl: "http://localhost:3000",
   websocketsUrl: "http://localhost:8080"
 };
