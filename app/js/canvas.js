@@ -33,13 +33,18 @@ class Canvas {
 
   redraw() {
     const drawCell = (cellNumber, cellContent) => {
-      const drawImageInCell = R.curry(this.drawImage.bind(this))(R.__, cellNumber);
+      const drawImageInCell = R.curry(this.drawImage.bind(this))(R.__, cellNumber),
+            getAvatars = R.map(R.prop("avatar"));
 
       drawImageInCell(cellContent.floor);
       drawImageInCell(cellContent.wall);
       drawImageInCell(cellContent.item);
-      //R.forEach(drawImageInCell, cellContent.objects);
-      //R.forEach(drawImageInCell, cellContent.characters);
+      if (cellContent.zombies) {
+        R.forEach(drawImageInCell, getAvatars(cellContent.zombies));
+      }
+      if (cellContent.survivors) {
+        R.forEach(drawImageInCell, getAvatars(cellContent.survivors));
+      }
     };
 
     let viewportSize = utils.getViewportSize();

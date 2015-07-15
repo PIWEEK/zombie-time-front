@@ -283,10 +283,12 @@ class Game {
 
   parseGameInfo(gameInfo) {
     let processSimpleLayer = (layer, val, idx, list) => {
+      let shiftedVal = val - 1;
+
       if (this.grid[idx] == undefined) {
         this.grid[idx] = {};
       }
-      this.grid[idx][layer] = val - 1;
+      this.grid[idx][layer] = shiftedVal;
     };
     let processSimpleLayerCurried = R.curry(processSimpleLayer),
         processFloor = processSimpleLayerCurried("floor", R.__, R.__, R.__),
@@ -294,11 +296,13 @@ class Game {
         processItem = processSimpleLayerCurried("item", R.__, R.__, R.__);
 
     let processComplexLayer = (layer, val, idx, list) => {
-      let position = val.point;
+      let position = val.point,
+          shiftedVal = (val) => {
+            val.avatar -= 1;
+            return val;
+          };
 
-      // TRANSFORMAR VAL  -1 avatar
-
-      this.grid[position][layer] = this.grid[position][layer] ? this.grid[position][layer].push(val) : [val];
+      this.grid[position][layer] = this.grid[position][layer] ? this.grid[position][layer].push(val) : [shiftedVal(val)];
     };
     let processComplexLayerCurried = R.curry(processComplexLayer),
         processSurvivors = processComplexLayerCurried("survivors", R.__, R.__, R.__),
