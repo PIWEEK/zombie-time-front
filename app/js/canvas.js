@@ -46,9 +46,12 @@ class Canvas {
 
     this.transform.scale(this.currentScale, this.currentScale);
     this.applyTransform();
-    this.ctx.clearRect(0, 0, this.map.sizeX * conf.tileWidth, this.map.sizeY * conf.tileHeight);
 
-    this.gameSprite.loadPromise.then(() => R.forEach((el) => drawCell(el[0], el[1]), R.toPairs(this.grid)));
+
+    this.gameSprite.loadPromise.then(() => {
+      this.ctx.clearRect(0, 0, this.map.sizeX * conf.tileWidth, this.map.sizeY * conf.tileHeight);
+      R.forEach((el) => drawCell(el[0], el[1]), R.toPairs(this.grid));
+    });
   }
 
   getCellCoords(position) {
