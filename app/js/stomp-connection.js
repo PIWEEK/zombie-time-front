@@ -1,4 +1,4 @@
-/*global SockJS, Stomp, conf */
+/*global $, SockJS, Stomp, conf */
 
 class StompConnection {
   constructor() {
@@ -12,7 +12,7 @@ class StompConnection {
         },
         onConnect = (frame) => {
           this.isConnected = true;
-          this.client.subscribe("/topic/zombietime_" + game, this.onMessage.bind(this), {});
+          this.client.subscribe("/topic/zombietime_" + game, this.onMessage, {});
         },
         onError = (error) => {
           this.isConnected = false;
@@ -22,6 +22,7 @@ class StompConnection {
           console.log('======================================');
         };
 
+    this.game = game;
     this.socket = new SockJS(conf.websocketsUrl + '/message');
     this.client = Stomp.over(this.socket);
     this.client.connect(headers, onConnect, onError);
@@ -32,6 +33,17 @@ class StompConnection {
   }
 
   onMessage(message) {
-    console.log(message);
+    $(window).trigger("message.stomp.zt", JSON.parse(message.body));
+  }
+
+  sendMessage(type, data) {
+    let message = {
+          "game": this.game,
+          "type": type,
+          "data": data
+        },
+        jsonMessage = JSON.stringify(message);
+
+    this.client.send("/app/message", {}, jsonMessage);
   }
 }

@@ -8,8 +8,6 @@
 let imageSrc = "/assets/imgs/tile.png",
     game = new Game();
 
-game.initialize({});
-
 /**********************************************
  * Keybindings
  **********************************************/
