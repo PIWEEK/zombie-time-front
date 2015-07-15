@@ -25,6 +25,7 @@ body {
   right: 10px;
   width: 1200px;
   height: 600px;
+  background: white;
   //display: none;
 }
 
@@ -45,11 +46,6 @@ body {
 
     &.pablo {
       background-image: url('/assets/imgs/survivors/pablo.png');
-
-      &.catched {
-        opacity: 0.7;
-        float: left;
-      }
     }
 
     &.yami {
@@ -72,13 +68,18 @@ body {
       background-image: url('/assets/imgs/survivors/alex.png');
     }
 
+    &.catched {
+      opacity: 0.7;
+      float: left;
+      text-align: center;
+    }
   }
 }
 
 #detail-character {
   position: absolute;
   bottom: 0px;
-  left: 0px;
+  left: 50px;
   width: 400px;
   height: 550px;
 
@@ -88,14 +89,21 @@ body {
     display: none;
   }
 
-  #want {
+  .want {
     width: 200px;
     position: absolute;
-    bottom: 0px;
     left: 30px;
     display: none;
     background: grey;
     text-align: center;
+
+    &.leader {
+      bottom: 30px;
+    }
+
+    &.follower {
+      bottom: 10px;
+    }
 
     &.catched {
       opacity: 0.7;
