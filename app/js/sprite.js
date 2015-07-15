@@ -13,15 +13,8 @@ class Sprite {
     });
   }
 
-  drawImage(num, ctx, posX, posY) {
-    let floor = Math.floor(num / this.sizeX),
-        module = num % this.sizeX,
-        sx = (floor - 1) * this.imageWidth,
-        sw = this.imageWidth,
-        sh = this.imageHeight,
-        dw = posX,
-        dh = posY;
-
-    ctx.drawImage(this.image, sx, 0, sw, sh, 0, 0, dw, dh);
+  getImageCoords(position) {
+    return utils
+      .getCellCoords(position, this.sizeX, this.sizeY);
   }
 }

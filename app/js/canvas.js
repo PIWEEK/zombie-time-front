@@ -1,26 +1,25 @@
-/*global utils, R, Image, Transform, conf */
+/*global $, utils, R, Image, Transform, Sprite, conf, Mousetrap */
 
 class Canvas {
   constructor() {
+    this.gameSprite = new Sprite(
+      conf.serverUrl + "/assets/imgs/tile.png",
+      conf.tileWidth,
+      conf.tileHeight,
+      conf.spriteSizeX,
+      conf.spriteSizeY
+    );
     let el = document.createElement("canvas");
     el.id = "mainCanvas";
     document.querySelector('#content').appendChild(el);
     this.el = el;
     this.ctx = el.getContext("2d");
     this.currentScale = 1;
-    this.objects = {
-      background: [],
-      walls: [],
-      objects: [],
-      tokens: []
-    };
-    this.grid = {
-      width: conf.spriteSizeX,
-      height: conf.spriteSizeY
-    };
+    this.grid = {};
+    this.map = {};
     this.transform = new Transform();
 
-    this.resize();
+    this.registerEvents();
   }
 
   resize() {
@@ -33,52 +32,44 @@ class Canvas {
   }
 
   redraw() {
-    let viewportSize = utils.getViewportSize(),
-        drawToken = this.drawToken.bind(this);
+    const drawCell = (cellNumber, cellContent) => {
+      const drawImageInCell = R.curry(this.drawImage.bind(this))(R.__, cellNumber);
+
+      drawImageInCell(cellContent.floor);
+      drawImageInCell(cellContent.wall);
+      drawImageInCell(cellContent.item);
+      //R.forEach(drawImageInCell, cellContent.objects);
+      //R.forEach(drawImageInCell, cellContent.characters);
+    };
+
+    let viewportSize = utils.getViewportSize();
 
     this.transform.scale(this.currentScale, this.currentScale);
     this.applyTransform();
-    this.ctx.clearRect(0, 0, this.grid.width * conf.tileWidth, this.grid.height * conf.tileHeight);
 
-    R.forEach(drawToken, this.objects.tokens);
+
+    this.gameSprite.loadPromise.then(() => {
+      this.ctx.clearRect(0, 0, this.map.sizeX * conf.tileWidth, this.map.sizeY * conf.tileHeight);
+      R.forEach((el) => drawCell(el[0], el[1]), R.toPairs(this.grid));
+    });
   }
 
-  addObject(collection, name, imagePath, posX, posY) {
-    let obj = {
-      name: name,
-      image: new Image(),
-      imagePath: imagePath,
-      posX: posX,
-      posY: posY
-    };
-
-    this.objects[collection] = R.append(obj, this.objects[collection]);
-    this.redraw();
+  getCellCoords(position) {
+    return utils.getCellCoords(position, this.map.sizeX, this.map.sizeY);
   }
 
-  removeObject(collection, name) {
-    let differentName = R.compose(R.not, R.propEq("name", name));
+  drawImage(spritePos, cellPos) {
+    let spriteCoords = this.gameSprite.getImageCoords(spritePos),
+        sx = spriteCoords.x * this.gameSprite.imageWidth,
+        sy = spriteCoords.y * this.gameSprite.imageHeight,
+        cellCoords = this.getCellCoords(cellPos),
+        dx = cellCoords.x * conf.tileWidth,
+        dy = cellCoords.y * conf.tileHeight;
 
-    this.objects[collection] = R.filter(differentName, this.objects[collection]);
-    this.redraw();
-  }
-
-  drawToken(token) {
-    this.drawImage(token.image, token.imagePath, token.posX, token.posY);
-  }
-
-  drawImage(image, imagePath, posX, posY) {
-    let alreadyRendered = R.compose(R.not, R.isEmpty)(image.src),
-        ctx = this.ctx;
-
-    if (alreadyRendered) {
-      ctx.drawImage(image, posX, posY);
-    } else {
-      image.onload = function() {
-        ctx.drawImage(this, posX, posY);
-      };
-      image.src = imagePath;
-    }
+    this.ctx.drawImage(
+      this.gameSprite.image,
+      sx, sy, this.gameSprite.imageWidth, this.gameSprite.imageHeight,
+      dx, dy, conf.tileWidth, conf.tileHeight);
   }
 
   zoomIn(delta) {
@@ -101,7 +92,7 @@ class Canvas {
         viewportSize = utils.getViewportSize(),
         currentZoom = this.transform.m[0],
         futureZoom = currentZoom + (currentZoom * signedDelta),
-        futureBackgroundWidth = conf.tileWidth * this.grid.width * futureZoom,
+        futureBackgroundWidth = conf.tileWidth * this.map.sizeX * futureZoom,
         canZoomOut = futureBackgroundWidth > viewportSize.width;
 
     if (canZoomOut) {
@@ -123,7 +114,7 @@ class Canvas {
 
   zoomOutToMax() {
     let viewportSize = utils.getViewportSize(),
-        totalBackgroundWidth = conf.tileWidth * this.grid.width,
+        totalBackgroundWidth = conf.tileWidth * this.map.sizeX,
         currentZoom = this.transform.m[0],
         zoomToApply = viewportSize.width / totalBackgroundWidth,
         scaleToApply = (zoomToApply - currentZoom) / currentZoom;
@@ -151,8 +142,8 @@ class Canvas {
   applyTransform() {
     let m = this.transform.m,
         viewportSize = utils.getViewportSize(),
-        widthLimit = ((conf.tileWidth * this.grid.width * m[0]) - viewportSize.width) * -1,
-        heightLimit = ((conf.tileHeight * this.grid.height * m[3]) - viewportSize.height) * -1;
+        widthLimit = ((conf.tileWidth * this.map.sizeX * m[0]) - viewportSize.width) * -1,
+        heightLimit = ((conf.tileHeight * this.map.sizeY * m[3]) - viewportSize.height) * -1;
 
     if (m[4] > 0) {
       m[4] = 0;
@@ -168,5 +159,73 @@ class Canvas {
     }
 
     this.ctx.setTransform(m[0], m[1], m[2], m[3], m[4], m[5]);
+  }
+
+  registerEvents() {
+    /**********************************************
+     * Window events
+     **********************************************/
+    window.onresize = () => this.resize();
+
+
+    /**********************************************
+     * Keybindings
+     **********************************************/
+    Mousetrap.bind('i', () => {
+      console.log('------------------------');
+      this.zoomIn(0.4);
+    });
+
+    Mousetrap.bind('o', () => {
+      this.zoomOut(0.4);
+    });
+
+    Mousetrap.bind('r', () => {
+      this.zoomReset();
+    });
+
+
+    /**********************************************
+     * Mouse scroll
+     **********************************************/
+    this.el.onwheel = (e) => {
+      if (e.deltaY >= 0) {
+        this.zoomOut();
+      } else {
+        this.zoomIn();
+      }
+    };
+
+
+    /**********************************************
+     * Drag and Drop
+     **********************************************/
+    this.el.addEventListener("mousedown", (e) => {
+      this.drag = {
+        x: e.x,
+        y: e.y
+      };
+    });
+
+    this.el.addEventListener("mousemove", (e) => {
+      if (this.drag) {
+        let deltaX = e.x - this.drag.x,
+            deltaY = e.y - this.drag.y;
+
+        this.drag.x = e.x;
+        this.drag.y = e.y;
+
+        this.translate(deltaX, deltaY);
+        this.redraw();
+      }
+    });
+
+    this.el.addEventListener("mouseup", (e) => {
+      this.drag = undefined;
+    });
+
+    this.el.addEventListener("mouseleave", (e) => {
+      this.drag = undefined;
+    });
   }
 }
