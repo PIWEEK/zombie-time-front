@@ -79,7 +79,7 @@ body {
     display: none;
     background-position: center 50px;
     background-repeat: no-repeat;
-    height: 85%;
+    height: 80%;
     position: relative;
 
     h2 {
@@ -125,10 +125,14 @@ body {
     display: none;
 
     &.leader {
-      margin-bottom: 20px;
+      margin-bottom: 30px;
     }
 
     &.follower {
+      margin-bottom: 20px;
+    }
+
+    &.ready {
       margin-bottom: 10px;
     }
   }

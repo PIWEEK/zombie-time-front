@@ -32,15 +32,23 @@ for (let i in survivors) {
     $(detailChar).find(`.detail.${s}`).show();
     $(detailChar).find('.want.leader').show();
     $(detailChar).find('.want.follower').show();
+    $(detailChar).find('.ready').show();
   });
 }
 
 let wantLeader = document.querySelector('.want.leader');
 wantLeader.addEventListener("click", function (e) {
-    alert('te lo pides de líder');
+    let survivor = document.querySelector('.detail[style*="display: block"]');
+    game.stomp.sendMessage('SELECT_SURVIVOR', {leader: 'true', survivor: survivor.id});
 });
 
 let wantFollower = document.querySelector('.want.follower');
 wantFollower.addEventListener("click", function (e) {
-    alert('te lo pides de seguidor');
+    let survivor = document.querySelector('.detail[style*="display: block"]');
+    game.stomp.sendMessage('SELECT_SURVIVOR', {leader: 'false', survivor: survivor.id });
+});
+
+let ready = document.querySelector('.ready');
+ready.addEventListener("click", function (e) {
+    game.stomp.sendMessage('PLAYER_READY', {});
 });

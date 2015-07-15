@@ -71,8 +71,10 @@ class Game {
   registerEventHandlers() {
     let w = $(window),
         onMessage = (e, message) => {
-          if (message.type === "FULL_GAME")  {
+          if (message.type === "FULL_GAME") {
             this.initialized ? this.parseGameInfo(message) : this.initialize(message);
+          } else if (message.type === "START_GAME") {
+            $('#choose-character').hide();
           }
 
           this.canvas.redraw();
