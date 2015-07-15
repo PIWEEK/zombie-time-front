@@ -39,10 +39,12 @@ class Game {
           },
           shiftedVal = getShiftedVal(val);
 
-      if (this.grid[position][layer]) {
-        this.grid[position][layer].push(shiftedVal);
-      } else {
-        this.grid[position][layer] = [shiftedVal];
+      if (position !== -1) {
+        if (this.grid[position][layer]) {
+          this.grid[position][layer].push(shiftedVal);
+        } else {
+          this.grid[position][layer] = [shiftedVal];
+        }
       }
     };
     let processComplexLayerCurried = R.curry(processComplexLayer),
