@@ -17,3 +17,118 @@ body {
 #help-content {
   margin: 20px;
 }
+
+#choose-character {
+  z-index: 1000;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 1200px;
+  height: 600px;
+  //display: none;
+}
+
+#list-character {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 800px;
+  height: 550px;
+
+  li {
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: 256px;
+    height: 256px;
+    display: inline-block;
+    z-index: 1000;
+
+    &.pablo {
+      background-image: url('/assets/imgs/survivors/pablo.png');
+
+      &.catched {
+        opacity: 0.7;
+        float: left;
+      }
+    }
+
+    &.yami {
+      background-image: url('/assets/imgs/survivors/yami.png');
+    }
+
+    &.miguel {
+      background-image: url('/assets/imgs/survivors/miguel.png');
+    }
+
+    &.laura {
+      background-image: url('/assets/imgs/survivors/laura.png');
+    }
+
+    &.xenia {
+      background-image: url('/assets/imgs/survivors/xenia.png');
+    }
+
+    &.alex {
+      background-image: url('/assets/imgs/survivors/alex.png');
+    }
+
+  }
+}
+
+#detail-character {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 400px;
+  height: 550px;
+
+  p {
+    position: absolute;
+    top: 300px;
+    display: none;
+  }
+
+  #want {
+    width: 200px;
+    position: absolute;
+    bottom: 0px;
+    left: 30px;
+    display: none;
+    background: grey;
+    text-align: center;
+
+    &.catched {
+      opacity: 0.7;
+      float: left;
+    }
+  }
+}
+
+.detail {
+  z-index: 1000;
+  background-repeat: no-repeat;
+
+  &.pablo {
+    background-image: url('/assets/imgs/survivors/pablo.png');
+  }
+
+  &.yami {
+    background-image: url('/assets/imgs/survivors/yami.png');
+  }
+
+  &.miguel {
+    background-image: url('/assets/imgs/survivors/miguel.png');
+  }
+
+  &.laura {
+    background-image: url('/assets/imgs/survivors/laura.png');
+  }
+
+  &.xenia {
+    background-image: url('/assets/imgs/survivors/xenia.png');
+  }
+
+  &.alex {
+    background-image: url('/assets/imgs/survivors/alex.png');
+  }
+}
