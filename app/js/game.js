@@ -5,12 +5,20 @@ class Game {
     this.grid = {};
   }
 
+  initialize(gameInfo) {
+    this.parseGameInfo(gameInfo);
+    this.canvas = new Canvas();
+    this.canvas.map = this.map;
+    this.canvas.grid = this.grid;
+    this.canvas.resize();
+  }
+
   parseGameInfo(gameInfo) {
     let processSimpleLayer = (layer, val, idx, list) => {
       if (this.grid[idx] == undefined) {
         this.grid[idx] = {};
       }
-      this.grid[idx][layer] = val;
+      this.grid[idx][layer] = val - 1;
     };
     let processSimpleLayerCurried = R.curry(processSimpleLayer),
         processFloor = processSimpleLayerCurried("floor", R.__, R.__, R.__),
@@ -19,10 +27,8 @@ class Game {
 
     let processComplexLayer = (layer, val, idx, list) => {
       let position = val.point;
-      console.log('--------------------------');
-      console.log(val);
-      console.log(this.grid[position]);
-      console.log('--------------------------');
+
+      // TRANSFORMAR VAL  -1 avatar
 
       this.grid[position][layer] = this.grid[position][layer] ? this.grid[position][layer].push(val) : [val];
     };
@@ -45,6 +51,6 @@ class Game {
     R.forEachIndexed(processSurvivors, gameInfo.data.survivors);
     R.forEachIndexed(processZombies, gameInfo.data.zombies);
 
-    console.log(this.grid);
+    if (this.canvas !== undefined) this.canvas.grid = this.grid;
   }
 }

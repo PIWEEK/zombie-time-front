@@ -1,7 +1,7 @@
-/*global utils, R, Image, Transform, Sprite, conf */
+/*global $, utils, R, Image, Transform, Sprite, conf, Mousetrap */
 
 class Canvas {
-  constructor(map) {
+  constructor() {
     this.gameSprite = new Sprite(
       conf.serverUrl + "/assets/imgs/tile.png",
       conf.tileWidth,
@@ -16,10 +16,10 @@ class Canvas {
     this.ctx = el.getContext("2d");
     this.currentScale = 1;
     this.grid = {};
+    this.map = {};
     this.transform = new Transform();
-    this.map = map;
 
-    this.resize();
+    this.registerEvents();
   }
 
   resize() {
@@ -33,22 +33,22 @@ class Canvas {
 
   redraw() {
     const drawCell = (cellNumber, cellContent) => {
-      const drawImageInCell = R.curry(this.drawImage)(R.__, cellNumber);
+      const drawImageInCell = R.curry(this.drawImage.bind(this))(R.__, cellNumber);
 
       drawImageInCell(cellContent.floor);
       drawImageInCell(cellContent.wall);
-      R.forEach(drawImageInCell, cellContent.objects);
-      R.forEach(drawImageInCell, cellContent.characters);
+      drawImageInCell(cellContent.item);
+      //R.forEach(drawImageInCell, cellContent.objects);
+      //R.forEach(drawImageInCell, cellContent.characters);
     };
 
-    let viewportSize = utils.getViewportSize(),
-        drawToken = this.drawToken.bind(this);
+    let viewportSize = utils.getViewportSize();
 
     this.transform.scale(this.currentScale, this.currentScale);
     this.applyTransform();
-    this.ctx.clearRect(0, 0, conf.spriteSizeX * conf.tileWidth, conf.spriteSizeY * conf.tileHeight);
+    this.ctx.clearRect(0, 0, this.map.sizeX * conf.tileWidth, this.map.sizeY * conf.tileHeight);
 
-    R.forEach(drawCell, R.toPairs(this.grid));
+    this.gameSprite.loadPromise.then(() => R.forEach((el) => drawCell(el[0], el[1]), R.toPairs(this.grid)));
   }
 
   getCellCoords(position) {
@@ -89,7 +89,7 @@ class Canvas {
         viewportSize = utils.getViewportSize(),
         currentZoom = this.transform.m[0],
         futureZoom = currentZoom + (currentZoom * signedDelta),
-        futureBackgroundWidth = conf.tileWidth * conf.spriteSizeX * futureZoom,
+        futureBackgroundWidth = conf.tileWidth * this.map.sizeX * futureZoom,
         canZoomOut = futureBackgroundWidth > viewportSize.width;
 
     if (canZoomOut) {
@@ -111,7 +111,7 @@ class Canvas {
 
   zoomOutToMax() {
     let viewportSize = utils.getViewportSize(),
-        totalBackgroundWidth = conf.tileWidth * conf.spriteSizeX,
+        totalBackgroundWidth = conf.tileWidth * this.map.sizeX,
         currentZoom = this.transform.m[0],
         zoomToApply = viewportSize.width / totalBackgroundWidth,
         scaleToApply = (zoomToApply - currentZoom) / currentZoom;
@@ -139,8 +139,8 @@ class Canvas {
   applyTransform() {
     let m = this.transform.m,
         viewportSize = utils.getViewportSize(),
-        widthLimit = ((conf.tileWidth * conf.spriteSizeX * m[0]) - viewportSize.width) * -1,
-        heightLimit = ((conf.tileHeight * conf.spriteSizeY * m[3]) - viewportSize.height) * -1;
+        widthLimit = ((conf.tileWidth * this.map.sizeX * m[0]) - viewportSize.width) * -1,
+        heightLimit = ((conf.tileHeight * this.map.sizeY * m[3]) - viewportSize.height) * -1;
 
     if (m[4] > 0) {
       m[4] = 0;
@@ -156,5 +156,73 @@ class Canvas {
     }
 
     this.ctx.setTransform(m[0], m[1], m[2], m[3], m[4], m[5]);
+  }
+
+  registerEvents() {
+    /**********************************************
+     * Window events
+     **********************************************/
+    window.onresize = () => this.resize();
+
+
+    /**********************************************
+     * Keybindings
+     **********************************************/
+    Mousetrap.bind('i', () => {
+      console.log('------------------------');
+      this.zoomIn(0.4);
+    });
+
+    Mousetrap.bind('o', () => {
+      this.zoomOut(0.4);
+    });
+
+    Mousetrap.bind('r', () => {
+      this.zoomReset();
+    });
+
+
+    /**********************************************
+     * Mouse scroll
+     **********************************************/
+    this.el.onwheel = (e) => {
+      if (e.deltaY >= 0) {
+        this.zoomOut();
+      } else {
+        this.zoomIn();
+      }
+    };
+
+
+    /**********************************************
+     * Drag and Drop
+     **********************************************/
+    this.el.addEventListener("mousedown", (e) => {
+      this.drag = {
+        x: e.x,
+        y: e.y
+      };
+    });
+
+    this.el.addEventListener("mousemove", (e) => {
+      if (this.drag) {
+        let deltaX = e.x - this.drag.x,
+            deltaY = e.y - this.drag.y;
+
+        this.drag.x = e.x;
+        this.drag.y = e.y;
+
+        this.translate(deltaX, deltaY);
+        this.redraw();
+      }
+    });
+
+    this.el.addEventListener("mouseup", (e) => {
+      this.drag = undefined;
+    });
+
+    this.el.addEventListener("mouseleave", (e) => {
+      this.drag = undefined;
+    });
   }
 }
