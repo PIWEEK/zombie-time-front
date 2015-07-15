@@ -271,6 +271,7 @@ let fakeGameInfo = {
 class Game {
   constructor() {
     this.grid = {};
+    this.stomp = new StompConnection();
   }
 
   initialize(gameInfo) {
@@ -297,12 +298,13 @@ class Game {
 
     let processComplexLayer = (layer, val, idx, list) => {
       let position = val.point,
-          shiftedVal = (val) => {
+          getShiftedVal = (val) => {
             val.avatar -= 1;
             return val;
-          };
+          },
+          shiftedVal = getShiftedVal(val);
 
-      this.grid[position][layer] = this.grid[position][layer] ? this.grid[position][layer].push(val) : [shiftedVal(val)];
+      this.grid[position][layer] = this.grid[position][layer] ? this.grid[position][layer].push(shiftedVal) : [shiftedVal];
     };
     let processComplexLayerCurried = R.curry(processComplexLayer),
         processSurvivors = processComplexLayerCurried("survivors", R.__, R.__, R.__),
