@@ -11,7 +11,10 @@ class StompConnection {
           "x-password": password
         },
         onConnect = (frame) => {
+<<<<<<< HEAD
           debugger;
+=======
+>>>>>>> 0f3f0acd2bd61be51dbadb4d2b661e0697c29bba
           this.isConnected = true;
           this.client.subscribe("/topic/zombietime_" + game, this.onMessage.bind(this), {});
         },
