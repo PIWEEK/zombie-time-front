@@ -68,11 +68,26 @@ class Game {
     if (this.canvas !== undefined) this.canvas.grid = this.grid;
   }
 
+  updateCatched(gameInfo) {
+    let players = gameInfo.data.survivors,
+        cleanText = (x) => {x.innerHTML = ""},
+        characterList = document.querySelectorAll('#list-character li');
+
+    R.map(cleanText, characterList);
+
+    for (let p in players) {
+      let player = players[p];
+      document.querySelector(
+        `#list-character .${player.slug}`).innerHTML = player.player;
+    }
+  }
+
   registerEventHandlers() {
     let w = $(window),
         onMessage = (e, message) => {
           if (message.type === "FULL_GAME") {
             this.initialized ? this.parseGameInfo(message) : this.initialize(message);
+            this.updateCatched(message);
           } else if (message.type === "START_GAME") {
             $('#choose-character').hide();
           }
