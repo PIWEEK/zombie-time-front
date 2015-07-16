@@ -165,11 +165,13 @@ body {
   &.clock {
     font-family: 'Dead';
     font-size: 60px;
-    color: #9d0000;
+    color: #FFF;
     background-image: url('/assets/imgs/counter.png');
     background-repeat: no-repeat;
-    padding-left: 35px;
+    text-align: center;
     padding-top: 10px;
+    margin-top: 10px;
+    margin-right: 10px;
   }
 }
 
