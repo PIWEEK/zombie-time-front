@@ -35,16 +35,29 @@ class Canvas {
   redraw() {
     const drawCell = (cellNumber, cellContent) => {
       const cellOccupation = R.prop(cellNumber, this.gridOccupation),
-            zombieOccupation = cellOccupation === undefined ? 0 : cellOccupation["zombies"] === undefined ? cellOccupation["zombies"] : 0,
-            survivorOccupation = cellOccupation === undefined ? 0 : cellOccupation["survivors"] === undefined ? cellOccupation["survivors"] : 0,
+            getTypeOccupation = (type) => {
+              if (cellOccupation === undefined) {
+                return 0;
+              } else {
+                if (cellOccupation[type] === undefined) {
+                  return 0;
+                } else {
+                  return cellOccupation[type];
+                }
+              }
+            },
+            zombieOccupation = getTypeOccupation("zombies"),
+            survivorOccupation = getTypeOccupation("survivors"),
+            totalOccupation = zombieOccupation + survivorOccupation,
             drawBackgroundInCell = R.curry(this.drawBackground.bind(this))(R.__, cellNumber),
-            drawZombieInCell = R.curry(this.drawCharacter.bind(this))(R.__, cellNumber, "zombie", R.__, zombieOccupation),
-            drawSurvivorInCell = R.curry(this.drawCharacter.bind(this))(R.__, cellNumber, "survivor", R.__, survivorOccupation);
+            drawZombieInCell = R.curry(this.drawCharacter.bind(this))(R.__, cellNumber, "zombie", R.__, zombieOccupation, totalOccupation),
+            drawSurvivorInCell = R.curry(this.drawCharacter.bind(this))(R.__, cellNumber, "survivor", R.__, survivorOccupation, totalOccupation);
 
       console.log('========================================');
       console.log(` > CELDA: ${cellNumber}`);
       console.log(` > Zombies: ${zombieOccupation}`);
       console.log(` > Survivors: ${survivorOccupation}`);
+      console.log(` > TotalOccupation: ${totalOccupation}`);
       console.log('========================================');
 
       drawBackgroundInCell(cellContent.floor);
@@ -106,7 +119,7 @@ class Canvas {
         dx, dy, conf.tileWidth, conf.tileHeight);
   }
 
-  drawCharacter(spritePos, cellPos, type, number, max) {
+  drawCharacter(spritePos, cellPos, type, number, typeOccupation, totalOccupation) {
     if (this.zombieTime && type === "zombie") {
       let specialZombiePositions = [1, 2, 3, 4, 5],
           random = (limit) => { return Math.floor(Math.random() * limit); },
@@ -124,16 +137,24 @@ class Canvas {
         halfTileWidth = conf.tileWidth / 2,
         halfTileHeight = conf.tileHeight / 2;
 
-    if (type === "zombie") {
-      this.ctx.drawImage(
-        this.gameSprite.image,
-        sx, sy, this.gameSprite.imageWidth, this.gameSprite.imageHeight,
-        dx, dy, halfTileWidth, halfTileHeight);
+    debugger;
+    if (typeOccupation < totalOccupation) {
+      if (type === "zombie") {
+        this.ctx.drawImage(
+          this.gameSprite.image,
+          sx, sy, this.gameSprite.imageWidth, this.gameSprite.imageHeight,
+          dx, dy, halfTileWidth, halfTileHeight);
+      } else {
+        this.ctx.drawImage(
+          this.gameSprite.image,
+          sx, sy, this.gameSprite.imageWidth, this.gameSprite.imageHeight,
+          dx + (conf.tileWidth / 2), dy, halfTileWidth, halfTileHeight);
+      }
     } else {
       this.ctx.drawImage(
         this.gameSprite.image,
         sx, sy, this.gameSprite.imageWidth, this.gameSprite.imageHeight,
-        dx + (conf.tileWidth / 2), dy, halfTileWidth, halfTileHeight);
+        dx + (conf.tileWidth / 4), dy, halfTileWidth, halfTileHeight);
     }
   }
 
