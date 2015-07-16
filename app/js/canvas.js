@@ -137,7 +137,6 @@ class Canvas {
         halfTileWidth = conf.tileWidth / 2,
         halfTileHeight = conf.tileHeight / 2;
 
-    debugger;
     if (typeOccupation < totalOccupation) {
       if (type === "zombie") {
         this.ctx.drawImage(
