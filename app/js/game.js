@@ -6,6 +6,10 @@ class Game {
     this.stomp = new StompConnection();
     this.registerEventHandlers();
     this.initialized = false;
+    this.interface = new Interface();
+
+    // TO BE DELETED
+    this.interface.show();
   }
 
   initialize(gameInfo) {
