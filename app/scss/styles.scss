@@ -138,3 +138,38 @@ body {
   }
 }
 
+#top-left-interface {
+  width: 380px;
+  height: 50px;
+  background-color: cyan;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+#top-right-interface {
+  width: 192px;
+  height: 80px;
+  background-color: cyan;
+  position: fixed;
+  top: 0;
+  right: 0;
+}
+
+#bottom-interface-wrapper {
+  bottom: 80px;
+  left: 0;
+  height: 0px;
+  width: 100%;
+  position: fixed;
+  background-color: cyan;
+  overflow: visible;
+}
+
+#bottom-interface {
+  background-color: red;
+  margin: 0 auto;
+  width: 80%;
+  height: 80px;
+  z-index: 500;
+}
