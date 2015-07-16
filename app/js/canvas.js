@@ -167,7 +167,11 @@ class Canvas {
   }
 
   getRelativeMouseCoords(x, y) {
-    console.log('___________ GETTING COORDS ___________');
+    let m = this.transform.m,
+        relX = (Math.abs(m[4]) + x) / m[0],
+        relY = (Math.abs(m[5]) + y) / m[3];
+
+    return { x: relX, y: relY };
   }
 
   registerEvents() {
@@ -237,7 +241,13 @@ class Canvas {
     };
 
     this.el.addEventListener("mouseup", (e) => {
-      if (isClick(e.x, e.y, this.drag)) this.getRelativeMouseCoords(e.x, e.y);
+      if (isClick(e.x, e.y, this.drag)) {
+        let w = $(window),
+            mouseCoords = this.getRelativeMouseCoords(e.x, e.y),
+            clickedCell = utils.getCellForCoords(mouseCoords.x, mouseCoords.y, this.map.sizeX);
+
+        w.trigger("cellClick.canvas.zt", clickedCell);
+      }
 
       this.drag = undefined;
     });
