@@ -147,12 +147,18 @@ body {
 }
 
 #top-left-interface {
-  width: 380px;
-  height: 50px;
-  background-color: cyan;
+  width: 400px;
+  height: 90px;
   position: fixed;
   top: 0;
   left: 0;
+  font-family: 'Dead';
+  font-size: 40px;
+  color: #550000;
+  background-image: url('/assets/imgs/goals.png');
+  background-repeat: no-repeat;
+  text-align: center;
+  padding-top: 15px;
 }
 
 #top-right-interface {
