@@ -84,7 +84,6 @@ class Game {
   }
 
   finalCountDown() {
-
     let time = 900,
         duration = moment.duration(time * 1000, 'milliseconds'),
         interval = 1000;
@@ -93,7 +92,14 @@ class Game {
       duration = moment.duration(duration.asMilliseconds() - interval, 'milliseconds');
       $('#top-right-interface').text(moment(duration.asMilliseconds()).format('mm:ss'));
     }, interval);
+  }
 
+  sendNoiseMessage() {
+    this.stomp.sendMessage("NOISE", {});
+  }
+
+  sendMoveMessage(point) {
+    this.stomp.sendMessage("MOVE", { point: point });
   }
 
   registerEventHandlers() {
@@ -110,14 +116,24 @@ class Game {
 
           this.canvas.redraw();
         },
-        onClick = (e, cell) => {
+        onCellClick = (e, cell) => {
           console.log('***********************************');
           console.log(` >> CELL -- ${cell}`);
           console.log('***********************************');
+        },
+        onInterfaceButtonClick = (e, action) => {
+          console.log(` > Me clickan la acción ${action}`);
+          switch(action) {
+          case "noise":
+            this.sendNoiseMessage();
+            break;
+          default:
+            this.interface.currentAction = action;
+          }
         };
 
     w.on("message.stomp.zt", onMessage);
-    w.on("cellClick.canvas.zt", onClick);
+    w.on("cellClick.canvas.zt", onCellClick);
+    w.on("buttonClick.interface.zt", onInterfaceButtonClick);
   }
-
 }

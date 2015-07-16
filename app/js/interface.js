@@ -5,7 +5,6 @@ class Interface {
     this.currentAction = undefined;
 
     this.registerEvents();
-    this.registerEventHandlers();
   }
 
   hide() {
@@ -25,9 +24,10 @@ class Interface {
         menuElements = [
           ["#user-profile.menu-element", "showProfile"],
           ["#inventory.menu-element", "showInventory"],
-          ["#search-button.menu-element", "search"],
-          ["#move-button.menu-element", "move"],
           ["#attack-button.menu-element", "attack"],
+          ["#move-button.menu-element", "move"],
+          ["#search-button.menu-element", "search"],
+          ["#noise-button.menu-element", "noise"],
           ["#chat-button.menu-element", "chat"]
         ],
         addClickListener = (el) => {
@@ -37,15 +37,5 @@ class Interface {
         };
 
     R.map(addClickListener, menuElements);
-  }
-
-  registerEventHandlers() {
-    let w = $(window),
-        onButtonClick = (e, action) => {
-          console.log(` > Me clickan la acción ${action}`);
-          this.currentAction = action;
-        };
-
-    w.on("buttonClick.interface.zt", onButtonClick);
   }
 }
