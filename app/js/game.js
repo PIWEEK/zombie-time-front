@@ -93,8 +93,14 @@ class Game {
           }
 
           this.canvas.redraw();
+        },
+        onClick = (e, cell) => {
+          console.log('***********************************');
+          console.log(` >> CELL -- ${cell}`);
+          console.log('***********************************');
         };
 
     w.on("message.stomp.zt", onMessage);
+    w.on("cellClick.canvas.zt", onClick);
   }
 }
