@@ -15,4 +15,5 @@ class Lightbox {
     this.close.style.display = "block";
     document.querySelector(`${id}`).style.display = "block";
   }
+
 }

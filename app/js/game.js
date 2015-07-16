@@ -234,4 +234,9 @@ class Game {
     w.on("cellClick.canvas.zt", onCellClick);
     w.on("buttonClick.interface.zt", onInterfaceButtonClick);
   }
+
+  let close-lb = document.querySelector('#close-lb');
+  close-lb.addEventListener("click", function (e) {
+      this.lightbox.hideAll();
+  });
 }

@@ -206,51 +206,49 @@ body {
 .lightbox {
   z-index: 1000;
   position: fixed;
-  top: 50px;
-  left: 50px;
-  width: 200px;
-  height: 210px;
+  top: 255px;
+  left: 510px;
+  width: 1000px;
+  height: 576px;
   display: none;
+  background-image: url('/assets/imgs/lightbox.png');
 
   #close-lb {
-    width: 200px;
-    height: 10px;
+    width: 160px;
+    height: 121px;
     display: none;
+    float: right;
+    background-image: url('/assets/imgs/close-lb.png');
   }
 
   #animation-attack {
     width: 200px;
     height: 200px;
     display: none;
-    background-color: red;
   }
 
   #find-item {
     width: 200px;
     height: 200px;
     display: none;
-    background-color: cyan;
   }
 
   #zombie-time {
     width: 200px;
     height: 200px;
     display: none;
-    background-color: yellow;
   }
 
   #zombie-attack {
     width: 200px;
     height: 200px;
     display: none;
-    background-color: blue;
   }
 
   #end-game {
     width: 200px;
     height: 200px;
     display: none;
-    background-color: black;
   }
 }
 
