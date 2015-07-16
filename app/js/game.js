@@ -1,4 +1,4 @@
-/*global $, R, StompConnection, Interface, Sprite, Canvas, conf, game, moment */
+/*global $, R, StompConnection, Interface, Sprite, Canvas, conf, game, moment, utils */
 
 class Game {
   constructor() {
@@ -18,6 +18,24 @@ class Game {
     this.canvas.map = this.map;
     this.canvas.grid = this.grid;
     this.canvas.resize();
+  }
+
+  getGridOccupation(data) {
+    let gridOccupation = {},
+        includePointsOnList = (list, points) => {
+          let addToPoint = (point) => {
+            if (gridOccupation[point] === undefined) {
+              gridOccupation[point] = {};
+            }
+            gridOccupation[point][list] = gridOccupation[point][list] === undefined ? 1 : gridOccupation[point][list] + 1;
+          };
+
+          R.forEach(addToPoint, points);
+        },
+        survivorPoints = includePointsOnList("survivors", R.map(R.prop("point"), data.survivors)),
+        zombiePoints = includePointsOnList("zombies", R.map(R.prop("point"), data.zombies));
+
+    return gridOccupation;
   }
 
   parseGameInfo(gameInfo) {
@@ -64,6 +82,7 @@ class Game {
       sizeX: gameInfo.data.map.width,
       sizeY: gameInfo.data.map.height
     };
+    this.gridOccupation = this.getGridOccupation(gameInfo.data);
     this.victoryConditions = gameInfo.victoryConditions;
 
     R.forEachIndexed(processFloor, gameInfo.data.map.floorTiles);
