@@ -71,9 +71,8 @@ gulp.task("copyData", function() {
 gulp.task("dist", ["templates", "js", "fonts", "styles", "copyImages", "copyVendor", "copyData"]);
 
 gulp.task("watch", ["dist", "browser-sync"], function() {
-  gulp.watch("app/templates/**/*.jade", ["templates", browserSync.reload]);
-  gulp.watch("app/js/**/*.js", ["js", browserSync.reload]);
-  gulp.watch("app/fonts/**/*.otf", ["fonts", browserSync.reload]);
-  gulp.watch("app/scss/**/*.scss", ["styles", browserSync.reload]);
-  gulp.watch("app/imgs/**/*.*", ["copyImages", browserSync.reload]);
+  gulp.watch("app/templates/**/*.jade", ["templates"]);
+  gulp.watch("app/js/**/*.js", ["js"]);
+  gulp.watch("app/scss/**/*.scss", ["styles"]);
+  gulp.watch("app/imgs/**/*.*", ["copyImages"]);
 });
