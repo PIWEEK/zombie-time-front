@@ -157,7 +157,7 @@ body {
 }
 
 #bottom-interface-wrapper {
-  bottom: 80px;
+  bottom: 120px;
   left: 0;
   height: 0px;
   width: 100%;
@@ -169,7 +169,19 @@ body {
 #bottom-interface {
   background-color: red;
   margin: 0 auto;
-  width: 80%;
-  height: 80px;
+  width: 720px;
+  height: 120px;
   z-index: 500;
+}
+
+.menu-element {
+  height: 114px;
+  width: 114px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  margin-left: 3px;
+  margin-right: 3px;
+  background-color: green;
+  position: initial;
+  float: left;
 }
