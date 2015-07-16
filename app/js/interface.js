@@ -2,7 +2,6 @@ class Interface {
   constructor() {
     this.els = document.querySelectorAll(".interface");
     this.clock = document.querySelector("#top-right-interface.clock");
-    this.currentAction = undefined;
 
     this.registerEvents();
   }
@@ -14,9 +13,9 @@ class Interface {
   }
 
   show() {
-    let hideFn = (el) => el.style.display = "block";
+    let showFn = (el) => el.style.display = "block";
 
-    R.forEach(hideFn, this.els);
+    R.forEach(showFn, this.els);
   }
 
   registerEvents() {

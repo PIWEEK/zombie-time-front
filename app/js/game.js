@@ -1,4 +1,4 @@
-/*global $, R, StompConnection, Sprite, Canvas, conf */
+/*global $, R, StompConnection, Interface, Sprite, Canvas, conf, game, moment */
 
 class Game {
   constructor() {
@@ -8,6 +8,7 @@ class Game {
     this.initialized = false;
     this.interface = new Interface();
     this.lightbox = new Lightbox();
+    this.currentAction = undefined;
   }
 
   initialize(gameInfo) {
@@ -124,7 +125,7 @@ class Game {
             this.updateCatched(message);
           } else if (message.type === "START_GAME") {
             $('#choose-character').hide();
-            game.interface.show();
+            this.interface.show();
             this.finalCountDown();
           } else if (message.type === "ANIMATION_ATTACK") {
             this.lightbox.hideAll();
@@ -157,7 +158,7 @@ class Game {
             this.sendNoiseMessage();
             break;
           default:
-            this.interface.currentAction = action;
+            this.currentAction = action;
           }
         };
 
