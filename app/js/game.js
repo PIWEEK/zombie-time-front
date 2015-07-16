@@ -86,6 +86,19 @@ class Game {
     }
   }
 
+  finalCountDown() {
+
+    let time = 900,
+        duration = moment.duration(time * 1000, 'milliseconds'),
+        interval = 1000;
+
+    setInterval(function(){
+      duration = moment.duration(duration.asMilliseconds() - interval, 'milliseconds');
+      $('#top-right-interface').text(moment(duration.asMilliseconds()).format('mm:ss'));
+    }, interval);
+
+  }
+
   registerEventHandlers() {
     let w = $(window),
         onMessage = (e, message) => {
@@ -94,6 +107,8 @@ class Game {
             this.updateCatched(message);
           } else if (message.type === "START_GAME") {
             $('#choose-character').hide();
+            $('#top-right-interface').show();
+            this.finalCountDown();
           }
 
           this.canvas.redraw();
@@ -107,4 +122,5 @@ class Game {
     w.on("message.stomp.zt", onMessage);
     w.on("cellClick.canvas.zt", onClick);
   }
+
 }

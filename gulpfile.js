@@ -35,6 +35,13 @@ gulp.task("js", function() {
   ;
 });
 
+gulp.task("fonts", function() {
+  return gulp.src("app/fonts/**/*.otf")
+    .on("error", onError)
+    .pipe(gulp.dest("dist/assets/fonts"))
+  ;
+});
+
 gulp.task("styles", function() {
   return gulp.src("app/scss/**/*.scss")
     .pipe(scss().on("error", scss.logError))
@@ -61,11 +68,12 @@ gulp.task("copyData", function() {
   ;
 });
 
-gulp.task("dist", ["templates", "js", "styles", "copyImages", "copyVendor", "copyData"]);
+gulp.task("dist", ["templates", "js", "fonts", "styles", "copyImages", "copyVendor", "copyData"]);
 
 gulp.task("watch", ["dist", "browser-sync"], function() {
   gulp.watch("app/templates/**/*.jade", ["templates", browserSync.reload]);
   gulp.watch("app/js/**/*.js", ["js", browserSync.reload]);
+  gulp.watch("app/fonts/**/*.otf", ["fonts", browserSync.reload]);
   gulp.watch("app/scss/**/*.scss", ["styles", browserSync.reload]);
   gulp.watch("app/imgs/**/*.*", ["copyImages", browserSync.reload]);
 });

@@ -1,3 +1,8 @@
+@font-face {
+  font-family: 'Dead';
+  src: url('/assets/fonts/dead_font_walking.otf');
+}
+
 body {
   overflow: hidden;
 }
@@ -153,11 +158,21 @@ body {
 
 #top-right-interface {
   width: 192px;
-  height: 80px;
-  background-color: cyan;
+  height: 77px;
   position: fixed;
   top: 0;
   right: 0;
+  display: none;
+
+  &.clock {
+    font-family: 'Dead';
+    font-size: 60px;
+    color: #9d0000;
+    background-image: url('/assets/imgs/counter.png');
+    background-repeat: no-repeat;
+    padding-left: 35px;
+    padding-top: 10px;
+  }
 }
 
 #bottom-interface-wrapper {
@@ -166,7 +181,6 @@ body {
   height: 0px;
   width: 100%;
   position: fixed;
-  background-color: cyan;
   overflow: visible;
 }
 
