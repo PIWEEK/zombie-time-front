@@ -71,7 +71,7 @@ class Game {
     R.forEachIndexed(processItem, gameInfo.data.map.itemTiles);
     R.forEachIndexed(processSurvivors, gameInfo.data.survivors);
     R.forEachIndexed(processZombies, gameInfo.data.zombies);
-    this.player = getPlayer(gameInfo.data.survivors); // NECCESARY??
+    this.player = getPlayer(gameInfo.data.survivors);
 
     if (this.canvas !== undefined) {
       this.canvas.grid = this.grid;
@@ -81,7 +81,7 @@ class Game {
 
   updateCatched(gameInfo) {
     let players = gameInfo.data.survivors,
-        cleanText = (x) => {x.innerHTML = ""},
+        cleanText = (x) => x.innerHTML = "",
         characterList = document.querySelectorAll('#list-character li');
 
     R.map(cleanText, characterList);
@@ -104,33 +104,41 @@ class Game {
     }, interval);
   }
 
-  sendNoiseMessage() {
-    this.stomp.sendMessage("NOISE", {});
-  }
-
-  sendMoveMessage(point) {
-    this.stomp.sendMessage("MOVE", { point: point.toString() });
-  }
-
-  sendAttackMessage(point) {
-    this.stomp.sendMessage("ATTACK", { point: point.toString() });
-  }
-
-  sendEndTurnMessage() {
-    this.stomp.sendMessage("END_TURN", {});
-  }
-
   clearLightboxes() {
-    let cleanText = (x) => {x.style.display = "none"},
-        lbList = document.querySelectorAll('.inner-lb')
+    let clearText = (x) => x.style.display = "none",
+        lbList = document.querySelectorAll('.inner-lb');
 
-    R.map(cleanText, lbList);
+    R.map(clearText, lbList);
     document.querySelector('.lightbox').style.display = "none";
   }
 
   showLightbox(el) {
     document.querySelector('.lightbox').style.display = "block";
     document.querySelector(`#${el}`).style.display = "block";
+  }
+
+  sendAttackMessage(point) {
+    this.stomp.sendMessage("ATTACK", { point: point.toString() });
+  }
+
+  sendMoveMessage(point) {
+    this.stomp.sendMessage("MOVE", { point: point.toString() });
+  }
+
+  sendSearchMessage() {
+    this.stomp.sendMessage("SEARCH", {});
+  }
+
+  sendSearchMoreMessage(token) {
+    this.stomp.sendMessage("SEARCH_MORE", { token: token });
+  }
+
+  sendNoiseMessage() {
+    this.stomp.sendMessage("NOISE", {});
+  }
+
+  sendEndTurnMessage() {
+    this.stomp.sendMessage("END_TURN", {});
   }
 
   registerEventHandlers() {
@@ -177,9 +185,17 @@ class Game {
           }
           this.canvas.redraw();
         },
-        onInterfaceButtonClick = (e, action) => {
+        onInterfaceButtonClick = (e, action, searchMoreToken) => {
           console.log(` > Me clickan la acción ${action}`);
           switch(action) {
+          case "search":
+            this.sendSearchMessage();
+            this.canvas.currentAction = undefined;
+            break;
+          case "searchMore":
+            this.sendSearchMoreMessage(searchMoreToken);
+            this.canvas.currentAction = undefined;
+            break;
           case "noise":
             this.sendNoiseMessage();
             this.canvas.currentAction = undefined;
