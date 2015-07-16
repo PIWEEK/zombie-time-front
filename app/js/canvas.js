@@ -2,6 +2,7 @@
 
 class Canvas {
   constructor() {
+    this.zombieTime = false;
     this.gameSprite = new Sprite(
       conf.serverUrl + "/assets/imgs/tile.png",
       conf.tileWidth,
@@ -106,6 +107,14 @@ class Canvas {
   }
 
   drawCharacter(spritePos, cellPos, type, number, max) {
+    if (this.zombieTime && type === "zombie") {
+      let specialZombiePositions = [1, 2, 3, 4, 5],
+          random = (limit) => { return Math.floor(Math.random() * limit); },
+          randomZombieSpritePos = specialZombiePositions[random(specialZombiePositions.length)];
+
+      spritePos = randomZombieSpritePos;
+    }
+
     let spriteCoords = this.gameSprite.getImageCoords(spritePos),
         sx = spriteCoords.x * this.gameSprite.imageWidth,
         sy = spriteCoords.y * this.gameSprite.imageHeight,
