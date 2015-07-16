@@ -7,9 +7,6 @@ class Game {
     this.registerEventHandlers();
     this.initialized = false;
     this.interface = new Interface();
-
-    // TO BE DELETED
-    this.interface.show();
   }
 
   initialize(gameInfo) {
@@ -107,7 +104,7 @@ class Game {
             this.updateCatched(message);
           } else if (message.type === "START_GAME") {
             $('#choose-character').hide();
-            $('#top-right-interface').show();
+            game.interface.show();
             this.finalCountDown();
           }
 
