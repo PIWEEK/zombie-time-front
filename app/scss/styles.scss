@@ -201,3 +201,39 @@ body {
   position: initial;
   float: left;
 }
+
+//LIGTHBOXES
+#animation-attack {
+  width: 200px;
+  height: 200px;
+  display: none;
+  background-color: red;
+}
+
+#find-item {
+  width: 200px;
+  height: 200px;
+  display: none;
+  background-color: cyan;
+}
+
+#zombie-time {
+  width: 200px;
+  height: 200px;
+  display: none;
+  background-color: yellow;
+}
+
+#zombie-attack {
+  width: 200px;
+  height: 200px;
+  display: none;
+  background-color: blue;
+}
+
+#end-game {
+  width: 200px;
+  height: 200px;
+  display: none;
+  background-color: black;
+}
