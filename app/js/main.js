@@ -23,6 +23,7 @@ Mousetrap.bind('3 1 4 w e e k', function() {
   console.log(" >> IT'S ZOMBIE TIME!!");
   console.log('--------------------------------------');
   game.canvas.redraw();
+  document.querySelector('#zt-audio').play();
 });
 
 Mousetrap.bind('3 1 4 e n d', function() {
