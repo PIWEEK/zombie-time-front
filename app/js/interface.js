@@ -27,7 +27,8 @@ class Interface {
           ["#move-button.menu-element", "move"],
           ["#search-button.menu-element", "search"],
           ["#noise-button.menu-element", "noise"],
-          ["#chat-button.menu-element", "chat"]
+          ["#chat-button.menu-element", "chat"],
+          ["#end-turn-button.menu-element", "endTurn"]
         ],
         addClickListener = (el) => {
           document.querySelector(R.head(el)).addEventListener("click", () => {

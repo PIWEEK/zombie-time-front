@@ -21,6 +21,10 @@ class Game {
   }
 
   parseGameInfo(gameInfo) {
+    const username = utils.getQueryParams().username,
+          getLeader = R.find(R.propEq("leader", true)),
+          isFromPlayer = R.filter(R.propEq("player", username)),
+          getPlayer = R.compose(getLeader, isFromPlayer);
     let processSimpleLayer = (layer, val, idx, list) => {
       let shiftedVal = val - 1;
 
@@ -67,8 +71,12 @@ class Game {
     R.forEachIndexed(processItem, gameInfo.data.map.itemTiles);
     R.forEachIndexed(processSurvivors, gameInfo.data.survivors);
     R.forEachIndexed(processZombies, gameInfo.data.zombies);
+    this.player = getPlayer(gameInfo.data.survivors); // NECCESARY??
 
-    if (this.canvas !== undefined) this.canvas.grid = this.grid;
+    if (this.canvas !== undefined) {
+      this.canvas.grid = this.grid;
+      this.canvas.player = getPlayer(gameInfo.data.survivors);
+    };
   }
 
   updateCatched(gameInfo) {
@@ -101,7 +109,15 @@ class Game {
   }
 
   sendMoveMessage(point) {
-    this.stomp.sendMessage("MOVE", { point: point });
+    this.stomp.sendMessage("MOVE", { point: point.toString() });
+  }
+
+  sendAttackMessage(point) {
+    this.stomp.sendMessage("ATTACK", { point: point.toString() });
+  }
+
+  sendEndTurnMessage() {
+    this.stomp.sendMessage("END_TURN", {});
   }
 
   clearLightboxes() {
@@ -149,17 +165,33 @@ class Game {
         onCellClick = (e, cell) => {
           console.log('***********************************');
           console.log(` >> CELL -- ${cell}`);
+          console.log(` >> ACTION -- ${this.canvas.currentAction}`);
           console.log('***********************************');
+
+          if (this.canvas.currentAction == "move" && R.contains(cell, this.player.canMoveTo)) {
+            this.sendMoveMessage(cell);
+            this.canvas.currentAction = undefined;
+          } else if (this.canvas.currentAction == "attack" && R.contains(cell, this.player.canAttackTo)) {
+            this.sendAttackMessage(cell);
+            this.canvas.currentAction = undefined;
+          }
+          this.canvas.redraw();
         },
         onInterfaceButtonClick = (e, action) => {
           console.log(` > Me clickan la acción ${action}`);
           switch(action) {
           case "noise":
             this.sendNoiseMessage();
+            this.canvas.currentAction = undefined;
+            break;
+          case "endTurn":
+            this.sendEndTurnMessage();
+            this.canvas.currentAction = undefined;
             break;
           default:
-            this.currentAction = action;
+            this.canvas.currentAction = action;
           }
+          this.canvas.redraw();
         };
 
     w.on("message.stomp.zt", onMessage);

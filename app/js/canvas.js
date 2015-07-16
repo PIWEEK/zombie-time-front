@@ -52,15 +52,33 @@ class Canvas {
     this.transform.scale(this.currentScale, this.currentScale);
     this.applyTransform();
 
-
     this.gameSprite.loadPromise.then(() => {
       this.ctx.clearRect(0, 0, this.map.sizeX * conf.tileWidth, this.map.sizeY * conf.tileHeight);
       R.forEach((el) => drawCell(el[0], el[1]), R.toPairs(this.grid));
+      if (this.currentAction == "move") {
+        this.ctx.globalAlpha = 0.4;
+        this.ctx.fillStyle = "#3333FF";
+        R.forEach(this.drawRectangle.bind(this), this.player.canMoveTo);
+        this.ctx.globalAlpha = 1;
+        this.ctx.fillStyle = "#000000";
+      } else if (this.currentAction == "attack") {
+        this.ctx.globalAlpha = 0.4;
+        this.ctx.fillStyle = "#FF0000";
+        R.forEach(this.drawRectangle.bind(this), this.player.canAttackTo);
+        this.ctx.globalAlpha = 1;
+        this.ctx.fillStyle = "#000000";
+      }
     });
   }
 
   getCellCoords(position) {
     return utils.getCellCoords(position, this.map.sizeX, this.map.sizeY);
+  }
+
+  drawRectangle(cellPos) {
+    let cellCoords = this.getCellCoords(cellPos);
+
+    this.ctx.fillRect(cellCoords.x * conf.tileWidth, cellCoords.y * conf.tileWidth, conf.tileWidth, conf.tileHeight);
   }
 
   drawImage(spritePos, cellPos) {
