@@ -1,4 +1,4 @@
-/*global Image, location */
+/*global Image, location, conf */
 
 let utils = {
   getViewportSize: () => {
@@ -16,6 +16,12 @@ let utils = {
         cellModule = Math.floor(position / sizeX);
 
     return { x: cellFloor, y: cellModule };
+  },
+  getCellForCoords: (x, y, sizeX) => {
+    let posX = Math.floor(x / conf.tileWidth),
+        posY = Math.floor(y / conf.tileHeight);
+
+    return (posY * sizeX) + posX;
   },
   getQueryParams: () => {
     let searchString = location.search;
