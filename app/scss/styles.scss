@@ -203,37 +203,54 @@ body {
 }
 
 //LIGTHBOXES
-#animation-attack {
+.lightbox {
+  z-index: 1000;
+  position: fixed;
+  top: 50px;
+  left: 50px;
   width: 200px;
-  height: 200px;
+  height: 210px;
   display: none;
-  background-color: red;
+
+  #close-lb {
+    width: 200px;
+    height: 10px;
+    display: none;
+  }
+
+  #animation-attack {
+    width: 200px;
+    height: 200px;
+    display: none;
+    background-color: red;
+  }
+
+  #find-item {
+    width: 200px;
+    height: 200px;
+    display: none;
+    background-color: cyan;
+  }
+
+  #zombie-time {
+    width: 200px;
+    height: 200px;
+    display: none;
+    background-color: yellow;
+  }
+
+  #zombie-attack {
+    width: 200px;
+    height: 200px;
+    display: none;
+    background-color: blue;
+  }
+
+  #end-game {
+    width: 200px;
+    height: 200px;
+    display: none;
+    background-color: black;
+  }
 }
 
-#find-item {
-  width: 200px;
-  height: 200px;
-  display: none;
-  background-color: cyan;
-}
-
-#zombie-time {
-  width: 200px;
-  height: 200px;
-  display: none;
-  background-color: yellow;
-}
-
-#zombie-attack {
-  width: 200px;
-  height: 200px;
-  display: none;
-  background-color: blue;
-}
-
-#end-game {
-  width: 200px;
-  height: 200px;
-  display: none;
-  background-color: black;
-}

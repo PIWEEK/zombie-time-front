@@ -7,6 +7,7 @@ class Game {
     this.registerEventHandlers();
     this.initialized = false;
     this.interface = new Interface();
+    this.lightbox = new Lightbox();
   }
 
   initialize(gameInfo) {
@@ -102,6 +103,19 @@ class Game {
     this.stomp.sendMessage("MOVE", { point: point });
   }
 
+  clearLightboxes() {
+    let cleanText = (x) => {x.style.display = "none"},
+        lbList = document.querySelectorAll('.inner-lb')
+
+    R.map(cleanText, lbList);
+    document.querySelector('.lightbox').style.display = "none";
+  }
+
+  showLightbox(el) {
+    document.querySelector('.lightbox').style.display = "block";
+    document.querySelector(`#${el}`).style.display = "block";
+  }
+
   registerEventHandlers() {
     let w = $(window),
         onMessage = (e, message) => {
@@ -112,6 +126,21 @@ class Game {
             $('#choose-character').hide();
             game.interface.show();
             this.finalCountDown();
+          } else if (message.type === "ANIMATION_ATTACK") {
+            this.lightbox.hideAll();
+            this.lightbox.show('#animation-attack');
+          } else if (message.type === "FIND_ITEM") {
+            this.lightbox.hideAll();
+            this.lightbox.show('#find-item');
+          } else if (message.type === "ZOMBIE_TIME") {
+            this.lightbox.hideAll();
+            this.lightbox.show('#zombie-time');
+          } else if (message.type === "ZOMBIE_ATTACK") {
+            this.lightbox.hideAll();
+            this.lightbox.show('#zombie-attack');
+          } else if (message.type === "END_GAME") {
+            this.lightbox.hideAll();
+            this.lightbox.show('#end-game');
           }
 
           this.canvas.redraw();

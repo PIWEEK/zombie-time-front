@@ -14,31 +14,6 @@ html
     script(src="/vendor/sockjs-client/dist/sockjs.min.js")
 
   body
-    #content
-
-    #top-left-interface.interface
-
-    #top-right-interface.interface.clock
-
-    #bottom-interface-wrapper.interface
-      #bottom-interface.interface
-        #user-profile.menu-element
-          p USER
-        #inventory.menu-element
-          p INVENTORY
-        #attack-button.menu-element
-          p ATTACK
-        #move-button.menu-element
-          p MOVE
-        #search-button.menu-element
-          p SEARCH
-        #noise-button.menu-element
-          p NOISE
-        #partners
-        #chat-button.menu-element
-          p CHAT
-
-
     #help
       #help-content
         ul
@@ -47,9 +22,7 @@ html
           li r => Reset Zoom and Position
           li h => Show this help dialog
 
-
     #choose-character
-
       #detail-character
         .detail.pablo#pablo
           h2 Pablo
@@ -69,7 +42,6 @@ html
         .detail.alex#alex
           h2 alex
           p  alex mola
-
         .want.leader ¡Me lo pido de líder!
         .want.follower ¡Me lo pido de seguidor!
         .want.ready ¡Estoy lista!
@@ -83,17 +55,38 @@ html
           li.laura
           li.alex
 
-    // LIGHTBOXES
-    #animation-attack ANIMATION-ATTACK
+    // canvas
+    #content
 
-    #find-item FIND-ITEM
+    #top-left-interface.interface
 
-    #zombie-time ZOMBIE-TIME
+    #top-right-interface.interface.clock
 
-    #zombie-attack ZOMBIE-TIME
+    .lightbox
+      #close-lb x
+      .inner-lb#animation-attack ANIMATION-ATTACK
+      .inner-lb#find-item FIND-ITEM
+      .inner-lb#zombie-time ZOMBIE-TIME
+      .inner-lb#zombie-attack ZOMBIE-ATTACK
+      .inner-lb#end-game END-GAME
 
-    #end-game END-GAME
-
+    #bottom-interface-wrapper.interface
+      #bottom-interface.interface
+        #user-profile.menu-element
+          p USER
+        #inventory.menu-element
+          p INVENTORY
+        #attack-button.menu-element
+          p ATTACK
+        #move-button.menu-element
+          p MOVE
+        #search-button.menu-element
+          p SEARCH
+        #noise-button.menu-element
+          p NOISE
+        #partners
+        #chat-button.menu-element
+          p CHAT
 
     // Javascript
     script(src="/assets/js/transform.js")
@@ -103,6 +96,7 @@ html
     script(src="/assets/js/utils.js")
     script(src="/assets/js/sprite.js")
     script(src="/assets/js/interface.js")
+    script(src="/assets/js/lightbox.js")
     script(src="/assets/js/canvas.js")
     script(src="/assets/js/map.js")
     script(src="/assets/js/game.js")
