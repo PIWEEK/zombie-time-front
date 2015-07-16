@@ -33,17 +33,27 @@ class Canvas {
 
   redraw() {
     const drawCell = (cellNumber, cellContent) => {
-      const drawImageInCell = R.curry(this.drawImage.bind(this))(R.__, cellNumber),
-            getAvatars = R.map(R.prop("avatar"));
+      const cellOccupation = R.prop(cellNumber, this.gridOccupation),
+            zombieOccupation = cellOccupation === undefined ? 0 : cellOccupation["zombies"] === undefined ? cellOccupation["zombies"] : 0,
+            survivorOccupation = cellOccupation === undefined ? 0 : cellOccupation["survivors"] === undefined ? cellOccupation["survivors"] : 0,
+            drawBackgroundInCell = R.curry(this.drawBackground.bind(this))(R.__, cellNumber),
+            drawZombieInCell = R.curry(this.drawCharacter.bind(this))(R.__, cellNumber, "zombie", R.__, zombieOccupation),
+            drawSurvivorInCell = R.curry(this.drawCharacter.bind(this))(R.__, cellNumber, "survivor", R.__, survivorOccupation);
 
-      drawImageInCell(cellContent.floor);
-      drawImageInCell(cellContent.wall);
-      drawImageInCell(cellContent.item);
+      console.log('========================================');
+      console.log(` > CELDA: ${cellNumber}`);
+      console.log(` > Zombies: ${zombieOccupation}`);
+      console.log(` > Survivors: ${survivorOccupation}`);
+      console.log('========================================');
+
+      drawBackgroundInCell(cellContent.floor);
+      drawBackgroundInCell(cellContent.wall);
+      drawBackgroundInCell(cellContent.item);
       if (cellContent.zombies) {
-        R.forEach(drawImageInCell, getAvatars(cellContent.zombies));
+        R.forEachIndexed((val, idx, list) => drawZombieInCell(val.avatar, idx), cellContent.zombies);
       }
       if (cellContent.survivors) {
-        R.forEach(drawImageInCell, getAvatars(cellContent.survivors));
+        R.forEach((val, idx, list) => drawSurvivorInCell(val.avatar, idx), cellContent.survivors);
       }
     };
 
@@ -81,7 +91,7 @@ class Canvas {
     this.ctx.fillRect(cellCoords.x * conf.tileWidth, cellCoords.y * conf.tileWidth, conf.tileWidth, conf.tileHeight);
   }
 
-  drawImage(spritePos, cellPos) {
+  drawBackground(spritePos, cellPos) {
     let spriteCoords = this.gameSprite.getImageCoords(spritePos),
         sx = spriteCoords.x * this.gameSprite.imageWidth,
         sy = spriteCoords.y * this.gameSprite.imageHeight,
@@ -89,10 +99,33 @@ class Canvas {
         dx = cellCoords.x * conf.tileWidth,
         dy = cellCoords.y * conf.tileHeight;
 
-    this.ctx.drawImage(
-      this.gameSprite.image,
-      sx, sy, this.gameSprite.imageWidth, this.gameSprite.imageHeight,
-      dx, dy, conf.tileWidth, conf.tileHeight);
+      this.ctx.drawImage(
+        this.gameSprite.image,
+        sx, sy, this.gameSprite.imageWidth, this.gameSprite.imageHeight,
+        dx, dy, conf.tileWidth, conf.tileHeight);
+  }
+
+  drawCharacter(spritePos, cellPos, type, number, max) {
+    let spriteCoords = this.gameSprite.getImageCoords(spritePos),
+        sx = spriteCoords.x * this.gameSprite.imageWidth,
+        sy = spriteCoords.y * this.gameSprite.imageHeight,
+        cellCoords = this.getCellCoords(cellPos),
+        dx = cellCoords.x * conf.tileWidth,
+        dy = cellCoords.y * conf.tileHeight + (conf.tileHeight / 4),
+        halfTileWidth = conf.tileWidth / 2,
+        halfTileHeight = conf.tileHeight / 2;
+
+    if (type === "zombie") {
+      this.ctx.drawImage(
+        this.gameSprite.image,
+        sx, sy, this.gameSprite.imageWidth, this.gameSprite.imageHeight,
+        dx, dy, halfTileWidth, halfTileHeight);
+    } else {
+      this.ctx.drawImage(
+        this.gameSprite.image,
+        sx, sy, this.gameSprite.imageWidth, this.gameSprite.imageHeight,
+        dx + (conf.tileWidth / 2), dy, halfTileWidth, halfTileHeight);
+    }
   }
 
   zoomIn(delta) {

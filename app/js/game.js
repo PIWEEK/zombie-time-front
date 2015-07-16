@@ -82,7 +82,6 @@ class Game {
       sizeX: gameInfo.data.map.width,
       sizeY: gameInfo.data.map.height
     };
-    this.gridOccupation = this.getGridOccupation(gameInfo.data);
     this.victoryConditions = gameInfo.victoryConditions;
 
     R.forEachIndexed(processFloor, gameInfo.data.map.floorTiles);
@@ -91,10 +90,12 @@ class Game {
     R.forEachIndexed(processSurvivors, gameInfo.data.survivors);
     R.forEachIndexed(processZombies, gameInfo.data.zombies);
     this.player = getPlayer(gameInfo.data.survivors);
+    this.gridOccupation = this.getGridOccupation(gameInfo.data);
 
     if (this.canvas !== undefined) {
       this.canvas.grid = this.grid;
       this.canvas.player = getPlayer(gameInfo.data.survivors);
+      this.canvas.gridOccupation = this.getGridOccupation(gameInfo.data);
     };
   }
 
