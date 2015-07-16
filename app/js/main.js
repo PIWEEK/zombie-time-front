@@ -17,6 +17,22 @@ Mousetrap.bind('h', function() {
   $('#help').hide();
 }, 'keyup');
 
+Mousetrap.bind('3 1 4 w e e k', function() {
+  game.canvas.zombieTime = true;
+  console.log('--------------------------------------');
+  console.log(" >> IT'S ZOMBIE TIME!!");
+  console.log('--------------------------------------');
+  game.canvas.redraw();
+});
+
+Mousetrap.bind('3 1 4 e n d', function() {
+  game.canvas.zombieTime = false;
+  console.log('--------------------------------------');
+  console.log(" >> ZOMBIE TIME IS OVER");
+  console.log('--------------------------------------');
+  game.canvas.redraw();
+});
+
 
 /**********************************************
  * Click
