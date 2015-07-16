@@ -50,3 +50,8 @@ let ready = document.querySelector('.ready');
 ready.addEventListener("click", function (e) {
     game.stomp.sendMessage('PLAYER_READY', {});
 });
+
+let close = document.querySelector('#close-lb');
+close.addEventListener("click", function (e) {
+    game.lightbox.hideAll();
+});
