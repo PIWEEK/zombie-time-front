@@ -116,7 +116,6 @@ class Canvas {
   }
 
   drawNoise(cellPos, noiseLevel) {
-    debugger;
     let cellCoords = this.getCellCoords(cellPos),
         dx = cellCoords.x * conf.tileWidth,
         dy = cellCoords.y * conf.tileHeight;
@@ -127,8 +126,8 @@ class Canvas {
         0, 0, 64, 64,
         dx, dy, 64, 64);
 
-      this.ctx.fillStyle = "#000000";
-      this.ctx.font = "45px Dead";
+      this.ctx.fillStyle = "#FFFFFF";
+      this.ctx.font = "35px Dead";
       this.ctx.fillText(noiseLevel, dx + 20, dy + 47);
       this.ctx.fillStyle = "#000000";
     });
