@@ -85,6 +85,7 @@ class Game {
     };
     this.victoryConditions = gameInfo.data.victoryConditions;
     this.missions = gameInfo.data.missions;
+    this.catchedSurvivors = gameInfo.data.catchedSurvivors;
 
     R.forEachIndexed(processFloor, gameInfo.data.map.floorTiles);
     R.forEachIndexed(processWall, gameInfo.data.map.wallTiles);
@@ -107,16 +108,14 @@ class Game {
   }
 
   updateCatched(gameInfo) {
-    let players = gameInfo.data.survivors,
+    let survivors = gameInfo.data.catchedSurvivors,
         cleanText = (x) => x.innerHTML = "",
-        characterList = document.querySelectorAll('#list-character li');
+        characterList = document.querySelectorAll('#list-character li p');
 
     R.map(cleanText, characterList);
 
-    for (let p in players) {
-      let player = players[p];
-      document.querySelector(
-        `#list-character .${player.slug}`).innerHTML = player.player;
+    for (let s in survivors) {
+      document.querySelector(`#list-character .${s} p`).innerHTML = R.join(', ', survivors[s]);
     }
   }
 

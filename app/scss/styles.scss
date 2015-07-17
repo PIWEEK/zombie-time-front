@@ -50,6 +50,13 @@ body {
     text-align: center;
     float: left;
 
+    p {
+      font-family: 'Dead';
+      font-size: 30px;
+      color: #550000;
+      background-color: #FFF;
+    }
+
     &.pablo {
       background-image: url('/assets/imgs/survivors/pablo.png');
     }
@@ -79,22 +86,27 @@ body {
 #detail-character {
   width: 400px;
   height: 100%;
+  margin-left: 300px;
 
   .detail {
     display: none;
-    background-position: center 50px;
+    background-position: center 25px;
     background-repeat: no-repeat;
-    height: 80%;
+    height: 65%;
     position: relative;
 
     h2 {
       margin-top: 20px;
       text-align: center;
+      font-family: 'Dead';
+      font-size: 30px;
+      color: #550000;
     }
 
     p {
       margin-top: 350px;
       margin-left: 50px;
+      font-size: 20px;
     }
 
     &.pablo {
@@ -123,22 +135,27 @@ body {
   }
 
   .want {
-    width: 200px;
+    width: 400px;
+    height: 90px;
     margin-left: 50px;
     background: grey;
     text-align: center;
+    padding-top: 20px;
     display: none;
+    background-image: url('/assets/imgs/goals.png');
+    background-color: white;
+    background-repeat: no-repeat;
+    font-family: 'Dead';
+    font-size: 30px;
+    color: #550000;
 
     &.leader {
-      margin-bottom: 30px;
     }
 
     &.follower {
-      margin-bottom: 20px;
     }
 
     &.ready {
-      margin-bottom: 10px;
     }
   }
 }
