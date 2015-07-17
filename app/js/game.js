@@ -191,6 +191,10 @@ class Game {
       element.addClass(className);
   }
 
+  getItem(){
+        this.stomp.sendMessage('GET_OBJECT', {item: this.foundItem});
+        this.lightbox.hideAll();
+  }
 
   registerEventHandlers() {
     let w = $(window),
@@ -219,6 +223,7 @@ class Game {
                     $("#find-item .content .item1").attr("src","/assets/imgs/"+message.data.items[0].slug+".png");
                     $("#find-item .content .info1 .item-title").text(message.data.items[0].name);
                     $("#find-item .content .info1 .item-description").text(message.data.items[0].description);
+                    this.foundItem = message.data.items[0].id
 
                     this.lightbox.show('#find-item');
                 }
@@ -270,6 +275,7 @@ class Game {
 
           this.canvas.redraw();
         },
+
         onCellClick = (e, cell) => {
           if (this.canvas.currentAction == "move" && R.contains(cell, this.player.canMoveTo)) {
             this.sendMoveMessage(cell);
@@ -309,5 +315,6 @@ class Game {
     w.on("message.stomp.zt", onMessage);
     w.on("cellClick.canvas.zt", onCellClick);
     w.on("buttonClick.interface.zt", onInterfaceButtonClick);
+
   }
 }

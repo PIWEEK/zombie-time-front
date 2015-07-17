@@ -77,3 +77,8 @@ let goals = document.querySelector('#top-left-interface');
 goals.addEventListener("click", function (e) {
     game.lightbox.show('#goals');
 });
+
+let want = document.querySelector('#find-item .want');
+want.addEventListener("click", function (e) {
+    game.getItem();
+});
