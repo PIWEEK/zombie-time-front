@@ -53,13 +53,6 @@ class Canvas {
             drawZombieInCell = R.curry(this.drawCharacter.bind(this))(R.__, cellNumber, "zombie", R.__, zombieOccupation, totalOccupation),
             drawSurvivorInCell = R.curry(this.drawCharacter.bind(this))(R.__, cellNumber, "survivor", R.__, survivorOccupation, totalOccupation);
 
-     /* console.log('========================================');
-      console.log(` > CELDA: ${cellNumber}`);
-      console.log(` > Zombies: ${zombieOccupation}`);
-      console.log(` > Survivors: ${survivorOccupation}`);
-      console.log(` > TotalOccupation: ${totalOccupation}`);
-      console.log('========================================');*/
-
       drawBackgroundInCell(cellContent.floor);
       drawBackgroundInCell(cellContent.wall);
       drawBackgroundInCell(cellContent.item);
@@ -143,17 +136,75 @@ class Canvas {
           this.gameSprite.image,
           sx, sy, this.gameSprite.imageWidth, this.gameSprite.imageHeight,
           dx, dy, halfTileWidth, halfTileHeight);
+
+        if (typeOccupation > 1) {
+          let radius = conf.tileWidth / 8,
+              x = dx + (conf.tileWidth / 2) - 20,
+              y = dy + (conf.tileWidth / 2) - 20,
+              startAngle = 0,
+              endingAngle = 2 * Math.PI;
+
+          // contorno del círculo 800000
+          this.ctx.beginPath();
+          this.ctx.arc(x, y, radius, startAngle, endingAngle);
+          // Contorno
+          this.ctx.lineWidth = 5;
+          this.ctx.fillStyle = "#800000";
+          this.ctx.stroke();
+          this.ctx.lineWidth = 1;
+          // Interior
+          this.ctx.fillStyle="#F5D8D8";
+          this.ctx.fill();
+          // Texto
+          this.ctx.fillStyle = "#7E0101";
+          this.ctx.font = "55px Dead";
+          this.ctx.fillText(typeOccupation, x - (conf.tileWidth / 16) + 5, y + (conf.tileWidth / 16) + 3);
+          this.ctx.fillStyle = "#000000";
+        }
       } else {
+        // antes de pintar, typeOccupation nos da un shift hacia arriba que tenemos que pintar teniendo en cuenta number
         this.ctx.drawImage(
           this.gameSprite.image,
           sx, sy, this.gameSprite.imageWidth, this.gameSprite.imageHeight,
           dx + (conf.tileWidth / 2), dy, halfTileWidth, halfTileHeight);
       }
     } else {
-      this.ctx.drawImage(
-        this.gameSprite.image,
-        sx, sy, this.gameSprite.imageWidth, this.gameSprite.imageHeight,
-        dx + (conf.tileWidth / 4), dy, halfTileWidth, halfTileHeight);
+      if (type === "zombie") {
+        this.ctx.drawImage(
+          this.gameSprite.image,
+          sx, sy, this.gameSprite.imageWidth, this.gameSprite.imageHeight,
+          dx + (conf.tileWidth / 4), dy, halfTileWidth, halfTileHeight);
+
+        if (typeOccupation > 1) {
+          let radius = conf.tileWidth / 8,
+              x = dx + ((conf.tileWidth / 4) * 3) - 20,
+              y = dy + (conf.tileWidth / 2) - 20,
+              startAngle = 0,
+              endingAngle = 2 * Math.PI;
+
+          // contorno del círculo 800000
+          this.ctx.beginPath();
+          this.ctx.arc(x, y, radius, startAngle, endingAngle);
+          // Contorno
+          this.ctx.lineWidth = 5;
+          this.ctx.fillStyle = "#800000";
+          this.ctx.stroke();
+          this.ctx.lineWidth = 1;
+          // Interior
+          this.ctx.fillStyle="#F5D8D8";
+          this.ctx.fill();
+          // Texto
+          this.ctx.fillStyle = "#7E0101";
+          this.ctx.font = "55px Dead";
+          this.ctx.fillText(typeOccupation, x - (conf.tileWidth / 16) + 5, y + (conf.tileWidth / 16) + 3);
+          this.ctx.fillStyle = "#000000";
+        }
+      } else {
+        this.ctx.drawImage(
+          this.gameSprite.image,
+          sx, sy, this.gameSprite.imageWidth, this.gameSprite.imageHeight,
+          dx + (conf.tileWidth / 4), dy, halfTileWidth, halfTileHeight);
+      }
     }
   }
 
