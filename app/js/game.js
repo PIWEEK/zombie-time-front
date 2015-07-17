@@ -262,6 +262,33 @@ class Game {
             this.lightbox.show('#zombie-attack');
           } else if (message.type === "END_GAME") {
             this.lightbox.hideAll();
+
+            let text = "You lose :("
+
+            if (message.data.win) {
+                text = "You win!"
+            }
+
+            $("#end-game .win").text(text);
+
+            $("#end-game .missions .mission").remove();
+            let i=0;
+            for (i=0;i < message.data.missions.length;i++) {
+                let mission = $("<div />")
+                mission.addClass(".mission");
+                let text = message.data.missions[i].player + ": "+message.data.missions[i].name;
+                if (message.data.missions[i].success){
+                    text += " SUCCESS!"
+                } else {
+                    text += " FAIL"
+                }
+                mission.text(text);
+                $("#end-game .missions").append(mission);
+            }
+
+
+
+
             this.lightbox.show('#end-game');
           }
 

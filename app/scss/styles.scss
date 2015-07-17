@@ -19,6 +19,7 @@ body {
   display: none;
 }
 
+
 #help-content {
   margin: 20px;
 }
@@ -321,6 +322,7 @@ body {
     }
   }
 
+  #find-item {
     text-align: center;
     font-family: 'Dead';
     color: #550000;
@@ -348,6 +350,32 @@ body {
             }
         }
     }
+  }
+  #end-game {
+    text-align: center;
+    font-family: 'Dead';
+    color: #550000;
+
+    .title {
+        text-align: center;
+        font-size: 96px;
+        margin-top: 70px;
+    }
+    .subtitle {
+        text-align: center;
+        font-size: 70px;
+        margin-top: 10px;
+    }
+
+    .missions {
+        text-align: center;
+        font-size: 40px;
+        margin-top: 10px;
+        .mission {
+            font-size: 24px;
+        }
+    }
+  }
   #zombie-time {
     display: none;
 
