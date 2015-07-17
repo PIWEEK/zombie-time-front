@@ -205,9 +205,36 @@ body {
   margin-bottom: 3px;
   margin-left: 3px;
   margin-right: 3px;
-  background-color: green;
   position: initial;
   float: left;
+}
+
+#attack-button {
+  background-image: url('/assets/imgs/button-interface/botonarma.png');
+}
+
+#inventory {
+  background-image: url('/assets/imgs/button-interface/botonarma.png');
+}
+
+#attack-button {
+  background-image: url('/assets/imgs/button-interface/botonarma.png');
+}
+
+#move-button {
+  background-image: url('/assets/imgs/button-interface/botonmover.png');
+}
+
+#search-button {
+  background-image: url('/assets/imgs/button-interface/botonbuscar.png');
+}
+
+#noise-button {
+  background-image: url('/assets/imgs/button-interface/botonruido.png');
+}
+
+#end-turn-button {
+  background-image: url('/assets/imgs/button-interface/botonruido.png');
 }
 
 //LIGTHBOXES
