@@ -172,13 +172,7 @@ class Game {
   }
 
   getSurvivorById(id){
-    let i = 0;
-
-    for (i=0; i < this.survivors.length; i++) {
-      if (this.survivors[i].id == id) {
-        return this.survivors[i];
-      }
-    }
+    return R.find(R.propEq("id", id), this.survivors);
   }
 
   setSurvivorClass(element, className){
