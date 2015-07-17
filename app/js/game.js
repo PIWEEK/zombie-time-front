@@ -109,6 +109,67 @@ class Game {
       this.canvas.player = getPlayer(gameInfo.data.survivors);
       this.canvas.gridOccupation = this.getGridOccupation(gameInfo.data);
     };
+
+
+    if (this.player !== undefined) {
+
+        if(this.player.inventory !== undefined)){
+            this.drawInventory(this.player, this.player.inventory);
+        }
+    }
+
+
+
+  }
+
+  drawInventory(player, inventory){
+      console.log("Draw inventory");
+      $("#inventory .content").html("")
+      let i = 0;
+      for (i=0;i<inventory.length;i++){
+          let img = $("<img />");
+          img.addClass("inventory-item");
+          img.attr("src","/assets/imgs/"+inventory[i].slug+".png");
+          img.data("id", inventory[i].id);
+          $("#inventory .content").append(img);
+
+
+          img.click(function (e) {
+            game.useItem(this);
+          });
+
+
+      }
+
+      $("#inventory .equip").html("");
+      let img = $("<img />");
+      img.addClass("inventory-item");
+      img.addClass("selected");
+      img.attr("src","/assets/imgs/"+player.weapon.slug+".png");
+      img.data("id", player.weapon.id);
+      $("#inventory .equip").append(img);
+
+      img.click(function (e) {
+            game.useItem(this);
+      });
+
+
+      if (player.defense.slug != undefined) {
+          let img = $("<img />");
+          img.addClass("inventory-item");
+          img.addClass("selected");
+          img.attr("src","/assets/imgs/"+player.defense.slug+".png");
+          img.data("id", player.defense.id);
+          $("#inventory .equip").append(img);
+
+          img.click(function (e) {
+            game.useItem(this);
+          });
+      }
+  }
+
+  useItem(item){
+      this.stomp.sendMessage('USE_OBJECT', { item: $(item).data("id") });
   }
 
   updateCatched(gameInfo) {

@@ -224,6 +224,7 @@ body {
 }
 
 .menu-element {
+
   height: 114px;
   width: 114px;
   margin-top: 3px;
@@ -236,6 +237,28 @@ body {
 
 #inventory {
   background-image: url('/assets/imgs/button-interface/casillamochilactiva.png');
+
+  .content {
+    margin-left: 5px;
+    width: 55px;
+    display: inline-block;
+  }
+
+  .equip {
+    margin-left: 5px;
+    width: 25px;
+    display: inline-block;
+  }
+
+  .inventory-item {
+    width: 22px;
+    height: 22px;
+    margin-left: 5px;
+    margin-top: 10px;
+    &.selected {
+        border:solid 2px red;
+    }
+  }
 }
 
 #attack-button {
