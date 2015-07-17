@@ -163,7 +163,7 @@ class Canvas {
         }
       } else {
         // antes de pintar, typeOccupation nos da un shift hacia arriba que tenemos que pintar teniendo en cuenta number
-        let shift = 25 * (number - 1);
+        let shift = 25 * number;
 
         this.ctx.drawImage(
           this.gameSprite.image,
@@ -202,7 +202,7 @@ class Canvas {
           this.ctx.fillStyle = "#000000";
         }
       } else {
-        let shift = 25 * (number - 1);
+        let shift = 25 * number;
 
         this.ctx.drawImage(
           this.gameSprite.image,
