@@ -176,18 +176,18 @@ class Game {
   }
 
   setSurvivorClass(element, className){
-      element.removeClass('pablo');
-      element.removeClass('xenia');
-      element.removeClass('miguel');
-      element.removeClass('laura');
-      element.removeClass('yami');
-      element.removeClass('alex');
-      element.addClass(className);
+    element.removeClass('pablo');
+    element.removeClass('xenia');
+    element.removeClass('miguel');
+    element.removeClass('laura');
+    element.removeClass('yami');
+    element.removeClass('alex');
+    element.addClass(className);
   }
 
   getItem(){
-        this.stomp.sendMessage('GET_OBJECT', {item: this.foundItem});
-        this.lightbox.hideAll();
+    this.stomp.sendMessage('GET_OBJECT', { item: this.foundItem });
+    this.lightbox.hideAll();
   }
 
   registerEventHandlers() {
@@ -211,46 +211,43 @@ class Game {
             this.lightbox.show('#animation-attack');
 
           } else if (message.type === "FIND_ITEM") {
-              if (message.user == game.player.player) {
-                    this.lightbox.hideAll();
+            if (message.user == game.player.player) {
+              this.lightbox.hideAll();
 
-                    $("#find-item .content .item1").attr("src","/assets/imgs/"+message.data.items[0].slug+".png");
-                    $("#find-item .content .info1 .item-title").text(message.data.items[0].name);
-                    $("#find-item .content .info1 .item-description").text(message.data.items[0].description);
-                    this.foundItem = message.data.items[0].id
+              $("#find-item .content .item1").attr("src","/assets/imgs/"+message.data.items[0].slug+".png");
+              $("#find-item .content .info1 .item-title").text(message.data.items[0].name);
+              $("#find-item .content .info1 .item-description").text(message.data.items[0].description);
+              this.foundItem = message.data.items[0].id;
 
-                    this.lightbox.show('#find-item');
-                }
+              this.lightbox.show('#find-item');
+            }
           } else if (message.type === "ZOMBIE_TIME") {
             this.lightbox.hideAll();
 
-
             $("#zombie-time .survivors").html("");
 
+            let i = 0;
 
-
-            let i = 0
             for (i=0; i<message.data.damages.length;i++) {
-                let survivor = $("<img />")
-                survivor.addClass("survivor");
-                survivor.attr("src","/assets/imgs/survivors/" + message.data.damages[0].survivor +".png");
-                $("#zombie-time .survivors").append(survivor);
+              let survivor = $("<img />");
+
+              survivor.addClass("survivor");
+              survivor.attr("src","/assets/imgs/survivors/" + message.data.damages[0].survivor + ".png");
+              $("#zombie-time .survivors").append(survivor);
 
 
-                let text = message.data.damages[0].damage + " damage"
-                if (message.data.damages[0].death) {
-                    text += " (R.I.P.)"
-                }
+              let text = message.data.damages[0].damage + " damage";
+              if (message.data.damages[0].death) {
+                text += " (R.I.P.)";
+              }
 
-                survivor = $("<div />")
-                survivor.addClass("survivor");
-                survivor.text(text)
-                $("#zombie-time .info").append(survivor)
+              survivor = $("<div />");
+              survivor.addClass("survivor");
+              survivor.text(text);
+              $("#zombie-time .info").append(survivor);
             }
 
-            $("#zombie-time .newzombies .text").text(message.data.numNewZombies + " new zombies!")
-
-
+            $("#zombie-time .newzombies .text").text(message.data.numNewZombies + " new zombies!");
             this.lightbox.show('#zombie-time');
           } else if (message.type === "ZOMBIE_ATTACK") {
             this.lightbox.hideAll();
@@ -258,7 +255,7 @@ class Game {
             this.setSurvivorClass($("#zombie-attack .survivor"), survivor.slug);
             let text = "Does "+message.data.damage+" damage";
             if (message.data.death) {
-                text += " (R.I.P.)";
+              text += " (R.I.P.)";
             }
             $("#zombie-attack .info").text(text);
             this.lightbox.show('#zombie-attack');
