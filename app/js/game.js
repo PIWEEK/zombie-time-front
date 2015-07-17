@@ -94,7 +94,7 @@ class Game {
     this.player = getPlayer(gameInfo.data.survivors);
     if (this.player) {
       this.myTurn = gameInfo.data.playerTurn === this.player.player;
-      document.querySelector('#user-profile img').src = `/assets/imgs/survivors/${this.player.slug}.png`;
+      document.querySelector('#user-profile img').src = `${conf.serverUrl}/assets/imgs/survivors/${this.player.slug}.png`;
     }
     this.survivors = gameInfo.data.survivors;
     this.gridOccupation = this.getGridOccupation(gameInfo.data);
