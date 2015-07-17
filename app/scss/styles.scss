@@ -293,6 +293,62 @@ body {
 
   #zombie-time {
     display: none;
+
+    .title {
+        text-align: center;
+        font-family: 'Dead';
+        font-size: 125px;
+        color: #550000;
+        margin-top: 70px;
+    }
+    .header {
+        text-align: center;
+        width: 100%;
+        height: 190px;
+        .survivors {
+        text-align: center;
+        height: 128px;
+            .survivor {
+                  width: 128px;
+                  height: 128px;
+                  margin-left: 20px;
+            }
+        }
+        .info {
+            margin-top: 10px;
+            text-align: center;
+            height: 50px;
+            .survivor {
+                width: 128px;
+                  display: inline-block;
+                  margin-left: 20px;
+                  font-family: 'Dead';
+                  font-size: 24px;
+                  color: #550000;
+            }
+        }
+      }
+
+    .newzombies {
+        width: 100%;
+        height: 128px;
+        text-align: center;
+        .zombie {
+            width: 128px;
+            height: 128px;
+            display: inline-block;
+        }
+        .text {
+            margin-left: 20px;
+            font-family: 'Dead';
+            font-size: 40px;
+            color: #550000;
+            display: inline-block;
+            position: relative;
+            top: -50px;
+        }
+    }
+
   }
 
   #zombie-attack {
