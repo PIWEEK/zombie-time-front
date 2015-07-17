@@ -53,12 +53,12 @@ class Canvas {
             drawZombieInCell = R.curry(this.drawCharacter.bind(this))(R.__, cellNumber, "zombie", R.__, zombieOccupation, totalOccupation),
             drawSurvivorInCell = R.curry(this.drawCharacter.bind(this))(R.__, cellNumber, "survivor", R.__, survivorOccupation, totalOccupation);
 
-      console.log('========================================');
+     /* console.log('========================================');
       console.log(` > CELDA: ${cellNumber}`);
       console.log(` > Zombies: ${zombieOccupation}`);
       console.log(` > Survivors: ${survivorOccupation}`);
       console.log(` > TotalOccupation: ${totalOccupation}`);
-      console.log('========================================');
+      console.log('========================================');*/
 
       drawBackgroundInCell(cellContent.floor);
       drawBackgroundInCell(cellContent.wall);
