@@ -113,7 +113,7 @@ class Game {
 
     if (this.player !== undefined) {
 
-        if(this.player.inventory !== undefined)){
+        if(this.player.inventory !== undefined){
             this.drawInventory(this.player, this.player.inventory);
         }
     }
