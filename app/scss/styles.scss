@@ -235,6 +235,9 @@ body {
 
   #find-item {
     display: none;
+    .title {
+        color: red
+    }
   }
 
   #zombie-time {

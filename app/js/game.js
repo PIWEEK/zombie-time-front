@@ -177,6 +177,7 @@ class Game {
           } else if (message.type === "FIND_ITEM") {
             this.lightbox.hideAll();
             this.lightbox.show('#find-item');
+            $("#find-item .title").text(message.data.items[0].name);
           } else if (message.type === "ZOMBIE_TIME") {
             this.lightbox.hideAll();
             this.lightbox.show('#zombie-time');
