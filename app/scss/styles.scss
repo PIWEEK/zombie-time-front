@@ -196,6 +196,14 @@ body {
   width: 960px;
   height: 120px;
   z-index: 500;
+
+  #user-profile {
+    img {
+      width: 114px;
+      height: 114px;
+    }
+  }
+
 }
 
 .menu-element {
@@ -207,10 +215,6 @@ body {
   margin-right: 3px;
   position: initial;
   float: left;
-}
-
-#attack-button {
-  background-image: url('/assets/imgs/button-interface/botonarma.png');
 }
 
 #inventory {
