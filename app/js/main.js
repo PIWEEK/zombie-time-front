@@ -72,3 +72,8 @@ let close = document.querySelector('#close-lb');
 close.addEventListener("click", function (e) {
     game.lightbox.hideAll();
 });
+
+let goals = document.querySelector('#top-left-interface');
+goals.addEventListener("click", function (e) {
+    game.lightbox.show('#goals');
+});

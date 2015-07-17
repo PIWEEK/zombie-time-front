@@ -287,10 +287,6 @@ body {
     }
   }
 
-  #find-item {
-    display: none;
-  }
-
   #zombie-time {
     display: none;
 
@@ -410,8 +406,13 @@ body {
 
   }
 
-  #end-game {
-    display: none;
+  #goals {
+    width: 800px;
+    font-size: 30px;
+    font-color: #550000;
+    text-align: center;
+    padding-top: 200px;
+    padding-left: 100px;
   }
 }
 

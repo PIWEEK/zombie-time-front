@@ -83,7 +83,8 @@ class Game {
       sizeX: gameInfo.data.map.width,
       sizeY: gameInfo.data.map.height
     };
-    this.victoryConditions = gameInfo.victoryConditions;
+    this.victoryConditions = gameInfo.data.victoryConditions;
+    this.missions = gameInfo.data.missions;
 
     R.forEachIndexed(processFloor, gameInfo.data.map.floorTiles);
     R.forEachIndexed(processWall, gameInfo.data.map.wallTiles);
@@ -118,6 +119,23 @@ class Game {
     }
   }
 
+  setGoals() {
+    let player = game.player.player,
+        ownGoals = document.querySelector('#own-goals').querySelector('span'),
+        ownGoalsText = document.querySelector('#own-goals span').innerHTML,
+        teamGoals = document.querySelector('#team-goals span'),
+        teamGoalsText = document.querySelector('#team-goals span').innerHTML;
+
+    ownGoalsText += game.missions[player].name + ": " + game.missions[player].description;
+    ownGoals.innerHTML = ownGoalsText;
+
+    for (let v in game.victoryConditions) {
+      let vic = game.victoryConditions[v];
+      teamGoalsText += vic['name'] + ": " + vic['description'];
+    }
+    teamGoals.innerHTML = teamGoalsText;
+  }
+
   finalCountDown() {
     let time = 900,
         duration = moment.duration(time * 1000, 'milliseconds'),
@@ -127,19 +145,6 @@ class Game {
       duration = moment.duration(duration.asMilliseconds() - interval, 'milliseconds');
       $('#top-right-interface').text(moment(duration.asMilliseconds()).format('mm:ss'));
     }, interval);
-  }
-
-  clearLightboxes() {
-    let clearText = (x) => x.style.display = "none",
-        lbList = document.querySelectorAll('.inner-lb');
-
-    R.map(clearText, lbList);
-    document.querySelector('.lightbox').style.display = "none";
-  }
-
-  showLightbox(el) {
-    document.querySelector('.lightbox').style.display = "block";
-    document.querySelector(`#${el}`).style.display = "block";
   }
 
   sendAttackMessage(point) {
@@ -197,6 +202,7 @@ class Game {
             $('#choose-character').hide();
             this.interface.show();
             this.finalCountDown();
+            this.setGoals();
           } else if (message.type === "ANIMATION_ATTACK") {
             this.lightbox.hideAll();
             let survivor = this.getSurvivorById(message.data.id);
