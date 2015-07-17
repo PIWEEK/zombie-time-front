@@ -60,7 +60,7 @@ class Canvas {
         R.forEachIndexed((val, idx, list) => drawZombieInCell(val.avatar, idx), cellContent.zombies);
       }
       if (cellContent.survivors) {
-        R.forEach((val, idx, list) => drawSurvivorInCell(val.avatar, idx), cellContent.survivors);
+        R.forEachIndexed((val, idx, list) => drawSurvivorInCell(val.avatar, idx), cellContent.survivors);
       }
     };
 
@@ -163,10 +163,12 @@ class Canvas {
         }
       } else {
         // antes de pintar, typeOccupation nos da un shift hacia arriba que tenemos que pintar teniendo en cuenta number
+        let shift = 25 * (number - 1);
+
         this.ctx.drawImage(
           this.gameSprite.image,
           sx, sy, this.gameSprite.imageWidth, this.gameSprite.imageHeight,
-          dx + (conf.tileWidth / 2), dy, halfTileWidth, halfTileHeight);
+          dx + (conf.tileWidth / 2), dy - shift, halfTileWidth, halfTileHeight);
       }
     } else {
       if (type === "zombie") {
@@ -200,10 +202,12 @@ class Canvas {
           this.ctx.fillStyle = "#000000";
         }
       } else {
+        let shift = 25 * (number - 1);
+
         this.ctx.drawImage(
           this.gameSprite.image,
           sx, sy, this.gameSprite.imageWidth, this.gameSprite.imageHeight,
-          dx + (conf.tileWidth / 4), dy, halfTileWidth, halfTileHeight);
+          dx + (conf.tileWidth / 4), dy - shift, halfTileWidth, halfTileHeight);
       }
     }
   }
