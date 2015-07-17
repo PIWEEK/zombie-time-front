@@ -248,7 +248,7 @@ class Game {
             if (message.data.death) {
                 text += " (R.I.P.)";
             }
-            $("#zombie-attack .text").text(text);
+            $("#zombie-attack .info").text(text);
             this.lightbox.show('#zombie-attack');
           } else if (message.type === "END_GAME") {
             this.lightbox.hideAll();
