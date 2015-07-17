@@ -9,6 +9,7 @@ class Game {
     this.interface = new Interface();
     this.lightbox = new Lightbox();
     this.currentAction = undefined;
+    this.myTurn = false;
   }
 
   initialize(gameInfo) {
@@ -90,6 +91,9 @@ class Game {
     R.forEachIndexed(processSurvivors, gameInfo.data.survivors);
     R.forEachIndexed(processZombies, gameInfo.data.zombies);
     this.player = getPlayer(gameInfo.data.survivors);
+    if (this.player) {
+      this.myTurn = gameInfo.data.playerTurn === this.player.player;
+    }
     this.survivors = gameInfo.data.survivors;
     this.gridOccupation = this.getGridOccupation(gameInfo.data);
 
@@ -254,11 +258,6 @@ class Game {
           this.canvas.redraw();
         },
         onCellClick = (e, cell) => {
-          console.log('***********************************');
-          console.log(` >> CELL -- ${cell}`);
-          console.log(` >> ACTION -- ${this.canvas.currentAction}`);
-          console.log('***********************************');
-
           if (this.canvas.currentAction == "move" && R.contains(cell, this.player.canMoveTo)) {
             this.sendMoveMessage(cell);
             this.canvas.currentAction = undefined;
@@ -269,28 +268,29 @@ class Game {
           this.canvas.redraw();
         },
         onInterfaceButtonClick = (e, action, searchMoreToken) => {
-          console.log(` > Me clickan la acción ${action}`);
-          switch(action) {
-          case "search":
-            this.sendSearchMessage();
-            this.canvas.currentAction = undefined;
-            break;
-          case "searchMore":
-            this.sendSearchMoreMessage(searchMoreToken);
-            this.canvas.currentAction = undefined;
-            break;
-          case "noise":
-            this.sendNoiseMessage();
-            this.canvas.currentAction = undefined;
-            break;
-          case "endTurn":
-            this.sendEndTurnMessage();
-            this.canvas.currentAction = undefined;
-            break;
-          default:
-            this.canvas.currentAction = action;
+          if (this.myTurn) {
+            switch(action) {
+            case "search":
+              this.sendSearchMessage();
+              this.canvas.currentAction = undefined;
+              break;
+            case "searchMore":
+              this.sendSearchMoreMessage(searchMoreToken);
+              this.canvas.currentAction = undefined;
+              break;
+            case "noise":
+              this.sendNoiseMessage();
+              this.canvas.currentAction = undefined;
+              break;
+            case "endTurn":
+              this.sendEndTurnMessage();
+              this.canvas.currentAction = undefined;
+              break;
+            default:
+              this.canvas.currentAction = action;
+            }
+            this.canvas.redraw();
           }
-          this.canvas.redraw();
         };
 
     w.on("message.stomp.zt", onMessage);
