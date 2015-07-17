@@ -76,6 +76,9 @@ class Game {
     let processComplexLayerCurried = R.curry(processComplexLayer),
         processSurvivors = processComplexLayerCurried("survivors", R.__, R.__, R.__),
         processZombies = processComplexLayerCurried("zombies", R.__, R.__, R.__);
+    let processNoise = (noiseCell) => {
+      this.grid[noiseCell.point]["noise"] = this.grid[noiseCell.point]["noise"] === undefined ? noiseCell.level : this.grid[noiseCell.point]["noise"] + noiseCell.level;
+    };
 
     this.grid = {};
     this.interval = gameInfo.zombieTimeInterval;
@@ -90,6 +93,7 @@ class Game {
     R.forEachIndexed(processFloor, gameInfo.data.map.floorTiles);
     R.forEachIndexed(processWall, gameInfo.data.map.wallTiles);
     R.forEachIndexed(processItem, gameInfo.data.map.itemTiles);
+    R.forEach(processNoise, gameInfo.data.noise);
     R.forEachIndexed(processSurvivors, gameInfo.data.survivors);
     R.forEachIndexed(processZombies, gameInfo.data.zombies);
     this.player = getPlayer(gameInfo.data.survivors);

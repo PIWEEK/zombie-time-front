@@ -62,6 +62,9 @@ class Canvas {
       if (cellContent.survivors) {
         R.forEachIndexed((val, idx, list) => drawSurvivorInCell(val.avatar, idx), cellContent.survivors);
       }
+      if (cellContent.noise) {
+        this.drawNoise(cellNumber, cellContent.noise);
+      }
     };
 
     let viewportSize = utils.getViewportSize();
@@ -110,6 +113,25 @@ class Canvas {
         this.gameSprite.image,
         sx, sy, this.gameSprite.imageWidth, this.gameSprite.imageHeight,
         dx, dy, conf.tileWidth, conf.tileHeight);
+  }
+
+  drawNoise(cellPos, noiseLevel) {
+    debugger;
+    let cellCoords = this.getCellCoords(cellPos),
+        dx = cellCoords.x * conf.tileWidth,
+        dy = cellCoords.y * conf.tileHeight;
+
+    utils.loadImage(`${conf.serverUrl}/assets/imgs/botonruidocasilla.png`).then((image) => {
+      this.ctx.drawImage(
+        image,
+        0, 0, 64, 64,
+        dx, dy, 64, 64);
+
+      this.ctx.fillStyle = "#000000";
+      this.ctx.font = "45px Dead";
+      this.ctx.fillText(noiseLevel, dx + 20, dy + 47);
+      this.ctx.fillStyle = "#000000";
+    });
   }
 
   drawCharacter(spritePos, cellPos, type, number, typeOccupation, totalOccupation) {
