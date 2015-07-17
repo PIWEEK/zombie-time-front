@@ -287,6 +287,33 @@ body {
     }
   }
 
+    text-align: center;
+    font-family: 'Dead';
+    color: #550000;
+
+    .title {
+        text-align: center;
+        font-size: 96px;
+        margin-top: 70px;
+    }
+    .content {
+        text-align: center;
+        .item1{
+            width:256px;
+            height:256px;
+        }
+        .info1{
+            text-align: center;
+            display: inline-block;
+            width:570px;
+            .item-title {
+                font-size: 50px;
+            }
+            .item-description {
+                font-size: 30px;
+            }
+        }
+    }
   #zombie-time {
     display: none;
 

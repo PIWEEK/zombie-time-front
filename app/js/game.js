@@ -213,8 +213,15 @@ class Game {
             this.lightbox.show('#animation-attack');
 
           } else if (message.type === "FIND_ITEM") {
-            this.lightbox.hideAll();
-            this.lightbox.show('#find-item');
+              if (message.user == game.player.player) {
+                    this.lightbox.hideAll();
+
+                    $("#find-item .content .item1").attr("src","/assets/imgs/"+message.data.items[0].slug+".png");
+                    $("#find-item .content .info1 .item-title").text(message.data.items[0].name);
+                    $("#find-item .content .info1 .item-description").text(message.data.items[0].description);
+
+                    this.lightbox.show('#find-item');
+                }
           } else if (message.type === "ZOMBIE_TIME") {
             this.lightbox.hideAll();
 
