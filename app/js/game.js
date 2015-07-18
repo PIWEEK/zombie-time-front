@@ -292,7 +292,8 @@ class Game {
             $("#zombie-time .survivors").html("");
 
             let i = 0;
-
+            $("#zombie-time .survivors").html("");
+            $("#zombie-time .info").html("");
             for (i=0; i<message.data.damages.length;i++) {
               let survivor = $("<img />");
 
@@ -354,6 +355,16 @@ class Game {
 
 
             this.lightbox.show('#end-game');
+          } else if (message.type === "END_TURN") {
+            this.lightbox.hideAll();
+            $("#end-turn .turn").html("");
+            let next = $("<div />");
+            next.text(message.data.username + "'s turn!");
+            $("#end-turn .turn").append(next);
+            let nextImg = $("<img />");
+            nextImg.attr("src", "/assets/imgs/survivors/" + message.data.survivor + ".png");
+            $("#end-turn .turn").append(nextImg);
+            this.lightbox.show('#end-turn');
           }
 
           this.canvas.redraw();

@@ -416,6 +416,21 @@ body {
         }
     }
   }
+  #end-turn {
+    text-align: center;
+    font-family: 'Dead';
+    color: #550000;
+
+    .title {
+        text-align: center;
+        font-size: 96px;
+        margin-top: 70px;
+    }
+    .turn {
+        text-align: center;
+        font-size: 50px;
+    }
+  }
   #zombie-time {
     display: none;
 
