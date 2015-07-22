@@ -120,18 +120,25 @@ html
       #bottom-interface.interface
         #user-profile.menu-element
           img
+          div.life
+            div.text 3
         #inventory.menu-element
           div.content
           div.equip
         #attack-button.menu-element
+          div.damage
+            div.text 3
+          div.ammo
         #move-button.menu-element
         #search-button.menu-element
         #noise-button.menu-element
         #partners
         #chat-button.menu-element
         #end-turn-button.menu-element
+            div.actions 3
 
     audio#zt-audio(src="/assets/data/zombies.ogg")
+    audio#zt-music(src="/assets/data/music.ogg")
 
     // Javascript
     script(src="/assets/js/transform.js")

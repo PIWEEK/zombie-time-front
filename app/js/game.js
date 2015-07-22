@@ -19,6 +19,7 @@ class Game {
     this.canvas.map = this.map;
     this.canvas.grid = this.grid;
     this.canvas.resize();
+    document.querySelector('#zt-music').play();
   }
 
   getGridOccupation(data) {
@@ -116,10 +117,56 @@ class Game {
         if(this.player.inventory !== undefined){
             this.drawInventory(this.player, this.player.inventory);
         }
+
+        if(this.player.currentLife !== undefined){
+            this.drawLife(this.player.currentLife);
+        }
+
+        if(this.player.currentActions !== undefined){
+            this.drawActions(this.player.currentActions);
+        }
+
+        if(this.player.weapon !== undefined){
+            this.drawAmmo(parseInt(this.player.weapon.currentAmmo), this.player.weapon.longRange);
+            this.drawDamage(parseInt(this.player.weapon.damage));
+        }
     }
 
+  }
 
+  drawLife(life){
+      $("#user-profile .life.text").text(life)
+  }
 
+  drawActions(actions){
+      $("#end-turn-button .actions").text(actions)
+  }
+
+  drawAmmo(ammo, longRange){
+      $("#attack-button.menu-element .ammo").removeClass("bullet1");
+      $("#attack-button.menu-element .ammo").removeClass("bullet2");
+      $("#attack-button.menu-element .ammo").removeClass("bullet3");
+      $("#attack-button.menu-element .ammo").removeClass("bullet4");
+      $("#attack-button.menu-element .ammo").removeClass("bullet5");
+
+      $("#attack-button.menu-element .ammo").removeClass("hit1");
+      $("#attack-button.menu-element .ammo").removeClass("hit2");
+      $("#attack-button.menu-element .ammo").removeClass("hit3");
+      $("#attack-button.menu-element .ammo").removeClass("hit4");
+      $("#attack-button.menu-element .ammo").removeClass("hit5");
+
+      if ((ammo > 0) && (ammo<6)) {
+          if (longRange === true) {
+              $("#attack-button.menu-element .ammo").addClass("bullet"+ammo);
+          } else {
+              $("#attack-button.menu-element .ammo").addClass("hit"+ammo);
+          }
+      }
+
+  }
+
+  drawDamage(damage){
+      $("#attack-button.menu-element .damage .text").text(damage)
   }
 
   drawInventory(player, inventory){
@@ -134,9 +181,23 @@ class Game {
           $("#inventory .content").append(img);
 
 
-          img.click(function (e) {
+
+          img.mousedown(function (e) {
+              e.preventDefault();
+              switch (e.which) {
+                case 1:
+                    game.useItem(this);
+                    break;
+                case 3:
+                    game.discardItem(this);
+                    break;
+                default:
+                    break;
+            }
             game.useItem(this);
           });
+
+
 
 
       }
@@ -150,7 +211,7 @@ class Game {
       $("#inventory .equip").append(img);
 
       img.click(function (e) {
-            game.useItem(this);
+            game.unequip(this);
       });
 
 
@@ -163,13 +224,21 @@ class Game {
           $("#inventory .equip").append(img);
 
           img.click(function (e) {
-            game.useItem(this);
+            game.unequip(this);
           });
       }
   }
 
   useItem(item){
       this.stomp.sendMessage('USE_OBJECT', { item: $(item).data("id") });
+  }
+
+  discardItem(item){
+      this.stomp.sendMessage('DISCARD_OBJECT', { item: $(item).data("id") });
+  }
+
+  unequip(item){
+      this.stomp.sendMessage('UNEQUIP', { item: $(item).data("id") });
   }
 
   updateCatched(gameInfo) {
@@ -256,6 +325,10 @@ class Game {
   }
 
   registerEventHandlers() {
+
+
+
+
     let w = $(window),
         onMessage = (e, message) => {
           if (message.type === "FULL_GAME") {
@@ -288,6 +361,8 @@ class Game {
             }
           } else if (message.type === "ZOMBIE_TIME") {
             this.lightbox.hideAll();
+
+            document.querySelector('#zt-audio').play();
 
             $("#zombie-time .survivors").html("");
 
@@ -409,6 +484,10 @@ class Game {
     w.on("message.stomp.zt", onMessage);
     w.on("cellClick.canvas.zt", onCellClick);
     w.on("buttonClick.interface.zt", onInterfaceButtonClick);
+
+    w.bind("contextmenu", function(e) {
+      e.preventDefault();
+    });
 
   }
 }

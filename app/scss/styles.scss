@@ -216,9 +216,25 @@ body {
   z-index: 500;
 
   #user-profile {
+    position: relative;
     img {
       width: 114px;
       height: 114px;
+    }
+    .life {
+        position: absolute;
+        right:0;
+        bottom: 0;
+        width: 40px;
+        height: 40px;
+        background-image: url('/assets/imgs/button-interface/heart.png');
+        .text {
+            margin-top: 8px;
+            color: white;
+            font-family: 'Dead';
+            font-size: 28px;
+            text-align: center;
+        }
     }
   }
 }
@@ -262,7 +278,62 @@ body {
 }
 
 #attack-button {
+  position: relative;
   background-image: url('/assets/imgs/button-interface/botonarma.png');
+  .damage {
+      position: absolute;
+      right:0;
+      top: 0;
+      width: 40px;
+      height: 40px;
+      background-image: url('/assets/imgs/button-interface/pow.png');
+      .text {
+          margin-top: 10px;
+          color: black;
+          font-family: 'Dead';
+          font-size: 25px;
+          text-align: center;
+      }
+
+  }
+  .ammo {
+      position: absolute;
+      right:0;
+      bottom: 0;
+      width: 40px;
+      height: 40px;
+      &.bullet1 {
+          background-image: url('/assets/imgs/button-interface/bullet1.png');
+      }
+      &.bullet2 {
+          background-image: url('/assets/imgs/button-interface/bullet2.png');
+      }
+      &.bullet3 {
+          background-image: url('/assets/imgs/button-interface/bullet3.png');
+      }
+      &.bullet4 {
+          background-image: url('/assets/imgs/button-interface/bullet4.png');
+      }
+      &.bullet5 {
+          background-image: url('/assets/imgs/button-interface/bullet5.png');
+      }
+
+      &.hit1 {
+          background-image: url('/assets/imgs/button-interface/hit1.png');
+      }
+      &.hit2 {
+          background-image: url('/assets/imgs/button-interface/hit2.png');
+      }
+      &.hit3 {
+          background-image: url('/assets/imgs/button-interface/hit3.png');
+      }
+      &.hit4 {
+          background-image: url('/assets/imgs/button-interface/hit4.png');
+      }
+      &.hit5 {
+          background-image: url('/assets/imgs/button-interface/hit5.png');
+      }
+  }
 }
 
 #move-button {
@@ -282,7 +353,20 @@ body {
 }
 
 #end-turn-button {
+  position: relative;
   background-image: url('/assets/imgs/button-interface/contadorzombie.png');
+  .actions {
+      position: absolute;
+      right:0;
+      bottom: 0;
+      width: 40px;
+      height: 40px;
+      background-color: black;
+      color: white;
+      font-family: 'Dead';
+      font-size: 40px;
+      text-align: center;
+  }
 }
 
 //LIGTHBOXES
