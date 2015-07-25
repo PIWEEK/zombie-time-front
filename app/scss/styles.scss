@@ -349,7 +349,51 @@ body {
 }
 
 #chat-button {
+  position: relative;
   background-image: url('/assets/imgs/button-interface/botonchat.png');
+}
+
+#chat {
+    width: 227px;
+    height: 200px;
+    float: right;
+    position:relative;
+    right:0;
+    top: -330px;
+    border: 5px solid #550000;
+    background-color: white;
+    opacity: 0.8;
+    display: none;
+    .chat-messages {
+        width: 100%;
+        overflow-y: scroll;
+        height: 174px;
+        .message {
+            margin-bottom: 10px;
+            position: relative;
+            .survivor-img {
+                position: absolute;
+                top: 0;
+                width: 24px;
+                height: 24px;
+                display: inline-block;
+            }
+
+            .text {
+                font-size: 18px;
+                margin-left: 29px;
+                width: 180px;
+                display: inline-block;
+                word-wrap: break-word;
+                min-height: 35px;
+            }
+        }
+    }
+    .chat-text {
+        display: inline-block;
+        width: 223px;
+        height: 20px;
+    }
 }
 
 #end-turn-button {
@@ -646,4 +690,36 @@ body {
 
 #zt-audio {
   display: none;
+}
+
+
+
+.pablo {
+  background-image: url('/assets/imgs/survivors/pablo.png');
+  background-size: cover;
+}
+
+.yami {
+  background-image: url('/assets/imgs/survivors/yami.png');
+  background-size: cover;
+}
+
+.miguel {
+  background-image: url('/assets/imgs/survivors/miguel.png');
+  background-size: cover;
+}
+
+.laura {
+  background-image: url('/assets/imgs/survivors/laura.png');
+  background-size: cover;
+}
+
+.xenia {
+  background-image: url('/assets/imgs/survivors/xenia.png');
+  background-size: cover;
+}
+
+.alex {
+  background-image: url('/assets/imgs/survivors/alex.png');
+  background-size: cover;
 }

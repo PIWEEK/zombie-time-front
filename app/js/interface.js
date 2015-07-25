@@ -37,5 +37,10 @@ class Interface {
         };
 
     R.map(addClickListener, menuElements);
+
+    document.querySelector(".chat-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      w.trigger("sendChat.interface.zt");
+    });
   }
 }

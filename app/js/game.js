@@ -301,6 +301,10 @@ class Game {
     this.stomp.sendMessage("NOISE", {});
   }
 
+  sendChatMessage(text) {
+    this.stomp.sendMessage("CHAT", {text: text});
+  }
+
   sendEndTurnMessage() {
     this.stomp.sendMessage("END_TURN", {});
   }
@@ -440,6 +444,22 @@ class Game {
             nextImg.attr("src", "/assets/imgs/survivors/" + message.data.survivor + ".png");
             $("#end-turn .turn").append(nextImg);
             this.lightbox.show('#end-turn');
+          } else if (message.type === "CHAT") {
+              let msg = $("<div />");
+              msg.addClass("message");
+              let img = $("<div />");
+              img.addClass("survivor-img");
+              img.addClass(message.data.survivor);
+              msg.append(img);
+              let text = $("<span />");
+              text.addClass("text");
+              text.text(message.data.text);
+              msg.append(text);
+
+              $("#chat .chat-messages").append(msg);
+
+              $("#chat .chat-messages")[0].scrollTop = $("#chat .chat-messages")[0].scrollHeight;
+
           }
 
           this.canvas.redraw();
@@ -474,16 +494,25 @@ class Game {
               this.sendEndTurnMessage();
               this.canvas.currentAction = undefined;
               break;
+            case "chat":
+              $("#chat").toggle();
+              break;
             default:
               this.canvas.currentAction = action;
             }
             this.canvas.redraw();
           }
-        };
+      },
+      onSendChat = (e) => {
+          let text = document.querySelector(".chat-text").value;
+          document.querySelector(".chat-text").value = "";
+          this.sendChatMessage(text);
+      };
 
     w.on("message.stomp.zt", onMessage);
     w.on("cellClick.canvas.zt", onCellClick);
     w.on("buttonClick.interface.zt", onInterfaceButtonClick);
+    w.on("sendChat.interface.zt", onSendChat);
 
     w.bind("contextmenu", function(e) {
       e.preventDefault();
