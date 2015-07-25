@@ -42,5 +42,47 @@ class Interface {
       e.preventDefault();
       w.trigger("sendChat.interface.zt");
     });
+
+    document.querySelector("#log").addEventListener("click", () => {
+      w.trigger("toggleLog.interface.zt");
+    });
+
+    document.querySelector("#inventory-info").addEventListener("mouseout", () => {
+        document.querySelector("#inventory-info").style.visibility='hidden';
+    });
+
+    document.querySelector("#user-profile").addEventListener("mouseenter", () => {
+        document.querySelector("#inventory-info").style.visibility='hidden';
+    });
+
+    document.querySelector("#attack-button").addEventListener("mouseenter", () => {
+        document.querySelector("#inventory-info").style.visibility='hidden';
+    });
+
+    document.querySelector("#log").addEventListener("mouseenter", () => {
+        document.querySelector("#inventory-info").style.visibility='hidden';
+    });
+
+    Mousetrap.bind('m', function() {
+        w.trigger("buttonClick.interface.zt", 'move');
+    }, 'keydown');
+
+    Mousetrap.bind('a', function() {
+        w.trigger("buttonClick.interface.zt", 'attack');
+    }, 'keydown');
+
+    Mousetrap.bind('s', function() {
+        w.trigger("buttonClick.interface.zt", 'search');
+    }, 'keydown');
+
+    Mousetrap.bind('n', function() {
+        w.trigger("buttonClick.interface.zt", 'noise');
+    }, 'keydown');
+
+    Mousetrap.bind('c', function() {
+        w.trigger("buttonClick.interface.zt", 'chat');
+    }, 'keydown');
+
+
   }
 }

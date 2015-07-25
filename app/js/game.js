@@ -19,7 +19,7 @@ class Game {
     this.canvas.map = this.map;
     this.canvas.grid = this.grid;
     this.canvas.resize();
-    document.querySelector('#zt-music').play();
+    //document.querySelector('#zt-music').play();
   }
 
   getGridOccupation(data) {
@@ -130,8 +130,40 @@ class Game {
             this.drawAmmo(parseInt(this.player.weapon.currentAmmo), this.player.weapon.longRange);
             this.drawDamage(parseInt(this.player.weapon.damage));
         }
+
+        this.enableActionsButtons(this.player);
     }
 
+  }
+
+  enableActionsButtons(player){
+
+      if ((this.player.currentActions === undefined) ||
+           parseInt(this.player.currentActions) === 0){
+               $("#move-button").addClass("nouse");
+               $("#attack-button").addClass("nouse");
+               $("#search-button").addClass("nouse");
+               $("#noise-button").addClass("nouse");
+      } else {
+          $("#noise-button").removeClass("nouse");
+          if (this.player.canMoveTo.length === 0){
+              $("#move-button").addClass("nouse");
+          } else {
+              $("#move-button").removeClass("nouse");
+          }
+
+          if (this.player.canAttackTo.length === 0){
+              $("#attack-button").addClass("nouse");
+          } else {
+              $("#attack-button").removeClass("nouse");
+          }
+
+          if (this.player.canSearch){
+              $("#search-button").removeClass("nouse");
+          } else {
+              $("#search-button").addClass("nouse");
+          }
+      }
   }
 
   drawLife(life){
@@ -170,66 +202,97 @@ class Game {
   }
 
   drawInventory(player, inventory){
-      console.log("Draw inventory");
+      const currentInventory = parseInt(player.currentInventory);
       $("#inventory .content").html("")
       let i = 0;
       for (i=0;i<inventory.length;i++){
+
+          let item = $("<div />");
+          item.addClass("item");
+          item.addClass("item"+currentInventory);
+
+
           let img = $("<img />");
-          img.addClass("inventory-item");
           img.attr("src","/assets/imgs/"+inventory[i].slug+".png");
           img.data("id", inventory[i].id);
-          $("#inventory .content").append(img);
+          img.data("item", inventory[i]);
+          item.append(img);
+          $("#inventory .content").append(item);
 
 
+          if ((inventory[i].id == player.defense.id) ||
+          (inventory[i].id == player.weapon.id)){
+              item.addClass("selected");
+          }
 
-          img.mousedown(function (e) {
+          item.mousedown(function (e) {
               e.preventDefault();
+              const img = $(this).find("img");
               switch (e.which) {
                 case 1:
-                    game.useItem(this);
+                    game.useItem(img);
                     break;
                 case 3:
-                    game.discardItem(this);
+                    if (!$(this).hasClass("selected"))
+                    game.discardItem(img);
                     break;
                 default:
                     break;
             }
-            game.useItem(this);
           });
 
-
-
-
-      }
-
-      $("#inventory .equip").html("");
-      let img = $("<img />");
-      img.addClass("inventory-item");
-      img.addClass("selected");
-      img.attr("src","/assets/imgs/"+player.weapon.slug+".png");
-      img.data("id", player.weapon.id);
-      $("#inventory .equip").append(img);
-
-      img.click(function (e) {
-            game.unequip(this);
-      });
-
-
-      if (player.defense.slug != undefined) {
-          let img = $("<img />");
-          img.addClass("inventory-item");
-          img.addClass("selected");
-          img.attr("src","/assets/imgs/"+player.defense.slug+".png");
-          img.data("id", player.defense.id);
-          $("#inventory .equip").append(img);
-
-          img.click(function (e) {
-            game.unequip(this);
+          img.mouseover(function (e) {
+            let item = $(this);
+            game.showInventoryItem(item.data("item"));
           });
       }
+
+      for (i=inventory.length;i<currentInventory;i++){
+          let item = $("<div />");
+          item.addClass("item");
+          item.addClass("item"+currentInventory);
+          $("#inventory .content").append(item);
+      }
+
+      for (i=currentInventory;i<6;i++){
+          let item = $("<div />");
+          item.addClass("item");
+          item.addClass("invalid");
+          item.addClass("item"+currentInventory);
+          $("#inventory .content").append(item);
+      }
+
+  }
+
+  showInventoryItem(item){
+      const info = $("#inventory-info");
+      info.find(".name").text(item.name);
+      info.find(".image").attr("src","/assets/imgs/"+item.slug+".png");
+      info.find(".description").text(item.description);
+
+      let characteristics = "";
+
+
+      if (item.currentLevel){
+          characteristics += item.currentLevel +" / "+item.maxLevel;
+      }
+
+      if (item.damage){
+          characteristics += "Damage: "+item.damage +"<br />";
+          characteristics += item.currentAmmo +" / "+item.maxAmmo;
+      }
+
+
+      info.find(".characteristics").html(characteristics);
+
+
+
+
+      info.css('visibility', 'visible');
   }
 
   useItem(item){
+      document.querySelector("#inventory-info").style.visibility='hidden';
       this.stomp.sendMessage('USE_OBJECT', { item: $(item).data("id") });
   }
 
@@ -328,10 +391,170 @@ class Game {
     this.lightbox.hideAll();
   }
 
+  showLogAttack(survivor, weapon, deaths){
+      let logEntry = $("<div />");
+      let survivorImg = $("<div />");
+      survivorImg.addClass("survivor-img");
+      survivorImg.addClass(survivor);
+      logEntry.append(survivorImg);
+      let text = $("<span />");
+      text.text("Attacks with " + weapon + " and kills "+deaths);
+      logEntry.append(text);
+
+      let zombieImg = $("<div />");
+      zombieImg.addClass("survivor-img");
+      zombieImg.addClass("zombie");
+      logEntry.append(zombieImg);
+
+      $("#log").append(logEntry);
+
+      document.querySelector("#log").scrollTop = document.querySelector("#log").scrollHeight;
+  }
+
+  showLogZombieAttack(survivor, damage, death){
+      let logEntry = $("<div />");
+
+      let zombieImg = $("<div />");
+      zombieImg.addClass("survivor-img");
+      zombieImg.addClass("zombie");
+      logEntry.append(zombieImg);
+
+      let text = $("<span />");
+      text.text("Does "+damage+ " damage to ");
+      logEntry.append(text);
+
+      let survivorImg = $("<div />");
+      survivorImg.addClass("survivor-img");
+      survivorImg.addClass(survivor);
+      logEntry.append(survivorImg);
+
+      if (death) {
+          let text = $("<span />");
+          text.text(" (R.I.P)");
+          logEntry.append(text);
+      }
+
+      $("#log").append(logEntry);
+
+      document.querySelector("#log").scrollTop = document.querySelector("#log").scrollHeight;
+  }
+
+  showLogSearch(survivor){
+      this.showGenericLog(survivor, "Search the room");
+  }
+
+  showLogMove(survivor){
+      this.showGenericLog(survivor, "Moves");
+  }
+
+  showLogStartTurn(survivor){
+      this.showGenericLog(survivor, "START TURN!");
+  }
+
+  showGenericLog(survivor, text){
+      let logEntry = $("<div />");
+      let survivorImg = $("<div />");
+      survivorImg.addClass("survivor-img");
+      survivorImg.addClass(survivor);
+      logEntry.append(survivorImg);
+      let spn = $("<span />");
+      spn.text(text);
+      logEntry.append(spn);
+
+      $("#log").append(logEntry);
+
+      document.querySelector("#log").scrollTop = document.querySelector("#log").scrollHeight;
+  }
+
+  findItem(user, survivor, items){
+      this.showLogSearch(survivor);
+      if (user == game.player.player) {
+        this.lightbox.hideAll();
+
+        $("#find-item .content .item1").attr("src","/assets/imgs/"+items[0].slug+".png");
+        $("#find-item .content .info1 .item-title").text(items[0].name);
+        $("#find-item .content .info1 .item-description").text(items[0].description);
+        this.foundItem = items[0].id;
+
+        this.lightbox.show('#find-item');
+      }
+  }
+
+  showZombieAttack(user, survivor, damage, death){
+      this.showLogZombieAttack(survivor, damage, death);
+      if (user == game.player.player) {
+        this.lightbox.hideAll();
+        this.setSurvivorClass($("#zombie-attack .survivor"), survivor);
+        let text = "Does "+damage+" damage";
+        if (death) {
+          text += " (R.I.P.)";
+        }
+        $("#zombie-attack .info").text(text);
+        this.lightbox.show('#zombie-attack');
+    }
+  }
+
+
+
+  startTurn(user, survivor){
+      this.showLogStartTurn(survivor);
+
+      if (user == game.player.player) {
+          $("#move-button").css("visibility", "visible");
+          $("#attack-button").css("visibility", "visible");
+          $("#search-button").css("visibility", "visible");
+          $("#noise-button").css("visibility", "visible");
+          $("#end-turn-button").css("visibility", "visible");
+      } else {
+
+          $("#move-button").css("visibility", "hidden");
+          $("#attack-button").css("visibility", "hidden");
+          $("#search-button").css("visibility", "hidden");
+          $("#noise-button").css("visibility", "hidden");
+          $("#end-turn-button").css("visibility", "hidden");
+
+          $("#log").removeClass("closed");
+          $("#log").removeClass("small");
+      }
+  }
+
+
+
+  showZombieTime(damages, numNewZombies){
+      this.showGenericLog("zombie", "ZOMBIE TIME");
+      this.lightbox.hideAll();
+
+      document.querySelector('#zt-audio').play();
+
+      $("#zombie-time .survivors").html("");
+
+      let i = 0;
+      $("#zombie-time .survivors").html("");
+      $("#zombie-time .info").html("");
+      for (i=0; i<damages.length;i++) {
+          let survivorImg = $("<div />");
+          survivorImg.addClass("survivor");
+          survivorImg.addClass(damages[i].survivor);
+
+          $("#zombie-time .survivors").append(survivorImg);
+
+
+          let text = damages[i].damage + " damage";
+          if (damages[i].death) {
+            text += " (R.I.P.)";
+          }
+
+          let survivor = $("<div />");
+          survivor.addClass("survivor");
+          survivor.text(text);
+          $("#zombie-time .info").append(survivor);
+      }
+
+      $("#zombie-time .newzombies .text").text(numNewZombies + " new zombies!");
+      this.lightbox.show('#zombie-time');
+  }
+
   registerEventHandlers() {
-
-
-
 
     let w = $(window),
         onMessage = (e, message) => {
@@ -343,67 +566,16 @@ class Game {
             this.interface.show();
             this.finalCountDown();
             this.setGoals();
+          } else if (message.type === "ANIMATION_MOVE") {
+              this.showLogMove(message.data.survivor);
           } else if (message.type === "ANIMATION_ATTACK") {
-            this.lightbox.hideAll();
-            let survivor = this.getSurvivorById(message.data.id);
-            this.setSurvivorClass($("#animation-attack .survivor"), survivor.slug);
-
-            $("#animation-attack .info").text("Kill "+message.data.deaths+" zombies");
-
-            this.lightbox.show('#animation-attack');
-
+              this.showLogAttack(message.data.survivor, message.data.weapon, message.data.deaths)
           } else if (message.type === "FIND_ITEM") {
-            if (message.user == game.player.player) {
-              this.lightbox.hideAll();
-
-              $("#find-item .content .item1").attr("src","/assets/imgs/"+message.data.items[0].slug+".png");
-              $("#find-item .content .info1 .item-title").text(message.data.items[0].name);
-              $("#find-item .content .info1 .item-description").text(message.data.items[0].description);
-              this.foundItem = message.data.items[0].id;
-
-              this.lightbox.show('#find-item');
-            }
+              this.findItem(message.user, message.data.survivor, message.data.items);
           } else if (message.type === "ZOMBIE_TIME") {
-            this.lightbox.hideAll();
-
-            document.querySelector('#zt-audio').play();
-
-            $("#zombie-time .survivors").html("");
-
-            let i = 0;
-            $("#zombie-time .survivors").html("");
-            $("#zombie-time .info").html("");
-            for (i=0; i<message.data.damages.length;i++) {
-              let survivor = $("<img />");
-
-              survivor.addClass("survivor");
-              survivor.attr("src","/assets/imgs/survivors/" + message.data.damages[0].survivor + ".png");
-              $("#zombie-time .survivors").append(survivor);
-
-
-              let text = message.data.damages[0].damage + " damage";
-              if (message.data.damages[0].death) {
-                text += " (R.I.P.)";
-              }
-
-              survivor = $("<div />");
-              survivor.addClass("survivor");
-              survivor.text(text);
-              $("#zombie-time .info").append(survivor);
-            }
-
-            $("#zombie-time .newzombies .text").text(message.data.numNewZombies + " new zombies!");
-            this.lightbox.show('#zombie-time');
+              this.showZombieTime(message.data.damages, message.data.numNewZombies);
           } else if (message.type === "ZOMBIE_ATTACK") {
-            this.lightbox.hideAll();
-            let survivor = this.getSurvivorById(message.data.id);
-            this.setSurvivorClass($("#zombie-attack .survivor"), survivor.slug);
-            let text = "Does "+message.data.damage+" damage";
-            if (message.data.death) {
-              text += " (R.I.P.)";
-            }
-            $("#zombie-attack .info").text(text);
-            this.lightbox.show('#zombie-attack');
+            this.showZombieAttack(message.user, message.data.survivor, message.data.damage, message.data.death);
           } else if (message.type === "END_GAME") {
             this.lightbox.hideAll();
 
@@ -434,16 +606,8 @@ class Game {
 
 
             this.lightbox.show('#end-game');
-          } else if (message.type === "END_TURN") {
-            this.lightbox.hideAll();
-            $("#end-turn .turn").html("");
-            let next = $("<div />");
-            next.text(message.data.username + "'s turn!");
-            $("#end-turn .turn").append(next);
-            let nextImg = $("<img />");
-            nextImg.attr("src", "/assets/imgs/survivors/" + message.data.survivor + ".png");
-            $("#end-turn .turn").append(nextImg);
-            this.lightbox.show('#end-turn');
+          } else if (message.type === "START_TURN") {
+            this.startTurn(message.user, message.data.survivor);
           } else if (message.type === "CHAT") {
               let msg = $("<div />");
               msg.addClass("message");
@@ -460,6 +624,8 @@ class Game {
 
               $("#chat .chat-messages")[0].scrollTop = $("#chat .chat-messages")[0].scrollHeight;
 
+              $("#chat").show();
+
           }
 
           this.canvas.redraw();
@@ -467,20 +633,29 @@ class Game {
 
         onCellClick = (e, cell) => {
           if (this.canvas.currentAction == "move" && R.contains(cell, this.player.canMoveTo)) {
-            this.sendMoveMessage(cell);
-            this.canvas.currentAction = undefined;
+              if (this.player.canMoveTo.length > 0){
+                  this.sendMoveMessage(cell);
+                  this.canvas.currentAction = undefined;
+              }
           } else if (this.canvas.currentAction == "attack" && R.contains(cell, this.player.canAttackTo)) {
-            this.sendAttackMessage(cell);
-            this.canvas.currentAction = undefined;
+              if (this.player.canAttackTo.length > 0){
+                  this.sendAttackMessage(cell);
+                  this.canvas.currentAction = undefined;
+              }
           }
           this.canvas.redraw();
         },
         onInterfaceButtonClick = (e, action, searchMoreToken) => {
-          if (this.myTurn) {
+
+          if (action =="chat"){
+              $("#chat").toggle();
+          } else if (this.myTurn) {
             switch(action) {
             case "search":
-              this.sendSearchMessage();
-              this.canvas.currentAction = undefined;
+                if (this.player.canSearch){
+                    this.sendSearchMessage();
+                    this.canvas.currentAction = undefined;
+                }
               break;
             case "searchMore":
               this.sendSearchMoreMessage(searchMoreToken);
@@ -494,9 +669,6 @@ class Game {
               this.sendEndTurnMessage();
               this.canvas.currentAction = undefined;
               break;
-            case "chat":
-              $("#chat").toggle();
-              break;
             default:
               this.canvas.currentAction = action;
             }
@@ -507,16 +679,28 @@ class Game {
           let text = document.querySelector(".chat-text").value;
           document.querySelector(".chat-text").value = "";
           this.sendChatMessage(text);
+      },
+
+      onToggleLog = () => {
+          if ($("#log").hasClass("closed")){
+              $("#log").removeClass("closed");
+          } else if ($("#log").hasClass("small")){
+              $("#log").removeClass("small");
+              $("#log").addClass("closed");
+          } else {
+              $("#log").addClass("small");
+          }
+
       };
 
     w.on("message.stomp.zt", onMessage);
     w.on("cellClick.canvas.zt", onCellClick);
     w.on("buttonClick.interface.zt", onInterfaceButtonClick);
     w.on("sendChat.interface.zt", onSendChat);
+    w.on("toggleLog.interface.zt", onToggleLog);
 
     w.bind("contextmenu", function(e) {
       e.preventDefault();
     });
-
   }
 }

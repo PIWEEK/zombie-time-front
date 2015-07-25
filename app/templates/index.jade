@@ -123,23 +123,38 @@ html
           div.life
             div.text 3
         #inventory.menu-element
-          div.content
-          div.equip
-        #attack-button.menu-element
+           div.content
+             div.item
+             div.item
+             div.item
+             div.item
+             div.item
+             div.item
+
+        #attack-button.menu-element(title='Attack')
           div.damage
             div.text 3
           div.ammo
-        #move-button.menu-element
-        #search-button.menu-element
-        #noise-button.menu-element
-        #partners
-        #chat-button.menu-element
-        #end-turn-button.menu-element
+        #move-button.menu-element(title='Move')
+        #search-button.menu-element(title='Search')
+        #noise-button.menu-element(title='Make noise')
+        #end-turn-button.menu-element(title='End turn')
             div.actions 3
-        #log            
+        #partners
+        #chat-button.menu-element(title='Chat')
+      #bottom-interface-info
+        #inventory-info
+            div.name
+            div.data
+                img.image
+                span.characteristics
+            div.description
+            div.actions
+        #log.small
         #chat
             div.chat-messages
-            form.chat-form
+            div
+              form.chat-form
                 input.chat-text
 
 
