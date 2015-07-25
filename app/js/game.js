@@ -118,7 +118,9 @@ class Game {
             this.drawInventory(this.player, this.player.inventory);
         }
 
+        console.log(this.player.currentLife);
         if(this.player.currentLife !== undefined){
+            console.log("OK", this.player.currentLife);
             this.drawLife(this.player.currentLife);
         }
 
@@ -167,7 +169,7 @@ class Game {
   }
 
   drawLife(life){
-      $("#user-profile .life.text").text(life)
+      $("#user-profile .life .text").text(life)
   }
 
   drawActions(actions){
