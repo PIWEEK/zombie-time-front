@@ -353,6 +353,18 @@ body {
   background-image: url('/assets/imgs/button-interface/botonchat.png');
 }
 
+#log {
+    width: 227px;
+    height: 200px;
+    float: right;
+    position:relative;
+    right:227px;
+    top: -330px;
+    border: 5px solid #550000;
+    background-color: white;
+    opacity: 0.8;
+}
+
 #chat {
     width: 227px;
     height: 200px;
