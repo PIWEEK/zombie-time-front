@@ -482,9 +482,36 @@ class Game {
       if (user == game.player.player) {
         this.lightbox.hideAll();
 
-        $("#find-item .content .item1").attr("src","/assets/imgs/"+items[0].slug+".png");
+        $("#find-item .content .item1 .image").css("background-image", "url(/assets/imgs/" + items[0].slug + ".png)");
         $("#find-item .content .info1 .item-title").text(items[0].name);
         $("#find-item .content .info1 .item-description").text(items[0].description);
+
+        if (items[0].currentAmmo !== undefined) {
+            if (items[0].longRange === true) {
+                document.querySelector("#find-item .content .item1 .ammo").className = "ammo bullet"+items[0].currentAmmo;
+            } else {
+                document.querySelector("#find-item .content .item1 .ammo").className = "ammo hit"+items[0].currentAmmo;
+            }
+        } else {
+            document.querySelector("#find-item .content .item1 .ammo").className = "ammo hidden";
+        }
+
+        if (items[0].damage !== undefined) {
+            document.querySelector("#find-item .content .item1 .damage").className = "damage";
+            document.querySelector("#find-item .content .item1 .damage").innerHTML = "<span class='text'>" + items[0].damage + "</span>";
+        } else {
+            document.querySelector("#find-item .content .item1 .damage").className = "damage hidden";
+        }
+
+        if (items[0].currentLevel !== undefined) {
+            document.querySelector("#find-item .content .item1 .defense").className = "defense";
+            document.querySelector("#find-item .content .item1 .defense").innerHTML = "<span class='text'>" + items[0].currentLevel + "</span>";
+        } else {
+            document.querySelector("#find-item .content .item1 .defense").className = "defense hidden";
+        }
+
+
+
         this.foundItem = items[0].id;
 
         this.lightbox.show('#find-item');

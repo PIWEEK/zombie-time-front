@@ -573,6 +573,13 @@ body {
         .item1{
             width:256px;
             height:256px;
+            display: inline-block;
+            position: relative;
+            .image {
+                width:100%;
+                height:100%;
+                background-size: cover;
+            }
         }
         .info1{
             text-align: center;
@@ -808,6 +815,7 @@ body {
     bottom: 0;
     width: 40px;
     height: 40px;
+    background-size: cover;
     &.bullet1 {
         background-image: url('/assets/imgs/button-interface/bullet1.png');
     }
@@ -849,8 +857,9 @@ body {
     top: 0;
     width: 40px;
     height: 40px;
+    background-size: cover;
     .text {
-        margin-top: 10px;
+        line-height: 43px;
         color: black;
         font-family: 'Dead';
         font-size: 25px;
@@ -864,4 +873,9 @@ body {
 
 .defense {
   background-image: url('/assets/imgs/button-interface/defense.png');
+}
+
+
+.hidden {
+    display: none;
 }
