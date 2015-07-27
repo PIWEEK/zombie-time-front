@@ -47,7 +47,7 @@ class Interface {
       w.trigger("toggleLog.interface.zt");
     });
 
-    document.querySelector("#inventory-info").addEventListener("mouseout", () => {
+    document.querySelector("#inventory-info").addEventListener("mouseleave", () => {
         document.querySelector("#inventory-info").style.visibility='hidden';
     });
 

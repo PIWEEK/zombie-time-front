@@ -132,7 +132,7 @@ html
              div.item
 
         #attack-button.menu-element(title='Attack')
-          div.damage
+          div.damage.damage.img
             div.text 3
           div.ammo
         #move-button.menu-element(title='Move')
@@ -144,12 +144,13 @@ html
         #chat-button.menu-element(title='Chat')
       #bottom-interface-info
         #inventory-info
+          div
             div.name
             div.data
                 img.image
-                span.characteristics
-            div.description
-            div.actions
+                div.characteristics
+          div.description
+          div.actions
         #log.small
         #chat
             div.chat-messages

@@ -129,6 +129,7 @@ class Game {
         }
 
         if(this.player.weapon !== undefined){
+            this.drawWeapon(this.player.weapon.slug);
             this.drawAmmo(parseInt(this.player.weapon.currentAmmo), this.player.weapon.longRange);
             this.drawDamage(parseInt(this.player.weapon.damage));
         }
@@ -174,6 +175,10 @@ class Game {
 
   drawActions(actions){
       $("#end-turn-button .actions").text(actions)
+  }
+
+  drawWeapon(weapon){
+      $("#attack-button").css("background-image", "url(/assets/imgs/" + weapon + ".png)");
   }
 
   drawAmmo(ammo, longRange){
@@ -235,7 +240,6 @@ class Game {
                     game.useItem(img);
                     break;
                 case 3:
-                    if (!$(this).hasClass("selected"))
                     game.discardItem(img);
                     break;
                 default:
@@ -276,12 +280,16 @@ class Game {
 
 
       if (item.currentLevel){
-          characteristics += item.currentLevel +" / "+item.maxLevel;
+        characteristics += "<div class='damage damage-img'><div class='text'>"+item.currentLevel +"</div></div>";
       }
 
       if (item.damage){
-          characteristics += "Damage: "+item.damage +"<br />";
-          characteristics += item.currentAmmo +" / "+item.maxAmmo;
+          characteristics += "<div class='damage damage-img'><div class='text'>"+item.damage +"</div></div>";
+          if (item.longRange === true) {
+            characteristics += "<div class='ammo bullet" + item.currentAmmo + "' />";
+          } else {
+            characteristics += "<div class='ammo hit" + item.currentAmmo + "' />";
+          }
       }
 
 
@@ -299,7 +307,8 @@ class Game {
   }
 
   discardItem(item){
-      this.stomp.sendMessage('DISCARD_OBJECT', { item: $(item).data("id") });
+      game.stomp.sendMessage('DISCARD_OBJECT', { item: $(item).data("id") });
+      document.querySelector("#inventory-info").style.visibility='hidden';
   }
 
   unequip(item){
@@ -700,6 +709,7 @@ class Game {
     w.on("buttonClick.interface.zt", onInterfaceButtonClick);
     w.on("sendChat.interface.zt", onSendChat);
     w.on("toggleLog.interface.zt", onToggleLog);
+    w.on("discardItem.interface.zt", this.discardItem);
 
     w.bind("contextmenu", function(e) {
       e.preventDefault();
