@@ -8,8 +8,8 @@ const conf = {
   maxTilesWhenZoomIn: 4,
   defaultZoomIncrement: 0.07,
   clickPixelDelta: 5,
-  serverUrl: "http://localhost:3000",
-  websocketsUrl: "http://localhost:8080"
+  serverUrl: "http://10.8.1.129:3000",
+  websocketsUrl: "http://10.8.1.129:8080"
 };
 
 const http = new Http(conf.serverUrl);

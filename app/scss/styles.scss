@@ -231,24 +231,31 @@ body {
         display: inline-block;
         visibility: hidden;
         float:left;
+        .trash {
+          width: 100%;
+          height: 30px;
+          text-align: right;         
+        }
         .data {
             position:relative;
-            float:left;
+            height: 100px;
+            text-align: center;
             .image {
                 width: 100px;
                 height: 100px;
-                float:left;
             }
             .characteristics {
-                width: 100px;
-                float:left;
-                position: absolute;
-                bottom: 0;
+                width: 40px;
+                height: 100px;
                 color: black;
+                display: inline-block;
+                position: relative;
             }
         }
         .description{
-            color: black;
+            color: darkslategrey;
+            font-size: 18px;
+            padding: 3px 0 3px 0;
         }
 
   }
@@ -423,60 +430,6 @@ body {
   &.nouse {
       opacity: 0.2;
   }
-  .damage {
-      position: absolute;
-      right:0;
-      top: 0;
-      width: 40px;
-      height: 40px;
-      background-image: url('/assets/imgs/button-interface/pow.png');
-      .text {
-          margin-top: 10px;
-          color: black;
-          font-family: 'Dead';
-          font-size: 25px;
-          text-align: center;
-      }
-
-  }
-  .ammo {
-      position: absolute;
-      right:0;
-      bottom: 0;
-      width: 40px;
-      height: 40px;
-      &.bullet1 {
-          background-image: url('/assets/imgs/button-interface/bullet1.png');
-      }
-      &.bullet2 {
-          background-image: url('/assets/imgs/button-interface/bullet2.png');
-      }
-      &.bullet3 {
-          background-image: url('/assets/imgs/button-interface/bullet3.png');
-      }
-      &.bullet4 {
-          background-image: url('/assets/imgs/button-interface/bullet4.png');
-      }
-      &.bullet5 {
-          background-image: url('/assets/imgs/button-interface/bullet5.png');
-      }
-
-      &.hit1 {
-          background-image: url('/assets/imgs/button-interface/hit1.png');
-      }
-      &.hit2 {
-          background-image: url('/assets/imgs/button-interface/hit2.png');
-      }
-      &.hit3 {
-          background-image: url('/assets/imgs/button-interface/hit3.png');
-      }
-      &.hit4 {
-          background-image: url('/assets/imgs/button-interface/hit4.png');
-      }
-      &.hit5 {
-          background-image: url('/assets/imgs/button-interface/hit5.png');
-      }
-  }
 }
 
 #move-button {
@@ -502,7 +455,7 @@ body {
 
 #chat-button {
   position: relative;
-  background-image: url('/assets/imgs/button-interface/botonchat.png');  
+  background-image: url('/assets/imgs/button-interface/botonchat.png');
 }
 
 #end-turn-button {
@@ -625,6 +578,8 @@ body {
                 font-size: 50px;
             }
             .item-description {
+                margin-top: 20px;
+                color: darkslategrey;
                 font-size: 30px;
             }
         }
@@ -840,4 +795,69 @@ body {
 .zombie {
     background-image: url('/assets/imgs/survivors/zombie.png');
     background-size: cover;
+}
+
+
+.ammo {
+    position: absolute;
+    right:0;
+    bottom: 0;
+    width: 40px;
+    height: 40px;
+    &.bullet1 {
+        background-image: url('/assets/imgs/button-interface/bullet1.png');
+    }
+    &.bullet2 {
+        background-image: url('/assets/imgs/button-interface/bullet2.png');
+    }
+    &.bullet3 {
+        background-image: url('/assets/imgs/button-interface/bullet3.png');
+    }
+    &.bullet4 {
+        background-image: url('/assets/imgs/button-interface/bullet4.png');
+    }
+    &.bullet5 {
+        background-image: url('/assets/imgs/button-interface/bullet5.png');
+    }
+
+    &.hit1 {
+        background-image: url('/assets/imgs/button-interface/hit1.png');
+    }
+    &.hit2 {
+        background-image: url('/assets/imgs/button-interface/hit2.png');
+    }
+    &.hit3 {
+        background-image: url('/assets/imgs/button-interface/hit3.png');
+    }
+    &.hit4 {
+        background-image: url('/assets/imgs/button-interface/hit4.png');
+    }
+    &.hit5 {
+        background-image: url('/assets/imgs/button-interface/hit5.png');
+    }
+}
+
+
+
+.damage, .defense {
+    position: absolute;
+    right:0;
+    top: 0;
+    width: 40px;
+    height: 40px;
+    .text {
+        margin-top: 10px;
+        color: black;
+        font-family: 'Dead';
+        font-size: 25px;
+        text-align: center;
+    }
+}
+
+.damage {
+  background-image: url('/assets/imgs/button-interface/pow.png');
+}
+
+.damage {
+  background-image: url('/assets/imgs/button-interface/defense.png');
 }

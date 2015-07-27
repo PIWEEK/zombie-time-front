@@ -276,12 +276,16 @@ class Game {
 
 
       if (item.currentLevel){
-          characteristics += item.currentLevel +" / "+item.maxLevel;
+        characteristics += "<div class='damage damage-img'><div class='text'>"+item.currentLevel +"</div></div>";
       }
 
       if (item.damage){
-          characteristics += "Damage: "+item.damage +"<br />";
-          characteristics += item.currentAmmo +" / "+item.maxAmmo;
+          characteristics += "<div class='damage damage-img'><div class='text'>"+item.damage +"</div></div>";
+          if (item.longRange === true) {
+            characteristics += "<div class='ammo bullet" + item.currentAmmo + "' />";
+          } else {
+            characteristics += "<div class='ammo hit" + item.currentAmmo + "' />";
+          }
       }
 
 
