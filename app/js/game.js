@@ -81,6 +81,15 @@ class Game {
       this.grid[noiseCell.point]["noise"] = this.grid[noiseCell.point]["noise"] === undefined ? noiseCell.level : this.grid[noiseCell.point]["noise"] + noiseCell.level;
     };
 
+    let processSearchPoints = (searchPointCell) => {
+      this.grid[searchPointCell.point]["searchPoint"] = true;
+    };
+
+    let processVictoryConditions = (victoryConditionCell) => {
+      this.grid[victoryConditionCell.point]["victoryCondition"] = true;
+    };
+
+
     this.grid = {};
     this.interval = gameInfo.zombieTimeInterval;
     this.map = {
@@ -97,6 +106,11 @@ class Game {
     R.forEach(processNoise, gameInfo.data.noise);
     R.forEachIndexed(processSurvivors, gameInfo.data.survivors);
     R.forEachIndexed(processZombies, gameInfo.data.zombies);
+
+    R.forEach(processSearchPoints, gameInfo.data.searchPoints);
+    R.forEach(processVictoryConditions, gameInfo.data.victoryConditions);
+
+
     this.player = getPlayer(gameInfo.data.survivors);
     if (this.player) {
       this.myTurn = gameInfo.data.playerTurn === this.player.player;

@@ -65,6 +65,14 @@ class Canvas {
       if (cellContent.noise) {
         this.drawNoise(cellNumber, cellContent.noise);
       }
+
+      if (cellContent.searchPoint) {
+        this.drawSearchPoint(cellNumber);
+      }
+
+      if (cellContent.victoryCondition) {
+        this.drawVictoryConditionPoint(cellNumber);
+      }
     };
 
     let viewportSize = utils.getViewportSize();
@@ -131,6 +139,14 @@ class Canvas {
       this.ctx.fillText(noiseLevel, dx + 20, dy + 47);
       this.ctx.fillStyle = "#000000";
     });
+  }
+
+  drawVictoryConditionPoint(cellPos) {
+      this.drawBackground(297, cellPos);
+  }
+
+  drawSearchPoint(cellPos) {
+      this.drawBackground(296, cellPos);
   }
 
   drawCharacter(spritePos, cellPos, type, number, typeOccupation, totalOccupation) {
