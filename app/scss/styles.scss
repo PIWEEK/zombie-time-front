@@ -25,14 +25,128 @@ body {
 }
 
 #choose-character {
+  font-family: 'Dead';
   z-index: 1000;
-  position: fixed;
-  bottom: 10px;
-  right: 10px;
+  width: 100%;
+  height: 100%;
+  background: white;
+  position:absolute;
+  font-size: 0;
+
+
+  .selected-character {
+    width: 25%;
+    height: 100%;
+    display: inline-block;
+    background-color:#550000;
+
+    .title {
+      width: 90%;
+      margin: 5% auto;
+      text-align: center;
+      font-size: 50px;
+      color: green;
+    }
+    .team {
+      width: 90%;
+      margin: 5% auto;
+      font-size: 24px;
+      color: white;
+      text-align: center;
+      .leader, .follower {
+        width: 39%;
+        margin: 5%;
+        display: inline-block;
+        .team-photo {
+          width: 100%;
+        }
+      }
+    }
+
+    .photo-container {
+      width: 100%;
+      height: 30%;
+      text-align: center;
+      margin-top: 5% auto;
+      .photo {
+        height: 100%;
+        background-size: cover;
+      }
+    }
+
+
+    .info {
+      width: 90%;
+      height: 20%;
+      margin: 0 auto;
+      text-align: center;
+      .name {
+        font-size: 32px;
+        color: orange;
+      }
+      .description {
+        font-size: 24px;
+        color: white;
+        word-wrap: break-word;
+      }
+
+    }
+
+    .ready {
+      width: 50%;
+      padding: 2% 5% 2% 5%;
+      margin: 5% auto;
+      text-align: center;
+      background-color: orange;
+      font-size: 24px;
+      color: white;
+      cursor: pointer;
+    }
+
+  }
+
+  .list-character {
+    width: 75%;
+    height: 100%;
+    display: inline-block;
+    background-color:green;
+    position: absolute;
+    .container {
+      width: 20%;
+      margin: 2%;
+      position: relative;
+      display: inline-block;
+      .survivor {
+        width: 100%;
+        background-size: cover;
+        border: 3px solid green;
+        cursor: move;
+        &.selected{
+          border: 3px solid coral;
+          cursor: not-allowed;
+        }
+      }
+      .player {
+        width: 100%;
+        text-align:center;
+        font-size: 58px;
+        color: coral;
+        position: absolute;
+        bottom:0;
+      }
+    }
+  }
+
+}
+
+#choose-character2 {
+  display:none;
+  z-index: 900;
   width: 100%;
   height: 100%;
   background: white;
 }
+
 
 #list-character {
   position: absolute;
@@ -55,30 +169,6 @@ body {
       font-size: 30px;
       color: #550000;
       background-color: #FFF;
-    }
-
-    &.pablo {
-      background-image: url('/assets/imgs/survivors/pablo.png');
-    }
-
-    &.yami {
-      background-image: url('/assets/imgs/survivors/yami.png');
-    }
-
-    &.miguel {
-      background-image: url('/assets/imgs/survivors/miguel.png');
-    }
-
-    &.laura {
-      background-image: url('/assets/imgs/survivors/laura.png');
-    }
-
-    &.xenia {
-      background-image: url('/assets/imgs/survivors/xenia.png');
-    }
-
-    &.alex {
-      background-image: url('/assets/imgs/survivors/alex.png');
     }
   }
 }
@@ -107,30 +197,6 @@ body {
       margin-top: 350px;
       margin-left: 50px;
       font-size: 20px;
-    }
-
-    &.pablo {
-      background-image: url('/assets/imgs/survivors/pablo.png');
-    }
-
-    &.yami {
-      background-image: url('/assets/imgs/survivors/yami.png');
-    }
-
-    &.miguel {
-      background-image: url('/assets/imgs/survivors/miguel.png');
-    }
-
-    &.laura {
-      background-image: url('/assets/imgs/survivors/laura.png');
-    }
-
-    &.xenia {
-      background-image: url('/assets/imgs/survivors/xenia.png');
-    }
-
-    &.alex {
-      background-image: url('/assets/imgs/survivors/alex.png');
     }
   }
 
@@ -480,6 +546,18 @@ body {
 }
 
 //LIGTHBOXES
+.veil {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width:100%;
+  height:100%;
+  background-color: black;
+  z-index: 999;
+  display: none;
+  opacity: 0.7;
+
+}
 .lightbox {
   position: absolute;
   top: 50%;
@@ -511,24 +589,6 @@ body {
               width: 256px;
               height: 256px;
               display: inline-block;
-              &.pablo {
-                background-image: url('/assets/imgs/survivors/pablo.png');
-              }
-              &.miguel {
-                background-image: url('/assets/imgs/survivors/miguel.png');
-              }
-              &.laura {
-                background-image: url('/assets/imgs/survivors/laura.png');
-              }
-              &.yami {
-                background-image: url('/assets/imgs/survivors/yami.png');
-              }
-              &.xenia {
-                background-image: url('/assets/imgs/survivors/xenia.png');
-              }
-              &.alex {
-                background-image: url('/assets/imgs/survivors/alex.png');
-              }
         }
         .vs {
             display: inline-block;
@@ -592,6 +652,9 @@ body {
                 margin-top: 20px;
                 color: darkslategrey;
                 font-size: 30px;
+            }
+            .item-options {
+              cursor: pointer;
             }
         }
     }
@@ -709,24 +772,6 @@ body {
               width: 256px;
               height: 256px;
               display: inline-block;
-              &.pablo {
-                background-image: url('/assets/imgs/survivors/pablo.png');
-              }
-              &.miguel {
-                background-image: url('/assets/imgs/survivors/miguel.png');
-              }
-              &.laura {
-                background-image: url('/assets/imgs/survivors/laura.png');
-              }
-              &.yami {
-                background-image: url('/assets/imgs/survivors/yami.png');
-              }
-              &.xenia {
-                background-image: url('/assets/imgs/survivors/xenia.png');
-              }
-              &.alex {
-                background-image: url('/assets/imgs/survivors/alex.png');
-              }
         }
         .vs {
             display: inline-block;
@@ -802,6 +847,33 @@ body {
   background-image: url('/assets/imgs/survivors/alex.png');
   background-size: cover;
 }
+
+.paul {
+  background-image: url('/assets/imgs/survivors/paul.png');
+  background-size: cover;
+}
+
+.alejandro {
+  background-image: url('/assets/imgs/survivors/alejandro.png');
+  background-size: cover;
+}
+
+.antonio {
+  background-image: url('/assets/imgs/survivors/antonio.png');
+  background-size: cover;
+}
+
+.david {
+  background-image: url('/assets/imgs/survivors/david.png');
+  background-size: cover;
+}
+
+.jesus {
+  background-image: url('/assets/imgs/survivors/jesus.png');
+  background-size: cover;
+}
+
+
 
 .zombie {
     background-image: url('/assets/imgs/survivors/zombie.png');

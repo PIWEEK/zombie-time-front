@@ -23,6 +23,24 @@ html
           li h => Show this help dialog
 
     #choose-character
+      .selected-character
+        div.title Choose your team!
+        div.team
+          div.leader(title="You start playing with the leader") Leader
+            img.team-photo.photo-leader(src="/assets/imgs/survivors/empty.png")
+          div.follower(title="If the leader dies, you continue playing with the follower") Follower
+            img.team-photo(src="/assets/imgs/survivors/empty.png")
+          div Drag your characters to the team
+        div.photo-container
+          img.photo
+        div.info
+          div.name
+          div.description
+        div.ready I'm ready!
+      .list-character
+
+
+    #choose-character2
       #detail-character
         .detail.pablo#pablo
           h2 Pablo
@@ -68,6 +86,7 @@ html
 
     #top-right-interface.interface.clock
 
+    .veil
     .lightbox
       #close-lb
       .inner-lb#animation-attack

@@ -8,11 +8,13 @@ class Lightbox {
   hideAll() {
     let hideFn = (el) => el.style.display = "none";
     R.forEach(hideFn, R.concat(this.lbs, R.concat([this.lb], [this.close])));
+    document.querySelector(`.veil`).style.display = "none";
   }
 
   show(id) {
     this.lb.style.display = "block";
     this.close.style.display = "block";
     document.querySelector(`${id}`).style.display = "block";
+    document.querySelector(`.veil`).style.display = "block";
   }
 }

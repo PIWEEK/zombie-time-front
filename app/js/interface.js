@@ -47,6 +47,10 @@ class Interface {
       w.trigger("toggleLog.interface.zt");
     });
 
+    document.querySelector("#choose-character .ready").addEventListener("click", () => {
+      w.trigger("buttonClick.ready.zt");
+    });
+
     document.querySelector("#inventory-info").addEventListener("mouseleave", () => {
         document.querySelector("#inventory-info").style.visibility='hidden';
     });
@@ -61,6 +65,24 @@ class Interface {
 
     document.querySelector("#log").addEventListener("mouseenter", () => {
         document.querySelector("#inventory-info").style.visibility='hidden';
+    });
+
+    document.querySelector(".leader .team-photo").addEventListener("drop", (ev) => {
+      var slug = ev.dataTransfer.getData("slug");
+      w.trigger("drop.interface.zt", {"slug":slug, "leader":true});
+    });
+
+    document.querySelector(".follower .team-photo").addEventListener("drop", (ev) => {
+      var slug = ev.dataTransfer.getData("slug");
+      w.trigger("drop.interface.zt", {"slug":slug, "leader":false});
+    });
+
+    document.querySelector(".leader .team-photo").addEventListener("dragover", (ev) => {
+      ev.preventDefault();
+    });
+
+    document.querySelector(".follower .team-photo").addEventListener("dragover", (ev) => {
+      ev.preventDefault();
     });
 
     Mousetrap.bind('m', function() {
