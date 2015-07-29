@@ -411,20 +411,17 @@ class Game {
   }
 
   setGoals() {
-    let player = game.player.player,
-        ownGoals = document.querySelector('#own-goals').querySelector('span'),
-        ownGoalsText = document.querySelector('#own-goals span').innerHTML,
-        teamGoals = document.querySelector('#team-goals span'),
-        teamGoalsText = document.querySelector('#team-goals span').innerHTML;
+    let player = game.player.player;
+    document.querySelector("#goals #own-goals .title").innerHTML = "PERSONAL MISSION: "+game.missions[player].name;
+    document.querySelector("#goals #own-goals .content").innerHTML = game.missions[player].description;;
 
-    ownGoalsText += game.missions[player].name + ": " + game.missions[player].description;
-    ownGoals.innerHTML = ownGoalsText;
-
+    let teamGoalsText = "";
     for (let v in game.victoryConditions) {
       let vic = game.victoryConditions[v];
-      teamGoalsText += vic['name'] + ": " + vic['description'];
+      teamGoalsText += vic['description']+"<br />";
     }
-    teamGoals.innerHTML = teamGoalsText;
+    document.querySelector("#goals #team-goals .title").innerHTML = "TEAM MISSION: "+game.victoryConditions[0]['name'];
+    document.querySelector("#goals #team-goals .content").innerHTML = teamGoalsText;
   }
 
   finalCountDown() {
@@ -702,6 +699,38 @@ class Game {
     this.playMusic('game');
   }
 
+  endGame(data){
+    this.lightbox.hideAll();
+
+    let text = "You lose :("
+    if (data.win) {
+        text = "You win!"
+    }
+
+    $("#end-game .main-mission .result").text(text);
+
+    $("#end-game .personal-missions .result").html("");
+    R.forEachIndexed(function(missionInfo){
+      let mission = $("<div />")
+      mission.addClass("mission");
+      let missionImage = $("<img />")
+      missionImage.attr("src", "/assets/imgs/survivors/" + missionInfo.survivor + ".png");
+      mission.append(missionImage);
+      mission.append($("<div class='name'>"+missionInfo.name+"</div>"));
+      mission.append($("<div>"+missionInfo.description+"</div>"));
+      if (missionInfo.success){
+        mission.append($("<div class='success'>SUCCESS</div>"));
+      } else {
+        mission.append($("<div class='fail'>FAIL</div>"));
+      }
+
+      $("#end-game .personal-missions .result").append(mission);
+    }, data.missions);
+
+    $('#end-game').show();
+    this.playMusic('end-game');
+  }
+
   registerEventHandlers() {
 
     let w = $(window),
@@ -733,29 +762,7 @@ class Game {
               this.showZombieAttack(message.user, message.data.survivor, message.data.damage, message.data.death);
               break;
             case ("END_GAME"):
-              this.lightbox.hideAll();
-              let text = "You lose :("
-              if (message.data.win) {
-                  text = "You win!"
-              }
-
-              $("#end-game .win").text(text);
-
-              $("#end-game .missions .mission").remove();
-              let i=0;
-              for (i=0;i < message.data.missions.length;i++) {
-                  let mission = $("<div />")
-                  mission.addClass(".mission");
-                  let text = message.data.missions[i].player + ": "+message.data.missions[i].name;
-                  if (message.data.missions[i].success){
-                      text += " SUCCESS!"
-                  } else {
-                      text += " FAIL"
-                  }
-                  mission.text(text);
-                  $("#end-game .missions").append(mission);
-              }
-              this.lightbox.show('#end-game');
+              this.endGame(message.data);
               break;
           case ("START_TURN"):
             this.startTurn(message.user, message.data.survivor);

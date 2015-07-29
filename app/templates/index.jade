@@ -40,49 +40,20 @@ html
       .list-character
 
 
-    #choose-character2
-      #detail-character
-        .detail.pablo#pablo
-          h2 Pablo
-          p  Pablo es un veterano de guerra y un superviviente. Además es un bluesman y puede hacer mucho ruido con la harmónica.
-        .detail.yami#yami
-          h2 yami
-          p  yami se estaba comiendo un limón durante la Primera Invasión zombie y se le quedó cara de mala leche. Muy útil para curtir zombies.
-        .detail.miguel#miguel
-          h2 miguel
-          p  Miguel es un hacker. Se esconde en un zulo desde donde mantiene los sistemas para la Resistencia de los Vivos. Gracias a Internet, puede llegar donde nadie llega...
-        .detail.laura#laura
-          h2 laura
-          p  Laura intentó dialogar con los zombies. Les hizo dibujos chulos pero nada funcionó. Y ahora está enfadada.
-        .detail.xenia#xenia
-          h2 xenia
-          p  Xenia vivía en un pequeño pueblo de leñadores, donde descubrió que se le daba muy bien ¡exterminar zombies!
-        .detail.alex#alex
-          h2 alex
-          p  Alex es un estratega nato. Es experto en electrónica y hace trampas anti-zombies con arduinos.
-        .want.leader ¡Me lo pido de líder!
-        .want.follower ¡Me lo pido de seguidor!
-        .want.ready ¡Estoy lista!
-
-      #list-character
-        ul
-          li.miguel
-            p
-          li.yami
-            p
-          li.pablo
-            p
-          li.xenia
-            p
-          li.laura
-            p
-          li.alex
-            p
+    #end-game
+      div.title Game Over
+      div.main-mission
+        .result
+      div.personal-missions
+        .title Personal missions:
+        .result
+      .again
+        a(href="/") Play again?
 
     // canvas
     #content
 
-    #top-left-interface.interface Tus objetivos
+    #top-left-interface.interface MISSIONS
 
     #top-right-interface.interface.clock
 
@@ -125,19 +96,18 @@ html
                 div.vs Vs
                 div.survivor
             div.info Does 6 damage
-      .inner-lb#end-game
-        div.title End game
-        div.subtitle.win You win!
-        div.missions Private missions:
       .inner-lb#end-turn
         div.title Next turn!
         div.turn
       .inner-lb#goals
-        #own-goals
-          span (Tu misión):
-        br
+        div.title MISSIONS
+        div.subtitle «To have missions in life is as important as remember them»
         #team-goals
-          span (Misión de equipo):
+          .title TEAM MISSION
+          .content
+        #own-goals
+          .title PERSONAL MISSION
+          .content
 
     #bottom-interface-wrapper.interface
       #bottom-interface.interface

@@ -46,6 +46,7 @@ close.addEventListener("click", function (e) {
 
 let goals = document.querySelector('#top-left-interface');
 goals.addEventListener("click", function (e) {
+    game.lightbox.hideAll();
     game.lightbox.show('#goals');
 });
 

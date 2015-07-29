@@ -659,31 +659,6 @@ body {
         }
     }
   }
-  #end-game {
-    text-align: center;
-    font-family: 'Dead';
-    color: #550000;
-
-    .title {
-        text-align: center;
-        font-size: 96px;
-        margin-top: 70px;
-    }
-    .subtitle {
-        text-align: center;
-        font-size: 70px;
-        margin-top: 10px;
-    }
-
-    .missions {
-        text-align: center;
-        font-size: 40px;
-        margin-top: 10px;
-        .mission {
-            font-size: 24px;
-        }
-    }
-  }
   #end-turn {
     text-align: center;
     font-family: 'Dead';
@@ -803,14 +778,92 @@ body {
   }
 
   #goals {
-    width: 800px;
-    font-size: 30px;
-    font-color: #550000;
+    display: none;
+    font-family: 'Dead';
     text-align: center;
-    padding-top: 200px;
-    padding-left: 100px;
+    .title {
+      text-align: center;
+      font-size: 88px;
+      color: #550000;
+      margin-top: 35px;
+      padding-left: 80px;
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 40px;
+      color: darkgreen;
+      margin-top: 20px;
+    }
+
+    #team-goals, #own-goals{
+      .title {
+        padding-left: 0px;
+        font-size: 40px;
+      }
+      .content {
+        font-size: 30px;
+        color: black;
+        padding: 0 40px;
+      }
+    }
   }
 }
+
+#end-game {
+  display: none;
+  font-family: 'Dead';
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  background: black;
+  position:absolute;
+
+  .title {
+      text-align: center;
+      font-size: 96px;
+      margin-top: 30px;
+      color: #550000;
+  }
+  .main-mission, .personal-missions {
+    .title {
+        font-size: 55px;
+        margin-top: 30px;
+    }
+    .result {
+      text-align: center;
+      font-size: 70px;
+      margin-top: 10px;
+      color: orange;
+      .mission {
+          width: 24%;
+          padding: 2%;
+          font-size: 24px;
+          display: inline-block;
+          .name {
+            text-decoration: underline;
+          }
+          .success {
+            color: green;
+          }
+          .fail {
+            color: red;
+          }
+      }
+    }
+  }
+
+  .again {
+    text-align: center;
+    a {
+      font-size: 24px;
+      text-decoration: none;
+      color: white;
+    }
+
+  }
+}
+
+
 
 #zt-audio {
   display: none;
