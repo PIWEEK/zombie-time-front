@@ -21,12 +21,32 @@ class Game {
     this.canvas.resize();
 
     this.parseGameInfo(gameInfo);
+
+  }
+
+  startMusic(music){
+    if (document.querySelector('#zt-music-survivor').paused){
+      this.playMusic('select-survivor');
+    }
   }
 
   playMusic(music){
-    console.log("Play music", music);
+    console.log(music);
+    document.querySelector('#zt-music').pause();
+    document.querySelector('#zt-music-survivor').pause();
+    document.querySelector('#zt-music-end').pause();
+
+    if (music === 'select-survivor'){
+      document.querySelector('#zt-music-survivor').play();
+      document.querySelector('#zt-music-survivor').loop = true;
+    }
     if (music === 'game'){
-      //document.querySelector('#zt-music').play();
+      document.querySelector('#zt-music').play();
+      document.querySelector('#zt-music').loop = true;
+    }
+    if (music === 'end-game'){
+      document.querySelector('#zt-music-end').play();
+      document.querySelector('#zt-music-end').loop = true;
     }
   }
 
@@ -350,8 +370,9 @@ class Game {
   }
 
   updatePregame(preGameInfo){
-    const username = utils.getQueryParams().username
-    let survivors = preGameInfo.data.survivors
+    this.startMusic();
+    const username = utils.getQueryParams().username;
+    let survivors = preGameInfo.data.survivors;
     const listCharacter = $("#choose-character .list-character");
     listCharacter.html("");
     for (let s in survivors) {
@@ -849,5 +870,6 @@ class Game {
     w.bind("contextmenu", function(e) {
       e.preventDefault();
     });
+
   }
 }
