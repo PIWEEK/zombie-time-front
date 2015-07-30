@@ -243,6 +243,18 @@ body {
   background-repeat: no-repeat;
   text-align: center;
   padding-top: 15px;
+
+}
+
+#music-button {
+  position: absolute;
+  top: 10px;
+  left: 420px;
+  width: 50px;
+  height: 50px;
+  background-size: cover;
+  background-image: url('/assets/imgs/music.png');
+  cursor: pointer;
 }
 
 #top-right-interface {
@@ -411,6 +423,38 @@ body {
       }
   }
 
+}
+
+#your-turn {
+  pointer-events: none;
+  font-family: 'Dead';
+  font-size: 150px;
+  color: #550000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -365px;
+  margin-top: -65px;
+  z-index: 2000;
+  width: 730px;
+  height: 130px;
+  display:none;
+}
+
+#error-message {
+  pointer-events: none;
+  font-family: 'Dead';
+  font-size: 70px;
+  color: #550000;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -365px;
+  margin-top: -35px;
+  z-index: 2001;
+  width: 730px;
+  height: 70px;
+  display:none;
 }
 
 #bottom-interface {
@@ -1003,4 +1047,20 @@ audio {
 
 .hidden {
     display: none;
+}
+
+
+@keyframes blink {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+@-webkit-keyframes blink {
+  0% { opacity: 1.0; }
+  50% { opacity: 0.0; }
+  100% { opacity: 1.0; }
+}
+.blink {
+  animation: blink 1s step-start 0s infinite;
+  -webkit-animation: blink 1s step-start 0s infinite;
 }

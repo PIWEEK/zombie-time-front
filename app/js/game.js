@@ -10,6 +10,7 @@ class Game {
     this.lightbox = new Lightbox();
     this.currentAction = undefined;
     this.myTurn = false;
+    this.musicActive = true
   }
 
   initialize(gameInfo) {
@@ -22,37 +23,60 @@ class Game {
 
     this.parseGameInfo(gameInfo);
 
+    this.canvas.currentAction = "move"
+
   }
 
   startMusic(music){
-    if (document.querySelector('#zt-music-survivor').paused){
-      this.playMusic('select-survivor');
+    if (this.musicActive) {
+      if (document.querySelector('#zt-music-survivor').paused){
+        this.playMusic('select-survivor');
+      }
     }
   }
 
   playMusic(music){
-    document.querySelector('#zt-music').pause();
-    document.querySelector('#zt-music-survivor').pause();
-    document.querySelector('#zt-music-end').pause();
+    if (this.musicActive) {
+      document.querySelector('#zt-music').pause();
+      document.querySelector('#zt-music-survivor').pause();
+      document.querySelector('#zt-music-end').pause();
 
-    if (music === 'select-survivor'){
-      document.querySelector('#zt-music-survivor').play();
-      document.querySelector('#zt-music-survivor').loop = true;
-    }
-    if (music === 'game'){
-      document.querySelector('#zt-music').play();
-      document.querySelector('#zt-music').volume = 0.1;
-      document.querySelector('#zt-music').loop = true;
-    }
-    if (music === 'end-game'){
-      document.querySelector('#zt-music-end').play();
-      document.querySelector('#zt-music-end').loop = true;
+      if (music === 'select-survivor'){
+        document.querySelector('#zt-music').volume = 0.1;
+        document.querySelector('#zt-music-survivor').play();
+        document.querySelector('#zt-music-survivor').loop = true;
+      }
+      if (music === 'game'){
+        document.querySelector('#zt-music').play();
+        document.querySelector('#zt-music').volume = 0.1;
+        document.querySelector('#zt-music').loop = true;
+      }
+      if (music === 'end-game'){
+        document.querySelector('#zt-music').volume = 0.1;
+        document.querySelector('#zt-music-end').play();
+        document.querySelector('#zt-music-end').loop = true;
+      }
     }
   }
 
   playEffect(effect){
-    document.querySelector('#zt-effect').src="/assets/data/"+effect+".ogg";
-    document.querySelector('#zt-effect').play();
+    if (this.musicActive) {
+      document.querySelector('#zt-effect').src="/assets/data/"+effect+".ogg";
+      document.querySelector('#zt-effect').play();
+    }
+  }
+
+  toggleMusic(){
+    if (game.musicActive) {
+      document.querySelector('#zt-music').pause();
+      document.querySelector('#zt-music-survivor').pause();
+      document.querySelector('#zt-music-end').pause();
+      game.musicActive = false;
+    } else {
+      document.querySelector('#zt-music').play();
+      game.musicActive = true;
+    }
+
   }
 
   getGridOccupation(data) {
@@ -572,7 +596,6 @@ class Game {
   }
 
   showLogStartTurn(survivor){
-      this.playEffect("turn");
       this.showGenericLog(survivor, "START TURN!");
   }
 
@@ -648,11 +671,22 @@ class Game {
   }
 
 
+  showError(text){
+    const errorMessage = $("#error-message")
+    errorMessage.text(text);
+    errorMessage.css("margin-width", Math.round(errorMessage.width()/2));
+    errorMessage.show();
+    setTimeout(function(){ $("#error-message").hide(); }, 1000);
+  }
+
 
   startTurn(user, survivor){
+      this.playEffect("turn");
       this.showLogStartTurn(survivor);
 
       if (user == game.player.player) {
+          $("#your-turn").show();
+          setTimeout(function(){ $("#your-turn").hide(); }, 3000);
           $("#move-button").css("visibility", "visible");
           $("#attack-button").css("visibility", "visible");
           $("#search-button").css("visibility", "visible");
@@ -665,9 +699,6 @@ class Game {
           $("#search-button").css("visibility", "hidden");
           $("#noise-button").css("visibility", "hidden");
           $("#end-turn-button").css("visibility", "hidden");
-
-          $("#log").removeClass("closed");
-          $("#log").removeClass("small");
       }
   }
 
@@ -766,6 +797,84 @@ class Game {
     this.playMusic('end-game');
   }
 
+  actionSearch(player){
+    if (player.canSearch){
+        this.sendSearchMessage();
+        this.canvas.currentAction = "move";
+    } else {
+      if (player.currentActions == 0){
+        this.showError("You haven't more actions!")
+      } else if (player.currentInventory == player.inventory.length){
+        this.showError("Your inventory is full")
+      } else {
+        this.showError("Your can't search there")
+      }
+    }
+  }
+
+  actionNoise(){
+    if (this.player.currentActions == 0){
+      this.showError("You haven't more actions!")
+    } else {
+      this.sendNoiseMessage();
+      this.canvas.currentAction = "move";
+    }
+  }
+
+  actionMove(player){
+    if (player.currentActions == 0){
+      this.showError("You haven't more actions!");
+    } else if (player.canMoveTo.length == 0){
+      this.showError("You can't move");
+    } else {
+      this.canvas.currentAction = "move";
+    }
+  }
+
+  actionAttack(player){
+    if (player.currentActions == 0){
+      this.showError("You haven't more actions!");
+    } else if (player.weapon.currentAmmo == 0){
+      if (player.weapon.longRange) {
+        this.showError("You have no ammo!");
+      } else {
+        this.showError("Your weapon is broken!");
+      }
+    } else if (player.canAttackTo.length == 0){
+      this.showError("There are no zombies on range");
+    } else if (player.canAttackTo.length == 1){
+      this.sendAttackMessage(player.canAttackTo[0]);
+      this.canvas.currentAction = "move";
+    } else {
+      this.canvas.currentAction = "attack";
+    }
+  }
+
+  actionMoveUp(player){
+    this.moveTo(player.point - this.map.sizeX);
+  }
+
+  actionMoveDown(player){
+    this.moveTo(player.point + this.map.sizeX);
+  }
+
+  actionMoveLeft(player){
+    this.moveTo(player.point - 1);
+  }
+
+  actionMoveRight(player){
+    this.moveTo(player.point + 1);
+  }
+
+  moveTo(cell){
+    if (this.player.currentActions == 0){
+      this.showError("You haven't more actions!");
+    } else if (R.contains(cell, this.player.canMoveTo)) {
+      this.sendMoveMessage(cell);
+      this.canvas.currentAction = "move";
+    }
+  }
+
   registerEventHandlers() {
 
     let w = $(window),
@@ -815,42 +924,53 @@ class Game {
         },
 
         onCellClick = (e, cell) => {
-          if (this.canvas.currentAction == "move" && R.contains(cell, this.player.canMoveTo)) {
-              if (this.player.canMoveTo.length > 0){
-                  this.sendMoveMessage(cell);
-                  this.canvas.currentAction = undefined;
-              }
+          if (this.canvas.currentAction == "move") {
+              this.moveTo(cell)
           } else if (this.canvas.currentAction == "attack" && R.contains(cell, this.player.canAttackTo)) {
               if (this.player.canAttackTo.length > 0){
                   this.sendAttackMessage(cell);
-                  this.canvas.currentAction = undefined;
+                  this.canvas.currentAction = "move";
               }
           }
           this.canvas.redraw();
         },
         onInterfaceButtonClick = (e, action, searchMoreToken) => {
-
+          console.log(this.player);
           if (action =="chat"){
               $("#chat").toggle();
           } else if (this.myTurn) {
             switch(action) {
             case "search":
-                if (this.player.canSearch){
-                    this.sendSearchMessage();
-                    this.canvas.currentAction = undefined;
-                }
+              this.actionSearch(this.player)
               break;
             case "searchMore":
               this.sendSearchMoreMessage(searchMoreToken);
-              this.canvas.currentAction = undefined;
+              this.canvas.currentAction = "move";
               break;
             case "noise":
-              this.sendNoiseMessage();
-              this.canvas.currentAction = undefined;
+              this.actionNoise();
               break;
             case "endTurn":
               this.sendEndTurnMessage();
-              this.canvas.currentAction = undefined;
+              this.canvas.currentAction = "move";
+              break;
+            case "move":
+              this.actionMove(this.player)
+              break;
+            case "moveUp":
+              this.actionMoveUp(this.player)
+              break;
+            case "moveDown":
+              this.actionMoveDown(this.player)
+              break;
+            case "moveLeft":
+              this.actionMoveLeft(this.player)
+              break;
+            case "moveRight":
+              this.actionMoveRight(this.player)
+              break;
+            case "attack":
+              this.actionAttack(this.player)
               break;
             default:
               this.canvas.currentAction = action;
@@ -883,6 +1003,7 @@ class Game {
     w.on("toggleLog.interface.zt", onToggleLog);
     w.on("drop.interface.zt", this.selectTeam);
     w.on("buttonClick.ready.zt", this.playerReady);
+    w.on("buttonClick.music.zt", this.toggleMusic);
 
     w.bind("contextmenu", function(e) {
       e.preventDefault();

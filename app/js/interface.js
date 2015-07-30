@@ -51,6 +51,10 @@ class Interface {
       w.trigger("buttonClick.ready.zt");
     });
 
+    document.querySelector("#music-button").addEventListener("click", () => {
+      w.trigger("buttonClick.music.zt");
+    });
+
     document.querySelector("#inventory-info").addEventListener("mouseleave", () => {
         document.querySelector("#inventory-info").style.visibility='hidden';
     });
@@ -85,24 +89,37 @@ class Interface {
       ev.preventDefault();
     });
 
-    Mousetrap.bind('m', function() {
-        w.trigger("buttonClick.interface.zt", 'move');
+    Mousetrap.bind('w', function() {
+        w.trigger("buttonClick.interface.zt", 'moveUp');
+    }, 'keydown');
+    Mousetrap.bind('s', function() {
+        w.trigger("buttonClick.interface.zt", 'moveDown');
+    }, 'keydown');
+    Mousetrap.bind('a', function() {
+        w.trigger("buttonClick.interface.zt", 'moveLeft');
+    }, 'keydown');
+    Mousetrap.bind('d', function() {
+        w.trigger("buttonClick.interface.zt", 'moveRight');
     }, 'keydown');
 
-    Mousetrap.bind('a', function() {
+    Mousetrap.bind('1', function() {
         w.trigger("buttonClick.interface.zt", 'attack');
     }, 'keydown');
 
-    Mousetrap.bind('s', function() {
+    Mousetrap.bind('2', function() {
         w.trigger("buttonClick.interface.zt", 'search');
     }, 'keydown');
 
-    Mousetrap.bind('n', function() {
+    Mousetrap.bind('3', function() {
         w.trigger("buttonClick.interface.zt", 'noise');
     }, 'keydown');
 
     Mousetrap.bind('c', function() {
         w.trigger("buttonClick.interface.zt", 'chat');
+    }, 'keydown');
+
+    Mousetrap.bind('space', function() {
+        w.trigger("buttonClick.interface.zt", 'endTurn');
     }, 'keydown');
 
 
