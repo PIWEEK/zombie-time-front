@@ -31,7 +31,6 @@ class Game {
   }
 
   playMusic(music){
-    console.log(music);
     document.querySelector('#zt-music').pause();
     document.querySelector('#zt-music-survivor').pause();
     document.querySelector('#zt-music-end').pause();
@@ -42,12 +41,18 @@ class Game {
     }
     if (music === 'game'){
       document.querySelector('#zt-music').play();
+      document.querySelector('#zt-music').volume = 0.1;
       document.querySelector('#zt-music').loop = true;
     }
     if (music === 'end-game'){
       document.querySelector('#zt-music-end').play();
       document.querySelector('#zt-music-end').loop = true;
     }
+  }
+
+  playEffect(effect){
+    document.querySelector('#zt-effect').src="/assets/data/"+effect+".ogg";
+    document.querySelector('#zt-effect').play();
   }
 
   getGridOccupation(data) {
@@ -504,6 +509,7 @@ class Game {
   }
 
   showLogAttack(survivor, weapon, deaths){
+      this.playEffect(weapon);
       let logEntry = $("<div />");
       let survivorImg = $("<div />");
       survivorImg.addClass("survivor-img");
@@ -556,10 +562,17 @@ class Game {
   }
 
   showLogMove(survivor){
+      this.playEffect("move");
       this.showGenericLog(survivor, "Moves");
   }
 
+  showLogNoise(survivor){
+      this.playEffect("noise");
+      this.showGenericLog(survivor, "Makes noise");
+  }
+
   showLogStartTurn(survivor){
+      this.playEffect("turn");
       this.showGenericLog(survivor, "START TURN!");
   }
 
@@ -579,6 +592,7 @@ class Game {
   }
 
   findItem(user, survivor, items){
+      this.playEffect("search");
       this.showLogSearch(survivor);
       if (user == game.player.player) {
         this.lightbox.hideAll();
@@ -769,6 +783,9 @@ class Game {
               break;
             case ("ANIMATION_MOVE"):
               this.showLogMove(message.data.survivor);
+              break;
+            case ("ANIMATION_NOISE"):
+              this.showLogNoise(message.data.survivor);
               break;
             case ("ANIMATION_ATTACK"):
               this.showLogAttack(message.data.survivor, message.data.weapon, message.data.deaths)
