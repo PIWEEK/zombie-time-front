@@ -788,6 +788,8 @@ class Game {
       let missionImage = $("<img />")
       missionImage.attr("src", "/assets/imgs/survivors/" + missionInfo.survivor + ".png");
       mission.append(missionImage);
+      mission.append ( $("<div class='kills'>Killed " + missionInfo.kills + " zombies</div>"));
+
       mission.append($("<div class='name'>"+missionInfo.name+"</div>"));
       mission.append($("<div>"+missionInfo.description+"</div>"));
       if (missionInfo.success){
