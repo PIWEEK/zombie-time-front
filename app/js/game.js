@@ -441,6 +441,12 @@ class Game {
       survivorContainer.append(survivor);
       survivorContainer.append(player);
       listCharacter.append(survivorContainer);
+
+      if (preGameInfo.data.ready.indexOf(username) >= 0){
+        $("#choose-character .ready .button").hide()
+        $("#choose-character .ready .info").text("Ready "+preGameInfo.data.ready.length+"/"+preGameInfo.data.slots);
+        $("#choose-character .ready .info").show();
+      }
     }
   }
 

@@ -25,18 +25,21 @@ html
     #choose-character
       .selected-character
         div.title Choose your team!
+        div.ready
+          div.button I'm ready!
+          div.info
         div.team
-          div.leader(title="You start playing with the leader") Leader
+          div.leader Leader
             img.team-photo.photo-leader(src="/assets/imgs/survivors/empty.png")
-          div.follower(title="If the leader dies, you continue playing with the follower") Follower
+          div.follower Follower
             img.team-photo(src="/assets/imgs/survivors/empty.png")
           div Drag your characters to the team
+        div.explain You start playing with the leader. If the leader dies, you continue playing with the follower
         div.photo-container
           img.photo
         div.info
           div.name
           div.description
-        div.ready I'm ready!
       .list-character
 
 
