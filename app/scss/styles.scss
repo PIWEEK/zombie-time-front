@@ -486,20 +486,30 @@ body {
       width: 114px;
       height: 114px;
     }
-    .life {
+    .life, .defense {
         position: absolute;
-        right:0;
-        bottom: 0;
         width: 40px;
         height: 40px;
-        background-image: url('/assets/imgs/button-interface/heart.png');
         .text {
-            margin-top: 8px;
             color: white;
             font-family: 'Dead';
             font-size: 28px;
             text-align: center;
         }
+    }
+    .life{
+      background-image: url('/assets/imgs/button-interface/heart.png');
+      right:0;
+      bottom: 0;
+      .text {
+          margin-top: 8px;
+      }
+    }
+    .defense {
+      background-image: url('/assets/imgs/button-interface/defense.png');
+      left:0;
+      top:75px;
+
     }
   }
 }
@@ -1048,7 +1058,7 @@ audio {
     background-size: cover;
     .text {
         line-height: 43px;
-        color: black;
+        color: white;
         font-family: 'Dead';
         font-size: 25px;
         text-align: center;

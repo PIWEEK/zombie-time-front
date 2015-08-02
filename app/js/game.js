@@ -189,10 +189,14 @@ class Game {
             this.drawInventory(this.player, this.player.inventory);
         }
 
-        console.log(this.player.currentLife);
+
         if(this.player.currentLife !== undefined){
-            console.log("OK", this.player.currentLife);
-            this.drawLife(this.player.currentLife);
+          console.log(this.player.defense.currentLevel);
+          if(this.player.defense.currentLevel !== undefined){
+              this.drawLife(this.player.currentLife, this.player.defense.currentLevel);
+          } else {
+            this.drawLife(this.player.currentLife, this.player.currentDefense);
+          }
         }
 
         if(this.player.currentActions !== undefined){
@@ -240,8 +244,9 @@ class Game {
       }
   }
 
-  drawLife(life){
-      $("#user-profile .life .text").text(life)
+  drawLife(life, defense){
+      $("#user-profile .life .text").text(life);
+      $("#user-profile .defense .text").text(defense);
   }
 
   drawActions(actions){
@@ -351,7 +356,7 @@ class Game {
 
 
       if (item.currentLevel){
-        characteristics += "<div class='damage damage-img'><div class='text'>"+item.currentLevel +"</div></div>";
+        characteristics += "<div class='defense defense-img'><div class='text'>"+item.currentLevel +"</div></div>";
       }
 
       if (item.damage){
@@ -788,6 +793,7 @@ class Game {
       let missionImage = $("<img />")
       missionImage.attr("src", "/assets/imgs/survivors/" + missionInfo.survivor + ".png");
       mission.append(missionImage);
+      mission.append ( $("<div class='kills'>"+missionInfo.player+"</div>"));
       mission.append ( $("<div class='kills'>Killed " + missionInfo.kills + " zombies</div>"));
 
       mission.append($("<div class='name'>"+missionInfo.name+"</div>"));
